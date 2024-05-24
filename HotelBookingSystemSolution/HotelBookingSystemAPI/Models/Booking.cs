@@ -8,8 +8,7 @@ namespace HotelBookingSystemAPI.Models
         [Key]
         public int BookId { get; set; }
         public int GuestId { get; set; }
-        [ForeignKey("GuestId")]
-        public Person Guest { get; set; }
+        public Guest Guest { get; set; }
         public int NoOfRooms { get; set; }
         public double TotalAmount { get; set; }
         public double AdvancePayment { get; set; }
@@ -19,8 +18,6 @@ namespace HotelBookingSystemAPI.Models
         public List<BookedRooms> RoomsBooked { get; set; }
 
         public int? PaymentId { get; set; }
-        [ForeignKey("PaymentId")]
-        public Payment Payment { get; set; }
 
         public List<Payment> Payments { get; set; }
 

@@ -2,12 +2,12 @@
 
 namespace HotelBookingSystemAPI.CustomExceptions
 {
-    public class ObjectNotAvailableException : Exception
+    public class ObjectAlreadyExistsException : Exception
     {
         public string msg = "";
-        public ObjectNotAvailableException(string? message)
+        public ObjectAlreadyExistsException(string? message) 
         {
-            msg = $"{message} Not available!";
+            msg = $"{message} Already Exists!";
         }
 
         public override string Message => msg;

@@ -1,0 +1,57 @@
+EndPoints
+User Accessible EndPoints :
+
+PostMethods
+•	RegisterUser (params – name, address, email, phoneNumber, password)
+•	Login (params – email, password)
+•	BookRoom (params – roomIds(list), checkinDate, checkoutDate)
+•	MakePayment (params – BookId, AmountPaid)
+•	ProvideFeedback (params – hotelId, rating, comment)
+
+PutMethods
+•	ModifyBookingForRoomCancel (params – roomId)
+
+DeleteMethods
+•	CancelBooking (params - bookingId)
+•	RemoveFeedback (params - RatingId)
+
+
+GetMethods
+•	GetHotelsByLocation  (params – location)
+•	GetRoomsByDateAndRoomTypeAndOccupancy (params - CheckinDate , RoomType , Occupany)
+•	GetRoomsByDate (params - Date)
+•	GetMyBookings
+•	GetHotelsByRating
+
+
+Admin Accessible EndPoints :
+PostMethods
+•	Login (params – email, password)
+•	AddHotel (params – name, address , totalNoOfRooms, IsRoomsAvailable, Rating, Amenities, Restriction , status)
+•	AddRoomTypes (params – Type,Amount,occupancy,cotsAvailable, Amenities)
+•	AddRoom (params – HotelId, Type, Images, IsAvailable, status)
+•	AddDiscount (params – HotelId, DiscountPercent, RoomType)
+
+PutMethods
+•	ActivateUser(params - userId,Userstatus)
+•	UpdateBooking (params - BookId, Bookingstatus)
+•	UpdateHotelDetails
+•	UpdateHotelAvailabilityStatus (params - HotelId, status)
+•	UpdatePayment (params - PayId, Paymentstatus)
+•	UpdateRooms 
+•	UpdateRoomTypes 
+•	UpdateDiscount (params – HotelId, DiscountPercent, RoomType)
+
+GetMethods
+•	GetAllHotels
+•	GetHotel (params - hotelId)
+•	GetAllBookingRequest
+•	GetAllPaymentForBooking (params - BookingId)
+
+DeleteMethods
+•	DeleteHotel(params - hotelId, status) (softDelete)
+•	DeleteRoom(params - roomId , status) (softDelete)
+
+
+
+

@@ -1,6 +1,6 @@
 ﻿namespace HotelBookingSystemAPI.Interfaces
 {
-    public interface IRepository<K,T> where T : class
+    public interface IRepository<K,T>
     {
         public Task<T> Add(T item);
         public Task<T> Delete(K key);

@@ -2,7 +2,12 @@ using HotelBookingSystemAPI.Contexts;
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Repositories;
+using HotelBookingSystemAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace HotelBookingSystemAPI
 {
@@ -17,7 +22,52 @@ namespace HotelBookingSystemAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+
+            #region SwaggerGen
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+            });
+
+            #endregion
+
+            #region Authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        RoleClaimType = "Role",
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey:JWT"]))
+                    };
+
+                });
+            #endregion
 
             #region Context
             builder.Services.AddDbContext<HotelBookingContext>(
@@ -26,8 +76,19 @@ namespace HotelBookingSystemAPI
             #endregion
 
             #region Repositories
-            builder.Services.AddScoped<IRepository<int, Person>, PersonRepository>();
+            builder.Services.AddScoped<IRepository<int, Guest>, GuestRepository>();
             builder.Services.AddScoped<IRepository<int, Hotel>, HotelRepository>();
+            builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
+            builder.Services.AddScoped<IRepository<int, Room>, RoomRepository>();
+            builder.Services.AddScoped<IRepository<int, RoomType>, RoomTypeRepository>();
+            builder.Services.AddScoped<IRepository<int, Booking>, BookingRepository>();
+            builder.Services.AddScoped<IRepository<int, Rating>, RatingRepository>();
+            builder.Services.AddScoped<IRepository<int, Payment>, PaymentRepository>();
+            #endregion
+
+            #region Services
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             #endregion
 
             var app = builder.Build();
@@ -39,6 +100,7 @@ namespace HotelBookingSystemAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

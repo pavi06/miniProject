@@ -2,10 +2,10 @@
 
 namespace HotelBookingSystemAPI.Models
 {
-    public class Person
+    public class Guest
     {
         [Key]
-        public int PersonId { get; set; }
+        public int GuestId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
@@ -14,5 +14,12 @@ namespace HotelBookingSystemAPI.Models
 
         public List<Booking> bookings { get; set; } //navigation property
 
+        public Guest(string name, string email, string phoneNumber, string address)
+        {
+            Name = name;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Address = address;
+        }
     }
 }

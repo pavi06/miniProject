@@ -2,14 +2,14 @@
 
 namespace HotelBookingSystemAPI.CustomExceptions
 {
-    public class ObjectNotAvailableException : Exception
+    [Serializable]
+    internal class UnauthorizedUserException : Exception
     {
         public string msg = "";
-        public ObjectNotAvailableException(string? message)
+        public UnauthorizedUserException()
         {
-            msg = $"{message} Not available!";
+            msg = "Invalid username or password";
         }
-
         public override string Message => msg;
     }
 }

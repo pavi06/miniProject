@@ -2,14 +2,16 @@
 
 namespace HotelBookingSystemAPI.CustomExceptions
 {
-    public class ObjectNotAvailableException : Exception
+    [Serializable]
+    internal class UserNotActiveException : Exception
     {
         public string msg = "";
-        public ObjectNotAvailableException(string? message)
+        public UserNotActiveException()
         {
-            msg = $"{message} Not available!";
+            msg = "Your account is not activated";
         }
 
         public override string Message => msg;
+
     }
 }

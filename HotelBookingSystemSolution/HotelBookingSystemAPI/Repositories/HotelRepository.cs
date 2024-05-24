@@ -6,53 +6,70 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingSystemAPI.Repositories
 {
-    public class HotelRepository : IRepository<int, Hotel>
+    public class HotelRepository : AbstractRepository<int, Hotel>
     {
-        protected readonly HotelBookingContext _context;
-        public HotelRepository(HotelBookingContext context)
+        public HotelRepository(HotelBookingContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task<Hotel> Add(Hotel item)
-        {
-            _context.Add(item);
-            await _context.SaveChangesAsync();
-            return item;
         }
 
-        public async Task<Hotel> Delete(int key)
+        public override Task<Hotel> Add(Hotel item)
         {
-            var hotel = await Get(key);
-            if(hotel == null)
-                throw new ObjectNotAvailableException("Hotel not available");
-            _context.Remove(hotel);
-            await _context.SaveChangesAsync(); 
+            if (_context.Hotels.Any(h => h.Name == item.Name && h.Address == item.Address
+            && h.City == item.City))
+            {
+                throw new ObjectAlreadyExistsException("Hotel");
+            }
+            return base.Add(item);
+        }
+
+        public override async Task<Hotel> Delete(int key)
+        {
+            try
+            {
+                var hotel = await Get(key);
+                _context.Entry<Hotel>(hotel).State = EntityState.Deleted;
+                await _context.SaveChangesAsync();
+                return hotel;
+
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                throw e;
+            }
+        }
+
+        public override async Task<Hotel> Get(int key)
+        {
+            var hotel = await _context.Hotels.SingleOrDefaultAsync(h => h.HotelId == key);
+            if (hotel == null)
+                throw new ObjectNotAvailableException("Hotel");
             return hotel;
         }
 
-        public virtual Task<Hotel> Get(int key)
-        {
-            var hotel = _context.Hotels.FirstOrDefaultAsync(e => e.HotelId == key);
-            return hotel;
-        }
-
-        public virtual async Task<IEnumerable<Hotel>> Get()
+        public override async Task<IEnumerable<Hotel>> Get()
         {
             var hotels = await _context.Hotels.ToListAsync();
             return hotels;
 
         }
 
-        public async Task<Hotel> Update(Hotel item)
+        public override async Task<Hotel> Update(Hotel item)
         {
-            var hotel = await Get(item.HotelId);
-            if (hotel != null)
+            try
             {
-                _context.Update(item);
-                await _context.SaveChangesAsync(true);
-                return hotel;
+                if (await Get(item.HotelId) != null)
+                {
+                    _context.Entry<Hotel>(item).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return item;
+                }
+                throw new ObjectNotAvailableException("Hotel");
             }
-            throw new ObjectNotAvailableException("Hotel not available!");
+            catch(ObjectNotAvailableException e)
+            {
+                throw e;
+            }
+            
         }
     }
 }

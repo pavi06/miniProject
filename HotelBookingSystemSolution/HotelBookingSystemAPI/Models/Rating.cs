@@ -7,10 +7,10 @@ namespace HotelBookingSystemAPI.Models
     {
         [Key]
         public int RatingId { get; set; }
-        public int PersonId { get; set; }
+        public int GuestId { get; set; }
 
-        [ForeignKey("PersonId")]
-        public Person Person { get; set; }
+        [ForeignKey("GuestId")]
+        public Guest Guest { get; set; }
 
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }

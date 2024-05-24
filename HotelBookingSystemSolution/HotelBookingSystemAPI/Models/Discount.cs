@@ -10,9 +10,9 @@ namespace HotelBookingSystemAPI.Models
         public Hotel Hotel { get; set; }
 
         public double DiscountPercent { get; set; }
-        public RoomTypes RoomType { get; set; }
+        public int RoomTypeId { get; set; }
 
-        [ForeignKey("RoomType")]
-        public RoomType RType { get; set; }
+        [ForeignKey("RoomTypeId")]
+        public RoomType RoomType { get; set; }
     }
 }

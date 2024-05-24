@@ -16,6 +16,7 @@ namespace HotelBookingSystemAPI.Models
     public class RoomType
     {
         [Key]
+        public int RoomTypeId { get; set; }
         public  RoomTypes Type { get; set; }
         public int Occupancy { get; set; }
         public double Amount { get; set; }
@@ -23,7 +24,6 @@ namespace HotelBookingSystemAPI.Models
         public string Amenities { get; set; }
 
         public int HotelId { get; set; }
-        [ForeignKey("HotelId")]
         public Hotel Hotel { get; set; }
 
     }

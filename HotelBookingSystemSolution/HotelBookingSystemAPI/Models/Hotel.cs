@@ -18,6 +18,7 @@ namespace HotelBookingSystemAPI.Models
 
         public List<Room> Rooms { get; set; } //navigation property
         public List<Rating> Ratings { get; set; } //navigation property
+        public List<RoomType> RoomTypes { get; set; }
 
     }
 }

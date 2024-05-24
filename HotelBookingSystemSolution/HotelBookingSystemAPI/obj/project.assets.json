@@ -2838,11 +2838,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\VC\\Desktop\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj",
+      "projectUniqueName": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj",
       "projectName": "HotelBookingSystemAPI",
-      "projectPath": "C:\\Users\\VC\\Desktop\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj",
+      "projectPath": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj",
       "packagesPath": "C:\\Users\\VC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\VC\\Desktop\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\obj\\",
+      "outputPath": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

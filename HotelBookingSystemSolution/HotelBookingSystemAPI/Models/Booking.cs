@@ -18,9 +18,11 @@ namespace HotelBookingSystemAPI.Models
 
         public List<BookedRooms> RoomsBooked { get; set; }
 
-        //public int? PaymentId { get; set; }
-        //[ForeignKey("PaymentId")]
-        //public Payment Payment { get; set; }
+        public int? PaymentId { get; set; }
+        [ForeignKey("PaymentId")]
+        public Payment Payment { get; set; }
+
+        public List<Payment> Payments { get; set; }
 
     }
 }

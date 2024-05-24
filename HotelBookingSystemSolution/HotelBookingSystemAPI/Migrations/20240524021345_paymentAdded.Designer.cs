@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingSystemAPI.Migrations
 {
     [DbContext(typeof(HotelBookingContext))]
-    [Migration("20240523170328_Initial")]
-    partial class Initial
+    [Migration("20240524021345_paymentAdded")]
+    partial class paymentAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,9 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Property<int>("NoOfRooms")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
                     b.Property<double>("TotalAmount")
                         .HasColumnType("float");
 
@@ -76,7 +79,27 @@ namespace HotelBookingSystemAPI.Migrations
 
                     b.HasIndex("GuestId");
 
+                    b.HasIndex("PaymentId");
+
                     b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.Discount", b =>
+                {
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("DiscountPercent")
+                        .HasColumnType("float");
+
+                    b.HasKey("HotelId", "RoomTypeId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Hotel", b =>
@@ -123,6 +146,38 @@ namespace HotelBookingSystemAPI.Migrations
                     b.HasKey("HotelId");
 
                     b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"), 1L, 1);
+
+                    b.Property<double>("AmountPaid")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Person", b =>
@@ -199,6 +254,39 @@ namespace HotelBookingSystemAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"), 1L, 1);
 
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Images")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.RoomType", b =>
+                {
+                    b.Property<int>("RoomTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"), 1L, 1);
+
                     b.Property<string>("Amenities")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -212,28 +300,18 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Images")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Occupancy")
                         .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RoomId");
+                    b.HasKey("RoomTypeId");
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.User", b =>
@@ -285,7 +363,42 @@ namespace HotelBookingSystemAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HotelBookingSystemAPI.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
                     b.Navigation("Guest");
+
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.Discount", b =>
+                {
+                    b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
+                        .WithMany()
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelBookingSystemAPI.Models.RoomType", "RoomType")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.Payment", b =>
+                {
+                    b.HasOne("HotelBookingSystemAPI.Models.Booking", "Book")
+                        .WithMany("Payments")
+                        .HasForeignKey("BookId")
+                        .IsRequired();
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Rating", b =>
@@ -315,6 +428,24 @@ namespace HotelBookingSystemAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("HotelBookingSystemAPI.Models.RoomType", "RoomType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.RoomType", b =>
+                {
+                    b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
+                        .WithMany("RoomTypes")
+                        .HasForeignKey("HotelId")
+                        .IsRequired();
+
                     b.Navigation("Hotel");
                 });
 
@@ -331,12 +462,16 @@ namespace HotelBookingSystemAPI.Migrations
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Booking", b =>
                 {
+                    b.Navigation("Payments");
+
                     b.Navigation("RoomsBooked");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Hotel", b =>
                 {
                     b.Navigation("Ratings");
+
+                    b.Navigation("RoomTypes");
 
                     b.Navigation("Rooms");
                 });

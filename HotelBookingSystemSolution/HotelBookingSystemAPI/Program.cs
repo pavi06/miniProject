@@ -1,4 +1,7 @@
 using HotelBookingSystemAPI.Contexts;
+using HotelBookingSystemAPI.Interfaces;
+using HotelBookingSystemAPI.Models;
+using HotelBookingSystemAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingSystemAPI
@@ -20,6 +23,11 @@ namespace HotelBookingSystemAPI
             builder.Services.AddDbContext<HotelBookingContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"))
                 );
+            #endregion
+
+            #region Repositories
+            builder.Services.AddScoped<IRepository<int, Person>, PersonRepository>();
+            builder.Services.AddScoped<IRepository<int, Hotel>, HotelRepository>();
             #endregion
 
             var app = builder.Build();

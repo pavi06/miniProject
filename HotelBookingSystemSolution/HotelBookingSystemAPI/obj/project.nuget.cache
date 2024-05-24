@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YoKfLvB+Act80ht+vJKgmldksKNiKNFXWx9/9HlMPLtMLSS4eFuhbDq1m0nzMEh0q5ufRXUA6vSwhqkd7SnEZQ==",
+  "dgSpecHash": "MAZaylPlc6OwtCXEYfclbNDwF1PWgHHUiQ+sReHe6VvvhFyfaTKxBhPcPmbzc34liL3YcIa4GvuaRDHdWOv+rw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\VC\\Desktop\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj",
+  "projectFilePath": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VC\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\VC\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.30\\microsoft.aspnetcore.authentication.jwtbearer.6.0.30.nupkg.sha512",

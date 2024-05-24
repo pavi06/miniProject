@@ -7,15 +7,9 @@ namespace HotelBookingSystemAPI.Models
     {
         [Key]
         public int RoomId { get; set; }
-        //public RoomTypes Type { get; set; }
-        //[ForeignKey ("Type")]
-        //public RoomType RoomType { get; set; } //navigation property
-
-        public string Type { get; set; }
-        public int Occupancy { get; set; }
-        public double Amount { get; set; }
-        public int CotsAvailable { get; set; }
-        public string Amenities { get; set; }
+        public int TypeId { get; set; }
+        [ForeignKey("TypeId")]
+        public RoomType RoomType { get; set; } //navigation property
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; } //navigation property
         public string? Images { get; set; }

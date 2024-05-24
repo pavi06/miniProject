@@ -8,7 +8,6 @@ namespace HotelBookingSystemAPI.Models
         [Key]
         public int PaymentId { get; set; }
         public int BookId { get; set; }
-        [ForeignKey("BookId")]
         public Booking Book { get; set; }
         public double AmountPaid { get; set; }
         public string PaymentStatus { get; set; }

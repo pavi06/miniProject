@@ -84,11 +84,14 @@ namespace HotelBookingSystemAPI
             builder.Services.AddScoped<IRepository<int, Booking>, BookingRepository>();
             builder.Services.AddScoped<IRepository<int, Rating>, RatingRepository>();
             builder.Services.AddScoped<IRepository<int, Payment>, PaymentRepository>();
+            builder.Services.AddScoped<IRepository<int,Refund>, RefundRepository>();
             #endregion
 
             #region Services
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAdminHotelService, AdminHotelService>();
+            builder.Services.AddScoped<IAdminRoomService, AdminRoomService>();  
             #endregion
 
             var app = builder.Build();

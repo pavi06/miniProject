@@ -19,7 +19,6 @@ namespace HotelBookingSystemAPI.Contexts
         public DbSet<BookedRooms> BookedRooms { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Discount> Discounts { get; set; }  
         public DbSet<Refund> Refunds { get; set; }
 
 
@@ -35,8 +34,6 @@ namespace HotelBookingSystemAPI.Contexts
                 t => (RoomTypes)Enum.ToObject(typeof(RoomTypes), t));
 
             modelBuilder.Entity<BookedRooms>().HasKey(br => new { br.BookingId, br.RoomId });
-
-            modelBuilder.Entity<Discount>().HasKey(d => new { d.HotelId, d.RoomTypeId });
 
 
             modelBuilder.Entity<Room>()

@@ -14,9 +14,14 @@ namespace HotelBookingSystemAPI.Models
         public Hotel Hotel { get; set; } //navigation property
         public string? Images { get; set; }
         public bool IsAvailable { get; set; } = true;
-        public string Status { get; set; } //for soft delete
 
         public List<BookedRooms> roomBookings { get; set; }
 
+        public Room(int typeId, int hotelId, string? images)
+        {
+            TypeId = typeId;
+            HotelId = hotelId;
+            Images = images;
+        }
     }
 }

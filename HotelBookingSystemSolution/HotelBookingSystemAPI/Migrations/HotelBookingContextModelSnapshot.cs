@@ -80,24 +80,6 @@ namespace HotelBookingSystemAPI.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("HotelBookingSystemAPI.Models.Discount", b =>
-                {
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("DiscountPercent")
-                        .HasColumnType("float");
-
-                    b.HasKey("HotelId", "RoomTypeId");
-
-                    b.HasIndex("RoomTypeId");
-
-                    b.ToTable("Discounts");
-                });
-
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Guest", b =>
                 {
                     b.Property<int>("GuestId")
@@ -158,14 +140,13 @@ namespace HotelBookingSystemAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NoOfRoomsAvailable")
+                        .HasColumnType("int");
+
                     b.Property<double?>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("Restrictions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -285,10 +266,6 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
@@ -318,6 +295,9 @@ namespace HotelBookingSystemAPI.Migrations
 
                     b.Property<int>("CotsAvailable")
                         .HasColumnType("int");
+
+                    b.Property<double?>("Discount")
+                        .HasColumnType("float");
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
@@ -385,25 +365,6 @@ namespace HotelBookingSystemAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Guest");
-                });
-
-            modelBuilder.Entity("HotelBookingSystemAPI.Models.Discount", b =>
-                {
-                    b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
-                        .WithMany()
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelBookingSystemAPI.Models.RoomType", "RoomType")
-                        .WithMany()
-                        .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("RoomType");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Payment", b =>

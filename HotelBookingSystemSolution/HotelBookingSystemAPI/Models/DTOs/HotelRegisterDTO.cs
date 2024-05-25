@@ -12,6 +12,8 @@ namespace HotelBookingSystemAPI.Models.DTOs
         public string City { get; set; }
         [Required(ErrorMessage = "Provide the number of rooms.It cannot be 0")]
         public int TotalNoOfRooms { get; set; }
+        [Required]
+        public int NoOfRoomsAvailable { get; set; }
         public string? Amenities { get; set; }
         public string? Restrictions { get; set; }
     }

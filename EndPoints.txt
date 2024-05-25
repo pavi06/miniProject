@@ -30,7 +30,6 @@ PostMethods
 •	AddHotel (params – name, address , totalNoOfRooms, IsRoomsAvailable, Rating, Amenities, Restriction , status)
 •	AddRoomTypes (params – Type,Amount,occupancy,cotsAvailable, Amenities)
 •	AddRoom (params – HotelId, Type, Images, IsAvailable, status)
-•	AddDiscount (params – HotelId, DiscountPercent, RoomType)
 
 PutMethods
 •	ActivateUser(params - userId,Userstatus)

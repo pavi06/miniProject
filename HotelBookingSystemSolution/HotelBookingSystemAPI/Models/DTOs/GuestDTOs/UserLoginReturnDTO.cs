@@ -1,4 +1,4 @@
-﻿namespace HotelBookingSystemAPI.Models.DTOs
+﻿namespace HotelBookingSystemAPI.Models.DTOs.GuestDTOs
 {
     public class UserLoginReturnDTO
     {

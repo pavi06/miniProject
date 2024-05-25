@@ -15,7 +15,7 @@ namespace HotelBookingSystemAPI.Models
         public string? Images { get; set; }
         public bool IsAvailable { get; set; } = true;
 
-        public List<BookedRooms> roomBookings { get; set; }
+        public List<BookedRooms> roomsBooked { get; set; }
 
         public Room(int typeId, int hotelId, string? images)
         {

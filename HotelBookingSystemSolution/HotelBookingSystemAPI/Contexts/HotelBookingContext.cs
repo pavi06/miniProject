@@ -20,6 +20,7 @@ namespace HotelBookingSystemAPI.Contexts
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Refund> Refunds { get; set; }
+        public DbSet<HotelAvailabilityByDate> HotelAvailabilityByDates { get; set; }
 
 
 
@@ -34,6 +35,8 @@ namespace HotelBookingSystemAPI.Contexts
                 t => (RoomTypes)Enum.ToObject(typeof(RoomTypes), t));
 
             modelBuilder.Entity<BookedRooms>().HasKey(br => new { br.BookingId, br.RoomId });
+
+            modelBuilder.Entity<HotelAvailabilityByDate>().HasKey(ha => new { ha.HotelId, ha.Date });
 
 
             modelBuilder.Entity<Room>()
@@ -55,7 +58,7 @@ namespace HotelBookingSystemAPI.Contexts
 
             modelBuilder.Entity<BookedRooms>()
                .HasOne(br => br.Room)
-               .WithMany(r => r.roomBookings)
+               .WithMany(r => r.roomsBooked)
                .HasForeignKey(br => br.RoomId);
 
             modelBuilder.Entity<Booking>()
@@ -74,6 +77,12 @@ namespace HotelBookingSystemAPI.Contexts
               .HasOne(p => p.Book)
               .WithMany(b => b.Payments)
               .HasForeignKey(p => p.BookId)
+              .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<HotelAvailabilityByDate>()
+              .HasOne(ha => ha.Hotel)
+              .WithMany(h => h.hotelAvailabilityByDates)
+              .HasForeignKey(ha => ha.HotelId)
               .OnDelete(DeleteBehavior.ClientSetNull);
 
         }

@@ -1,4 +1,4 @@
-﻿using HotelBookingSystemAPI.Models.DTOs;
+﻿using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
 {

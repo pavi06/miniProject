@@ -1,9 +1,9 @@
 ﻿using HotelBookingSystemAPI.CustomExceptions;
 using HotelBookingSystemAPI.Interfaces;
-using HotelBookingSystemAPI.Models.DTOs;
 using HotelBookingSystemAPI.Models;
 using System.Security.Cryptography;
 using System.Text;
+using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 
 namespace HotelBookingSystemAPI.Services
 {

@@ -28,7 +28,7 @@ namespace HotelBookingRepositoryTests
         public void AddHotelSuccessTest()
         {
             //Arrange 
-            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, NoOfRoomsAvailable = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5,  IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             //Action
             var result = hotelRepository.Add(hotel).Result;
             //Assert
@@ -39,7 +39,7 @@ namespace HotelBookingRepositoryTests
         public void AddHotelFailTest()
         {
             //Arrange 
-            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, NoOfRoomsAvailable = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5,  IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             //Action
             var result = hotelRepository.Add(hotel).Result;
             //Assert
@@ -89,7 +89,7 @@ namespace HotelBookingRepositoryTests
         public void GetHotelSuccessTest()
         {
             //Arrange
-            Hotel hotel = new Hotel() { Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, NoOfRoomsAvailable = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5,IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             hotelRepository.Add(hotel);
             //Action
             var result = hotelRepository.Get(2).Result;
@@ -139,7 +139,7 @@ namespace HotelBookingRepositoryTests
         [Test]
         public void UpdateHotelSuccessTest()
         {
-            Hotel hotel = new Hotel() { HotelId = 1, Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 9, NoOfRoomsAvailable = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { HotelId = 1, Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 9, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             //Action
             var result = hotelRepository.Update(hotel).Result;
             //Assert
@@ -149,7 +149,7 @@ namespace HotelBookingRepositoryTests
         [Test]
         public void UpdateHotelExceptionTest()
         {
-            Hotel hotel = new Hotel() { HotelId= 4, Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 9, NoOfRoomsAvailable = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { HotelId= 4, Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 9,  IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             //Action
             var exception = Assert.Throws<ObjectNotAvailableException>(() => hotelRepository.Update(hotel));
             //Assert

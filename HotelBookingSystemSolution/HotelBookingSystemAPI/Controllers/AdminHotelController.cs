@@ -1,11 +1,12 @@
 ﻿using HotelBookingSystemAPI.CustomExceptions;
 using HotelBookingSystemAPI.Interfaces;
-using HotelBookingSystemAPI.Models.DTOs;
 using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
+using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -65,11 +66,11 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPut("UpdateHotelAvailabilityStatus")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<bool>> UpdateHotelStatus([FromBody]int hotelId, [FromBody]bool status)
+        public async Task<ActionResult<bool>> UpdateHotelStatus([FromBody] UpdateHotelStatusDTO updateHotelStatusDTO)
         {
             try
             {
-                bool result = await _hotelService.UpdateHotelAvailabilityService(hotelId, status);
+                bool result = await _hotelService.UpdateHotelAvailabilityService(updateHotelStatusDTO);
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
@@ -83,26 +84,26 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
 
-        [HttpPut("UpdateHotelAvailabilityCount")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<int>> UpdateHotelRoomAvailabilityCount([FromBody] int hotelId, [FromBody] int count)
-        {
-            try
-            {
-                int result = await _hotelService.UpdateHotelRoomAvailabilityService(hotelId, count);
-                return Ok(result);
-            }
-            catch (ObjectNotAvailableException e)
-            {
-                return NotFound(new ErrorModel(404, e.Message));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ErrorModel(400, ex.Message));
-            }
+        //[HttpPut("UpdateHotelAvailabilityCount")]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        //public async Task<ActionResult<int>> UpdateHotelRoomAvailabilityCount([FromBody] int hotelId, [FromBody] int count)
+        //{
+        //    try
+        //    {
+        //        int result = await _hotelService.UpdateHotelRoomAvailabilityService(hotelId, count);
+        //        return Ok(result);
+        //    }
+        //    catch (ObjectNotAvailableException e)
+        //    {
+        //        return NotFound(new ErrorModel(404, e.Message));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new ErrorModel(400, ex.Message));
+        //    }
 
-        }
+        //}
 
 
     }

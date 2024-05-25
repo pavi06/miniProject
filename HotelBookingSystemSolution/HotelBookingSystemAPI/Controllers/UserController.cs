@@ -1,6 +1,6 @@
 ﻿using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
-using HotelBookingSystemAPI.Models.DTOs;
+using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

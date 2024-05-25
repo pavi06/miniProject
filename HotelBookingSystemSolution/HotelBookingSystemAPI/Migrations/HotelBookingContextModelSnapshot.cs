@@ -140,10 +140,7 @@ namespace HotelBookingSystemAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NoOfRoomsAvailable")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("Rating")
+                    b.Property<double>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("Restrictions")
@@ -156,6 +153,22 @@ namespace HotelBookingSystemAPI.Migrations
                     b.HasKey("HotelId");
 
                     b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelAvailabilityByDate", b =>
+                {
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RoomsAvailableCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("HotelId", "Date");
+
+                    b.ToTable("HotelAvailabilityByDates");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Payment", b =>
@@ -287,7 +300,6 @@ namespace HotelBookingSystemAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"), 1L, 1);
 
                     b.Property<string>("Amenities")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Amount")
@@ -365,6 +377,16 @@ namespace HotelBookingSystemAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Guest");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelAvailabilityByDate", b =>
+                {
+                    b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
+                        .WithMany("hotelAvailabilityByDates")
+                        .HasForeignKey("HotelId")
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Payment", b =>
@@ -474,6 +496,8 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Navigation("RoomTypes");
 
                     b.Navigation("Rooms");
+
+                    b.Navigation("hotelAvailabilityByDates");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Room", b =>

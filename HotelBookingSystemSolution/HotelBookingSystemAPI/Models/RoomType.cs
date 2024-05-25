@@ -22,12 +22,12 @@ namespace HotelBookingSystemAPI.Models
         public double Amount { get; set; }
         public int CotsAvailable { get; set; }
         public string? Amenities { get; set; }
-        public double? Discount { get; set; }
+        public double Discount { get; set; }
 
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
 
-        public RoomType(RoomTypes type, int occupancy, double amount, int cotsAvailable, string amenities, double? discount, int hotelId)
+        public RoomType(RoomTypes type, int occupancy, double amount, int cotsAvailable, string amenities, double discount, int hotelId)
         {
             Type = type;
             Occupancy = occupancy;

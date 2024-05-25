@@ -1,7 +1,7 @@
 ﻿using HotelBookingSystemAPI.CustomExceptions;
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
-using HotelBookingSystemAPI.Models.DTOs;
+using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Services
 {

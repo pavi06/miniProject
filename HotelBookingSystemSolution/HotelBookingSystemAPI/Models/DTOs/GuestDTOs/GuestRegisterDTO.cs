@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HotelBookingSystemAPI.Models.DTOs
+namespace HotelBookingSystemAPI.Models.DTOs.GuestDTOs
 {
     public class GuestRegisterDTO
     {
@@ -15,7 +15,7 @@ namespace HotelBookingSystemAPI.Models.DTOs
         public string PhoneNumber { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Address cannot be empty")]
         public string Address { get; set; }
-       
+
         [MinLength(6, ErrorMessage = "Password has to be minimum of 6 chars long")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password cannot be empty")]
         public string Password { get; set; }

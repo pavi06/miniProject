@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HotelBookingSystemAPI.Models.DTOs
+namespace HotelBookingSystemAPI.Models.DTOs.RoomDTOs
 {
     public class AddRoomDTO
     {

@@ -1,5 +1,6 @@
 ﻿using HotelBookingSystemAPI.Models;
-using HotelBookingSystemAPI.Models.DTOs;
+using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
+using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
 {
@@ -7,8 +8,8 @@ namespace HotelBookingSystemAPI.Interfaces
     {
         public Task<HotelReturnDTO> RegisterHotel(HotelRegisterDTO hotelDTO);
         //public Task<UpdateHotelReturnDTO> UpdateHotel(UpdateHotelDTO hotelDTO);
-        public Task<bool> UpdateHotelAvailabilityService(int hotelId, bool status);
-        public Task<int> UpdateHotelRoomAvailabilityService(int hotelId, int availableCount);
+        public Task<bool> UpdateHotelAvailabilityService(UpdateHotelStatusDTO updateHotelStatusDTO);
+        //public Task<int> UpdateHotelRoomAvailabilityService(int hotelId, int availableCount);
         public Task<List<HotelReturnDTO>> GetAllHotels();
         public Task<HotelReturnDTO> GetHotelById(int hotelId);
         public Task<HotelReturnDTO> RemoveHotel(int hotelId);

@@ -85,6 +85,8 @@ namespace HotelBookingSystemAPI
             builder.Services.AddScoped<IRepository<int, Rating>, RatingRepository>();
             builder.Services.AddScoped<IRepository<int, Payment>, PaymentRepository>();
             builder.Services.AddScoped<IRepository<int,Refund>, RefundRepository>();
+            builder.Services.AddScoped<IRepositoryForCompositeKey<int,int,BookedRooms> ,  BookedRoomsRepository>();
+            builder.Services.AddScoped<IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate>, HotelsAvailabilityRepository>();
             #endregion
 
             #region Services
@@ -92,7 +94,8 @@ namespace HotelBookingSystemAPI
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAdminHotelService, AdminHotelService>();
             builder.Services.AddScoped<IAdminRoomService, AdminRoomService>();
-            builder.Services.AddScoped<IGuestService, GuestService>();
+            builder.Services.AddScoped<IGuestSearchService, GuestSearchService>();
+            builder.Services.AddScoped<IGuestBookingService, GuestBookingService>();
             #endregion
 
             var app = builder.Build();

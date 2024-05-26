@@ -1,22 +1,32 @@
 ﻿
 using HotelBookingSystemAPI.Contexts;
 using HotelBookingSystemAPI.CustomExceptions;
+using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingSystemAPI.Repositories
 {
-    public class HotelsAvailabilityRepository : AbstractRepository<(int, DateTime), HotelAvailabilityByDate>
+    public class HotelsAvailabilityRepository : IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate>
     {
-        public HotelsAvailabilityRepository(HotelBookingContext context) : base(context)
+        protected readonly HotelBookingContext _context;
+        public HotelsAvailabilityRepository(HotelBookingContext context) 
         {
+            _context = context;
         }
 
-        public override async Task<HotelAvailabilityByDate> Delete((int, DateTime) key)
+        public async Task<HotelAvailabilityByDate> Add(HotelAvailabilityByDate item)
+        {
+            _context.Add(item);
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<HotelAvailabilityByDate> Delete(int key1, DateTime key2)
         {
             try
             {
-                var hotelAvailability = await Get(key);
+                var hotelAvailability = await Get(key1,key2);
                 _context.Entry<HotelAvailabilityByDate>(hotelAvailability).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
                 return hotelAvailability;
@@ -28,23 +38,23 @@ namespace HotelBookingSystemAPI.Repositories
             }
         }
 
-        public override async Task<HotelAvailabilityByDate> Get((int, DateTime) key)
+        public async Task<HotelAvailabilityByDate> Get(int key1, DateTime key2)
         {
-            var hotelAvailability = await _context.HotelAvailabilityByDates.SingleOrDefaultAsync(h => h.HotelId == key.Item1 && h.Date == key.Item2);
+            var hotelAvailability = await _context.HotelAvailabilityByDates.SingleOrDefaultAsync(h => h.HotelId == key1 && h.Date == key2);
             return hotelAvailability;
         }
 
-        public override async Task<IEnumerable<HotelAvailabilityByDate>> Get()
+        public async Task<IEnumerable<HotelAvailabilityByDate>> Get()
         {
             var hotelAvailability = await _context.HotelAvailabilityByDates.ToListAsync();
             return hotelAvailability;
         }
 
-        public override async Task<HotelAvailabilityByDate> Update(HotelAvailabilityByDate item)
+        public async Task<HotelAvailabilityByDate> Update(HotelAvailabilityByDate item)
         {
             try
             {
-                if (await Get((item.HotelId,item.Date)) != null)
+                if (await Get(item.HotelId,item.Date) != null)
                 {
                     _context.Entry<HotelAvailabilityByDate>(item).State = EntityState.Modified;
                     await _context.SaveChangesAsync();

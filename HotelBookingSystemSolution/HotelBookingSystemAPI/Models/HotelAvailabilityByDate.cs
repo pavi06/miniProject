@@ -9,5 +9,12 @@ namespace HotelBookingSystemAPI.Models
         public Hotel Hotel { get; set; }
         public DateTime Date { get; set; }
         public int RoomsAvailableCount { get; set; }
+
+        public HotelAvailabilityByDate(int hotelId, DateTime date, int roomsAvailableCount)
+        {
+            HotelId = hotelId;
+            Date = date;
+            RoomsAvailableCount = roomsAvailableCount;
+        }
     }
 }

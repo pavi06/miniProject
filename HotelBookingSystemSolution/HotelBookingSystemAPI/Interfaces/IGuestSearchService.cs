@@ -5,12 +5,11 @@ using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
 {
-    public interface IGuestService
+    public interface IGuestSearchService
     {
         public Task<List<HotelReturnDTO>> GetHotelsByLocationAndDate(SearchHotelDTO hotelDTO);
         public Task<List<HotelReturnDTO>> GetHotelsByRatings(SearchHotelDTO hotelDTO);
         public Task<List<AvailableRoomTypesDTO>> GetAvailableRoomTypesByHotel(SearchRoomsDTO searchRoomDTO);
-        public Task<BookingReturnDTO> BookRooms(List<BookDetailsDTO> bookDetails,int loggedUserId);
 
     }
 }

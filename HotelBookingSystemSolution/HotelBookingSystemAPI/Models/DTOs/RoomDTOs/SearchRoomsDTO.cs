@@ -1,4 +1,4 @@
-﻿namespace HotelBookingSystemAPI.Models.DTOs.HotelDTOs
+﻿namespace HotelBookingSystemAPI.Models.DTOs.RoomDTOs
 {
     public class SearchRoomsDTO
     {

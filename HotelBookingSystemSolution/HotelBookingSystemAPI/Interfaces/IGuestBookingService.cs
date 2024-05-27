@@ -1,5 +1,5 @@
-﻿using HotelBookingSystemAPI.Models.DTOs;
-using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
+﻿using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
+using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
@@ -10,7 +10,7 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<PaymentReturnDTO> MakePayment(double amount,int loggedUser,SearchRoomsDTO searchRooms);
         public Task<BookingConfirmationDTO> ConfirmBooking(BookingReturnDTO bookingDetails, int payId, int loggedUser,SearchRoomsDTO searchRooms);
         public Task<string> CancelBooking(int bookId);
-        public Task<string> ProvideRating(AddRatingDTO ratingDTO, int loggedUser);
+        public Task<List<MyBookingDTO>> GetMyBookings(int loggedUserId);
 
     }
 }

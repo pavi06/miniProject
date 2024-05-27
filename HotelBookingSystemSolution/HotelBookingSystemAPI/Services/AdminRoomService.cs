@@ -1,7 +1,10 @@
 ﻿using HotelBookingSystemAPI.CustomExceptions;
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
+using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
+using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using HotelBookingSystemAPI.Repositories;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -36,27 +39,66 @@ namespace HotelBookingSystemAPI.Services
                 return new RoomTypeReturnDTO(addedRoomType.RoomTypeId, addedRoomType.Occupancy, addedRoomType.Amount,  addedRoomType.CotsAvailable, addedRoomType.Amenities,
                     addedRoomType.Discount,addedRoomType.HotelId);
             }
-            catch (ObjectAlreadyExistsException e)
+            catch (ObjectAlreadyExistsException)
             {
-                throw e;
+                throw ;
             }
             
         }
 
-        public async Task<ReturnRoomDTO> RemoveRoomFromHotel(int roomId)
+        public async Task<bool> UpdateRoomImages(int roomId, string imageUrls)
+        {
+            var room = await _roomRepository.Get(roomId);
+            room.Images = imageUrls;
+            if(await _roomRepository.Update(room) != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<ReturnRoomDTO> UpdateRoomStatusForHotel(int roomId)
         {
             try
             {
                 var room = await _roomRepository.Get(roomId);
-                room.IsAvailable = false;
+                if (room.IsAvailable)
+                    room.IsAvailable = false;
+                else
+                    room.IsAvailable = true;
                 var updatedRoom = await _roomRepository.Update(room);
                 return new ReturnRoomDTO(updatedRoom.RoomId, updatedRoom.TypeId, updatedRoom.HotelId, updatedRoom.Images, updatedRoom.IsAvailable);
             }
-            catch(ObjectNotAvailableException e)
+            catch(ObjectNotAvailableException )
             {
-                throw e;
+                throw ;
             }            
             
         }
+
+        public async Task<RoomTypeReturnDTO> UpdateRoomTypeByAttribute(UpdateRoomTypeDTO updateDTO)
+        {
+            var roomType = await _roomTypeRepository.Get(updateDTO.RoomTypeId);
+            switch (updateDTO.AttributeName.ToLower())
+            {
+                case "amount":
+                    roomType.Amount = Convert.ToDouble(updateDTO.AttributeValue);
+                    break;
+                case "amenities":
+                    roomType.Amenities = updateDTO.AttributeValue;
+                    break;
+                case "discount":
+                    roomType.Discount = Convert.ToDouble(updateDTO.AttributeValue);
+                    break;
+                default:
+                    return null;
+            }
+            var updatedRoomType = await _roomTypeRepository.Update(roomType);
+            return new RoomTypeReturnDTO(updatedRoomType.RoomTypeId,updatedRoomType.Occupancy,updatedRoomType.Amount,updatedRoomType.CotsAvailable,
+                updatedRoomType.Amenities,updatedRoomType.Discount,updatedRoomType.HotelId);
+        }
+
+
+
     }
 }

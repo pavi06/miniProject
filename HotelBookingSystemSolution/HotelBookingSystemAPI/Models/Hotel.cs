@@ -14,12 +14,15 @@ namespace HotelBookingSystemAPI.Models
         public string Amenities { get; set; }
         public string Restrictions { get; set; }
         public bool IsAvailable { get; set; }
- 
-        public List<Room> Rooms { get; set; } //navigation property
-        public List<Rating> Ratings { get; set; } //navigation property
-        public List<RoomType> RoomTypes { get; set; }
 
-        public List<HotelAvailabilityByDate> hotelAvailabilityByDates { get; set; } //navigation prop
+        #region NavigationProperties
+        public List<Room> Rooms { get; set; } 
+        public List<Rating> Ratings { get; set; } 
+        public List<RoomType> RoomTypes { get; set; }
+        public List<Booking> bookingsForHotel { get; set; }
+        public List<HotelAvailabilityByDate> hotelAvailabilityByDates { get; set; } 
+        public List<HotelEmployee> employees { get; set; }
+        #endregion
 
         public Hotel() { }
 
@@ -44,16 +47,5 @@ namespace HotelBookingSystemAPI.Models
             Amenities = amenities;
             Restrictions = restrictions;
         }
-
-        //public Hotel(int hotelId, string name, int totalNoOfRooms, int noOfRoomsAvailable, double rating, string amenities, string restrictions)
-        //{
-        //    HotelId = hotelId;
-        //    Name = name;
-        //    TotalNoOfRooms = totalNoOfRooms;
-        //    NoOfRoomsAvailable = noOfRoomsAvailable;
-        //    Rating = rating;
-        //    Amenities = amenities;
-        //    Restrictions = restrictions;
-        //}
     }
 }

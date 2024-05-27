@@ -13,8 +13,10 @@ namespace HotelBookingSystemAPI.Models
         public int NoOfRooms { get; set; }
         public double TotalAmount { get; set; }
         public double AdvancePayment { get; set; }
-        public double? Discount { get; set; }
+        public double Discount { get; set; }
         public string BookingStatus { get; set; }
+        public int HotelId { get; set; }
+        public Hotel Hotel { get; set; }
 
         public List<BookedRooms> RoomsBooked { get; set; }
 
@@ -22,7 +24,7 @@ namespace HotelBookingSystemAPI.Models
 
         public List<Payment> Payments { get; set; }
 
-        public Booking(int guestId, int noOfRooms, double totalAmount, double advancePayment, double? discount, string bookingStatus, int? paymentId)
+        public Booking(int guestId, int noOfRooms, double totalAmount, double advancePayment, double discount, string bookingStatus, int? paymentId, int hotelId)
         {
             GuestId = guestId;
             NoOfRooms = noOfRooms;
@@ -31,6 +33,7 @@ namespace HotelBookingSystemAPI.Models
             Discount = discount;
             BookingStatus = bookingStatus;
             PaymentId = paymentId;
+            HotelId = hotelId;
         }
     }
 }

@@ -63,6 +63,48 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
 
+        [HttpPut("UpdateRoomStatusForHotel")]
+        [ProducesResponseType(typeof(ReturnRoomDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReturnRoomDTO>> IsRoomAvailable(int roomId)
+        {
+            try
+            {
+                ReturnRoomDTO result = await _roomService.UpdateRoomStatusForHotel(roomId);
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+
+        [HttpPut("UpdateRoomTypeForHotel")]
+        [ProducesResponseType(typeof(RoomTypeReturnDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<RoomTypeReturnDTO>> UpdateRoomType(UpdateRoomTypeDTO updateDTO)
+        {
+            try
+            {
+                var result = await _roomService.UpdateRoomTypeByAttribute(updateDTO);
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+
 
     }
 }

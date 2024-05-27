@@ -21,6 +21,7 @@ namespace HotelBookingSystemAPI.Contexts
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Refund> Refunds { get; set; }
         public DbSet<HotelAvailabilityByDate> HotelAvailabilityByDates { get; set; }
+        public DbSet<HotelEmployee> Employees { get; set; }
 
 
 
@@ -60,6 +61,12 @@ namespace HotelBookingSystemAPI.Contexts
                .HasForeignKey(b => b.GuestId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
+            modelBuilder.Entity<Booking>()
+               .HasOne(b => b.Hotel)
+               .WithMany(h => h.bookingsForHotel)
+               .HasForeignKey(b => b.HotelId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
+
             modelBuilder.Entity<RoomType>()
               .HasOne(r => r.Hotel)
               .WithMany(h => h.RoomTypes)
@@ -77,6 +84,12 @@ namespace HotelBookingSystemAPI.Contexts
               .WithMany(h => h.hotelAvailabilityByDates)
               .HasForeignKey(ha => ha.HotelId)
               .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<HotelEmployee>()
+                .HasOne(e => e.Hotel)
+                .WithMany(h => h.employees)
+                .HasForeignKey(e => e.HotelId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         }
     }

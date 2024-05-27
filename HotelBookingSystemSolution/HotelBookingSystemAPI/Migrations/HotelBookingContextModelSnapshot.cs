@@ -61,10 +61,13 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("Discount")
+                    b.Property<double>("Discount")
                         .HasColumnType("float");
 
                     b.Property<int>("GuestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<int>("NoOfRooms")
@@ -80,7 +83,47 @@ namespace HotelBookingSystemAPI.Migrations
 
                     b.HasIndex("GuestId");
 
+                    b.HasIndex("HotelId");
+
                     b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.DTOs.HotelEmployee", b =>
+                {
+                    b.Property<int>("EmpId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpId"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmpId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Guest", b =>
@@ -186,7 +229,6 @@ namespace HotelBookingSystemAPI.Migrations
                         .HasColumnType("float");
 
                     b.Property<int?>("BookId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PaymentDate")
@@ -380,7 +422,24 @@ namespace HotelBookingSystemAPI.Migrations
                         .HasForeignKey("GuestId")
                         .IsRequired();
 
+                    b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
+                        .WithMany("bookingsForHotel")
+                        .HasForeignKey("HotelId")
+                        .IsRequired();
+
                     b.Navigation("Guest");
+
+                    b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.DTOs.HotelEmployee", b =>
+                {
+                    b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
+                        .WithMany("employees")
+                        .HasForeignKey("HotelId")
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelAvailabilityByDate", b =>
@@ -397,8 +456,7 @@ namespace HotelBookingSystemAPI.Migrations
                 {
                     b.HasOne("HotelBookingSystemAPI.Models.Booking", "Book")
                         .WithMany("Payments")
-                        .HasForeignKey("BookId")
-                        .IsRequired();
+                        .HasForeignKey("BookId");
 
                     b.Navigation("Book");
                 });
@@ -500,6 +558,10 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Navigation("RoomTypes");
 
                     b.Navigation("Rooms");
+
+                    b.Navigation("bookingsForHotel");
+
+                    b.Navigation("employees");
 
                     b.Navigation("hotelAvailabilityByDates");
                 });

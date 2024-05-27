@@ -96,6 +96,7 @@ namespace HotelBookingSystemAPI
             builder.Services.AddScoped<IAdminRoomService, AdminRoomService>();
             builder.Services.AddScoped<IGuestSearchService, GuestSearchService>();
             builder.Services.AddScoped<IGuestBookingService, GuestBookingService>();
+            builder.Services.AddScoped<IGuestRatingService, GuestRatingService>();
             #endregion
 
             var app = builder.Build();

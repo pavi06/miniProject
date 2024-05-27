@@ -2,9 +2,9 @@
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using HotelBookingSystemAPI.Models;
-using HotelBookingSystemAPI.Models.DTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using HotelBookingSystemAPI.Repositories;
+using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -63,7 +63,7 @@ namespace HotelBookingSystemAPI.Services
                     finalAmount = finalAmount - (finalAmount * 0.05);
                     discountPercent += 5;
                 }
-                bookingDetails = new  BookingReturnDTO(roomsCount, searchRooms.CheckInDate, searchRooms.CheckoutDate, totalAmount, discountPercent, finalAmount, finalAmount / 2);
+                bookingDetails = new  BookingReturnDTO(searchRooms.HotelId,roomsCount, searchRooms.CheckInDate, searchRooms.CheckoutDate, totalAmount, discountPercent, finalAmount, finalAmount / 2);
                 return bookingDetails;
             }
             catch (ObjectNotAvailableException)
@@ -87,7 +87,7 @@ namespace HotelBookingSystemAPI.Services
             if(payId > 0)
             {
                 var addBooking = new Booking(loggedUser, bookingDetails.NoOfRoomsBooked, bookingDetails.FinalAmount, bookingDetails.AdvancePayment,
-                bookingDetails.DiscountPercent, "Confirmed", payId);
+                bookingDetails.DiscountPercent, "Confirmed", payId, searchRooms.HotelId);
                 var bookId = _bookingRepository.Add(addBooking).Result.BookId;
                 await UpdateHotelAvailability(bookingDetails, searchRooms);
                 await AllocateRooms(bookId, searchRooms);
@@ -164,22 +164,16 @@ namespace HotelBookingSystemAPI.Services
             }
         }
 
-        public async Task<string> ProvideRating(AddRatingDTO ratingDTO, int loggedUser)
+
+        public async Task<List<MyBookingDTO>> GetMyBookings(int loggedUser)
         {
-            try
+            var bookings = _guestRepository.Get(loggedUser).Result.bookings;
+            var bookingToBookingReturnMapper = new List<MyBookingDTO>();
+            foreach (var booking in bookings)
             {
-                Rating rating = new Rating(loggedUser, ratingDTO.HotelId, ratingDTO.ReviewRating, ratingDTO.Comments);
-                _ratingRepository.Add(rating);
-                var hotel = _hotelRepository.Get(ratingDTO.HotelId).Result;
-                hotel.Rating = (hotel.Rating + ratingDTO.ReviewRating) / hotel.Ratings.Count();
-                await _hotelRepository.Update(hotel);
-                return "Thanks for your rating!";
+                bookingToBookingReturnMapper.Add(new MyBookingDTO(booking.HotelId, booking.NoOfRooms, booking.Date, booking.TotalAmount, booking.Discount, booking.TotalAmount - booking.Discount / 100 * booking.HotelId));
             }
-            catch (ObjectNotAvailableException )
-            {
-                throw ;
-            }
-            
+            return bookingToBookingReturnMapper;
         }
     }
 }

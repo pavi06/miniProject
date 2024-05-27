@@ -49,6 +49,13 @@ DeleteMethods
 •	DeleteHotel(params - hotelId)
 •	DeleteRoom(params - roomId)
 
+Employee
+Get Methods:
+•	GetAllBookingRequestRaisedToday
+•	GetAllCheckInDetailsForToday
+
+
+
 
 
 

@@ -1,4 +1,5 @@
 ﻿using HotelBookingSystemAPI.Models;
+using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
@@ -7,6 +8,8 @@ namespace HotelBookingSystemAPI.Interfaces
     {
         public Task<RoomTypeReturnDTO> RegisterRoomTypeForHotel(RoomTypeDTO roomTypeDTO);
         public Task<ReturnRoomDTO> RegisterRoomForHotel(AddRoomDTO roomDTO);
-        public Task<ReturnRoomDTO> RemoveRoomFromHotel(int roomId);
+        public Task<ReturnRoomDTO> UpdateRoomStatusForHotel(int roomId);
+        public Task<RoomTypeReturnDTO> UpdateRoomTypeByAttribute(UpdateRoomTypeDTO updateDTO);
+        public Task<bool> UpdateRoomImages(int roomId, string imageUrls);
     }
 }

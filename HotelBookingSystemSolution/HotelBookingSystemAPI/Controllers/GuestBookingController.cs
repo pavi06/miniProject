@@ -9,27 +9,29 @@ using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using Microsoft.AspNetCore.Authorization;
 using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using System.Security.Claims;
-using HotelBookingSystemAPI.Models.DTOs;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
+using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
     [Authorize(Roles ="Admin,User")]
     [Route("api/[controller]")]
     [ApiController]
-    public class GuestServiceController : ControllerBase
+    public class GuestBookingController : ControllerBase
     {
         private readonly IGuestSearchService _guestService;
         private readonly IGuestBookingService _bookingService;
         protected static SearchRoomsDTO searchRoom { get; set; }
         protected int paymentId { get; set; }
 
-        public GuestServiceController(IGuestSearchService guestService, IGuestBookingService bookingService)
+        public GuestBookingController(IGuestSearchService guestService, IGuestBookingService bookingService)
         {
             _guestService = guestService;
             _bookingService = bookingService;
         }
 
+        #region GetHotels
         [HttpPost("GetHotelsByLocationAndDate")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -50,7 +52,9 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+        #endregion
 
+        #region getRoomsAvailableInThatHotel
         [HttpPost("GetRoomsByHotel")]
         [ProducesResponseType(typeof(List<AvailableRoomTypesDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -77,7 +81,9 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+        #endregion
 
+        #region RequestRoomsNeeded
         [HttpPost("BookRooms")]
         [ProducesResponseType(typeof(BookingReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -95,7 +101,9 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+        #endregion
 
+        #region MakePaymentAndConfirmBooking
         [HttpPost("MakePaymentAndConfirmBooking")]
         [ProducesResponseType(typeof(PaymentReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -113,6 +121,7 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+        #endregion
 
         //[HttpPost("ConfirmBooking")]
         //[ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -149,16 +158,21 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
 
-        [HttpPost("ProvideRatings")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+
+        [HttpGet("GetMyBookings")]
+        [ProducesResponseType(typeof(List<MyBookingDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> ProvideRating(AddRatingDTO ratingDTO)
+        public async Task<ActionResult<List<MyBookingDTO>>> GetBookings()
         {
             try
             {
                 var loggedInUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-                string result = await _bookingService.ProvideRating(ratingDTO,loggedInUser);
-                return Ok(result);
+                var result = await _bookingService.GetMyBookings(loggedInUser);
+                if (result.Count > 0)
+                {
+                    return Ok(result);
+                }
+                return NotFound(new ErrorModel(404,"No bookings were done"));
             }
             catch (Exception ex)
             {
@@ -166,6 +180,7 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+
 
     }
 }

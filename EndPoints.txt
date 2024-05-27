@@ -4,8 +4,12 @@ User Accessible EndPoints :
 PostMethods
 •	RegisterUser (params – name, address, email, phoneNumber, password)
 •	Login (params – email, password)
+•	GetHotelsByLocation  (params – location)
+•	GetRoomsByDateAndRoomTypeAndOccupancy (params - CheckinDate , RoomType , Occupany)
+•	GetRoomsByDate (params - Date)
+•	GetHotelsByRating
 •	BookRoom (params – roomIds(list), checkinDate, checkoutDate)
-•	MakePayment (params – BookId, AmountPaid)
+•	MakePayment (params – AmountPaid)
 •	ProvideFeedback (params – hotelId, rating, comment)
 
 PutMethods
@@ -17,11 +21,7 @@ DeleteMethods
 
 
 GetMethods
-•	GetHotelsByLocation  (params – location)
-•	GetRoomsByDateAndRoomTypeAndOccupancy (params - CheckinDate , RoomType , Occupany)
-•	GetRoomsByDate (params - Date)
 •	GetMyBookings
-•	GetHotelsByRating
 
 
 Admin Accessible EndPoints :
@@ -33,23 +33,21 @@ PostMethods
 
 PutMethods
 •	ActivateUser(params - userId,Userstatus)
-•	UpdateBooking (params - BookId, Bookingstatus)
 •	UpdateHotelDetails
 •	UpdateHotelAvailabilityStatus (params - HotelId, status)
-•	UpdatePayment (params - PayId, Paymentstatus)
 •	UpdateRooms 
 •	UpdateRoomTypes 
-•	UpdateDiscount (params – HotelId, DiscountPercent, RoomType)
+
 
 GetMethods
 •	GetAllHotels
 •	GetHotel (params - hotelId)
 •	GetAllBookingRequest
-•	GetAllPaymentForBooking (params - BookingId)
+•	GetPaymentForBooking (params - BookingId)
 
 DeleteMethods
-•	DeleteHotel(params - hotelId, status) (softDelete)
-•	DeleteRoom(params - roomId , status) (softDelete)
+•	DeleteHotel(params - hotelId)
+•	DeleteRoom(params - roomId)
 
 
 

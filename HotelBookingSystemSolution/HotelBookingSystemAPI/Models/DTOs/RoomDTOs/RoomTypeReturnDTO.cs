@@ -3,7 +3,7 @@
     public class RoomTypeReturnDTO
     {
         public int RoomTypeId { get; set; }
-        public RoomTypes Type { get; set; }
+        public string Type { get; set; }
         public int Occupancy { get; set; }
         public double Amount { get; set; }
         public int CotsAvailable { get; set; }

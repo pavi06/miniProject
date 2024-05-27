@@ -131,7 +131,7 @@ namespace HotelBookingSystemAPI.Services
                     user.Status = updatedUSer.Status;
                     return user;
                 }
-                catch (ObjectNotAvailableException e)
+                catch (ObjectNotAvailableException)
                 {
                     throw;
                 }

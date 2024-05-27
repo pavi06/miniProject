@@ -21,9 +21,9 @@ namespace HotelBookingSystemAPI.Repositories
                 return rating;
 
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
         }
 
@@ -54,9 +54,9 @@ namespace HotelBookingSystemAPI.Repositories
                 }
                 throw new ObjectNotAvailableException("Rating");
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
 
         }

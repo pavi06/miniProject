@@ -21,9 +21,9 @@ namespace HotelBookingSystemAPI.Repositories
                 return payment;
 
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
         }
 

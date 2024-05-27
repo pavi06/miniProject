@@ -20,9 +20,9 @@ namespace HotelBookingSystemAPI.Repositories
                     await _context.SaveChangesAsync();
                     return user;
                 }
-                catch (ObjectNotAvailableException e)
+                catch (ObjectNotAvailableException)
                 {
-                    throw e;
+                    throw ;
                 }
             
         }
@@ -55,9 +55,9 @@ namespace HotelBookingSystemAPI.Repositories
                 }
                 throw new ObjectNotAvailableException("User");
             }
-            catch(ObjectNotAvailableException e)
+            catch(ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
             
         }

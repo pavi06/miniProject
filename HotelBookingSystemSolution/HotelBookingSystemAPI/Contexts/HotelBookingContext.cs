@@ -27,13 +27,6 @@ namespace HotelBookingSystemAPI.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder
-            .Entity<RoomType>()
-            .Property(rt => rt.Type)
-            .HasConversion(
-                t => t.ToString(), 
-                t => (RoomTypes)Enum.ToObject(typeof(RoomTypes), t));
-
             modelBuilder.Entity<BookedRooms>().HasKey(br => new { br.BookingId, br.RoomId });
 
             modelBuilder.Entity<HotelAvailabilityByDate>().HasKey(ha => new { ha.HotelId, ha.Date });

@@ -30,9 +30,9 @@ namespace HotelBookingSystemAPI.Repositories
                 await _context.SaveChangesAsync();
                 return roomType;
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
         }
 
@@ -65,9 +65,9 @@ namespace HotelBookingSystemAPI.Repositories
                 }
                 throw new ObjectNotAvailableException("RoomType");
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
 
         }

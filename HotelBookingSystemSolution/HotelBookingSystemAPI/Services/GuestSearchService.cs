@@ -13,8 +13,6 @@ namespace HotelBookingSystemAPI.Services
         protected readonly IRepository<int, Hotel> _hotelRepository;
         protected readonly IRepository<int, Room> _roomRepository;
         protected readonly IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate> _hotelAvailability;
-        protected List<BookDetailsDTO> bookingDetailsDTO;
-        protected SearchRoomsDTO searchRoom;
 
         public GuestSearchService(IRepository<int, Hotel> hotelRepository, IRepository<int, Room> roomRepository,IRepositoryForCompositeKey<int,DateTime, HotelAvailabilityByDate> hotelAvailabilityByDate) {
             _hotelRepository = hotelRepository;  
@@ -36,7 +34,6 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<List<AvailableRoomTypesDTO>> GetAvailableRoomTypesByHotel(SearchRoomsDTO searchRoomDTO)
         {
-            searchRoom = searchRoomDTO;
             try
             {
                 var roomTypes = _hotelRepository.Get(searchRoomDTO.HotelId).Result.RoomTypes;
@@ -44,13 +41,13 @@ namespace HotelBookingSystemAPI.Services
                 foreach (var roomType in roomTypes)
                 {
                     var roomsAvailableCount = NoOfRoomsAvailableInThatType(_roomRepository.Get().Result.Where(r => r.HotelId == searchRoomDTO.HotelId).ToList(), searchRoomDTO.CheckInDate, searchRoomDTO.CheckoutDate).Result;
-                    roomTypesDTO.Append(new AvailableRoomTypesDTO(roomType.Type, roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.CotsAvailable, roomType.Amenities, roomType.Discount));
+                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.Type, roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.CotsAvailable, roomType.Amenities, roomType.Discount));
                 }
                 return roomTypesDTO;
             }
-            catch(ObjectNotAvailableException e)
+            catch(ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
             
         }
@@ -63,7 +60,8 @@ namespace HotelBookingSystemAPI.Services
                 {
                     foreach (var hotel in hotelsAvailable)
                     {
-                        if (_hotelAvailability.Get(hotel.HotelId, hotelDTO.Date).Result.RoomsAvailableCount > 0)                        
+                    var hotelAvailability = _hotelAvailability.Get(hotel.HotelId, hotelDTO.Date).Result;
+                        if (hotelAvailability==null || hotelAvailability.RoomsAvailableCount > 0)                        
                         {
                             hotel.IsAvailable = true;
                         }
@@ -73,6 +71,7 @@ namespace HotelBookingSystemAPI.Services
                         }
                         hotels.Add(new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable));
                     }
+                    return hotels;
                 }
                 throw new ObjectsNotAvailableException("hotel");
         }

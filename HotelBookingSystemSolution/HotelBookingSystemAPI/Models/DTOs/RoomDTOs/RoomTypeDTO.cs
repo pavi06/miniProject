@@ -5,7 +5,7 @@ namespace HotelBookingSystemAPI.Models.DTOs.RoomDTOs
     public class RoomTypeDTO
     {
         [Required]
-        public RoomTypes Type { get; set; }
+        public string Type { get; set; }
         [Required]
         public int Occupancy { get; set; }
         [Required]

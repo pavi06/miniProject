@@ -2,13 +2,13 @@
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using HotelBookingSystemAPI.Models;
-using HotelBookingSystemAPI.Repositories;
-using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using HotelBookingSystemAPI.Models.DTOs;
+using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using HotelBookingSystemAPI.Repositories;
 
 namespace HotelBookingSystemAPI.Services
 {
-    public class GuestBookingService :  GuestSearchService, IGuestBookingService
+    public class GuestBookingService : IGuestBookingService
     {
         private readonly IRepository<int, RoomType> _roomTypeRepository;
         private readonly IRepository<int, Guest> _guestRepository;
@@ -16,9 +16,17 @@ namespace HotelBookingSystemAPI.Services
         private readonly IRepository<int, Booking> _bookingRepository;
         private readonly IRepositoryForCompositeKey<int, int, BookedRooms> _bookedRoomsRepository;
         private readonly IRepository<int, Rating> _ratingRepository;
+        private readonly IRepository<int, Hotel> _hotelRepository;
+        private readonly IRepository<int, Room> _roomRepository;
+        private readonly IRepositoryForCompositeKey<int,DateTime, HotelAvailabilityByDate> _hotelAvailability;
+        protected static List<BookDetailsDTO> bookingRoomsList { get; set; }
+        protected static BookingReturnDTO bookingDetails { get; set; }
 
-        public GuestBookingService(IRepository<int, Hotel> hotelRepository, IRepository<int, Room> roomRepository, IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate> hotelAvailabilityByDate,IRepository<int, RoomType> roomTypeRepository, IRepository<int, Guest> guestRepository, IRepository<int, Payment> paymentRepository, 
-            IRepository<int, Booking> bookingRepository, IRepositoryForCompositeKey<int, int, BookedRooms> bookedRoomsRepository, IRepository<int,Rating> ratingRepository):base(hotelRepository, roomRepository, hotelAvailabilityByDate) {
+
+        public GuestBookingService(IRepository<int, RoomType> roomTypeRepository, IRepository<int, Guest> guestRepository, IRepository<int, Payment> paymentRepository, 
+            IRepository<int, Booking> bookingRepository, IRepositoryForCompositeKey<int, int, BookedRooms> bookedRoomsRepository, IRepository<int,Rating> ratingRepository, 
+            IRepository<int, Hotel> hotelRepository, IRepository<int, Room> roomRepository, IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate> hotelAvailabilityByDate)
+        { 
 
             _roomTypeRepository = roomTypeRepository;
             _guestRepository = guestRepository;
@@ -26,81 +34,94 @@ namespace HotelBookingSystemAPI.Services
             _bookingRepository = bookingRepository;
             _bookedRoomsRepository = bookedRoomsRepository;
             _ratingRepository = ratingRepository;
+            _hotelRepository = hotelRepository;
+            _roomRepository = roomRepository;
+            _hotelAvailability = hotelAvailabilityByDate;
 
         }
 
 
-        public async Task<BookingReturnDTO> BookRooms(List<BookDetailsDTO> bookDetails, int loggedUserId)
+        public async Task<BookingReturnDTO> BookRooms(List<BookDetailsDTO> bookDetails, int loggedUserId, SearchRoomsDTO searchRooms)
         {
+            bookingRoomsList = bookDetails;
             try
             {
                 double finalAmount = 0.0;
                 int roomsCount = 0;
                 double totalAmount = 0.0;
                 double discountPercent = 0.0;
-                foreach (var book in bookDetails)
+                foreach (var roomtype in bookDetails)
                 {
-                    var roomType = _roomTypeRepository.Get((int)book.RoomType).Result;
-                    totalAmount += roomType.Amount * book.RoomsNeeded;
-                    roomsCount += book.RoomsNeeded;
+                    var roomType = _roomTypeRepository.Get().Result.FirstOrDefault(r=>r.Type==roomtype.RoomType);
+                    totalAmount += roomType.Amount * roomtype.RoomsNeeded;
+                    roomsCount += roomtype.RoomsNeeded;
                     discountPercent += roomType.Discount;
-                    finalAmount += (roomType.Amount - (roomType.Amount * (roomType.Discount / 100))) * book.RoomsNeeded;
+                    finalAmount += (roomType.Amount - (roomType.Amount * (roomType.Discount / 100))) * roomtype.RoomsNeeded;
                 }
                 if (_guestRepository.Get(loggedUserId).Result.bookings.Count() > 3)
                 {
                     finalAmount = finalAmount - (finalAmount * 0.05);
                     discountPercent += 5;
                 }
-                return new BookingReturnDTO(roomsCount, searchRoom.CheckInDate, searchRoom.CheckoutDate, totalAmount, discountPercent, finalAmount, finalAmount / 2);
+                bookingDetails = new  BookingReturnDTO(roomsCount, searchRooms.CheckInDate, searchRooms.CheckoutDate, totalAmount, discountPercent, finalAmount, finalAmount / 2);
+                return bookingDetails;
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
         }
 
-        public async Task<int> MakePayment(double amount)
+        public async Task<PaymentReturnDTO> MakePayment(double amount, int loggedUser, SearchRoomsDTO searchRooms)
         {
-            var payment = new Payment(amount, "InProcess - Advance Payment", "GPay");
-            return _paymentRepository.Add(payment).Result.PaymentId;
+            var payment = new Payment(amount, "InProcess - Advance Payment", "Online Payment");
+            var res = _paymentRepository.Add(payment).Result.PaymentId;
+            var bookingConfirmation = await ConfirmBooking(bookingDetails,res, loggedUser,searchRooms);
+            return new PaymentReturnDTO(bookingConfirmation.BookingId ,bookingConfirmation.BookingId> 0 ? $"Payment Successfull..\n{bookingConfirmation.Status}" : $"Payment Not Successfull\n{bookingConfirmation.Status}");
 
         }
 
-        public async Task<string> ConfirmBooking(BookingReturnDTO bookingDetails, int payId, int loggedUser)
+
+        public async Task<BookingConfirmationDTO> ConfirmBooking(BookingReturnDTO bookingDetails, int payId, int loggedUser, SearchRoomsDTO searchRooms)
         {
-            var addBooking = new Booking(loggedUser, bookingDetails.NoOfRoomsBooked, bookingDetails.FinalAmount, bookingDetails.AdvancePayment,
+            if(payId > 0)
+            {
+                var addBooking = new Booking(loggedUser, bookingDetails.NoOfRoomsBooked, bookingDetails.FinalAmount, bookingDetails.AdvancePayment,
                 bookingDetails.DiscountPercent, "Confirmed", payId);
-            var bookId = _bookingRepository.Add(addBooking).Result.BookId;
-            await UpdateHotelAvailability(bookingDetails);
-            await AllocateRooms(bookId);
-            return "Booking Confirmed";
+                var bookId = _bookingRepository.Add(addBooking).Result.BookId;
+                await UpdateHotelAvailability(bookingDetails, searchRooms);
+                await AllocateRooms(bookId, searchRooms);
+                return new BookingConfirmationDTO(bookId,"Booking Confirmed!");
+            }
+            return new BookingConfirmationDTO(-1,"Booking process Failed!");
 
         }
 
-        public async Task UpdateHotelAvailability(BookingReturnDTO bookingDetails)
+        public async Task UpdateHotelAvailability(BookingReturnDTO bookingDetails, SearchRoomsDTO searchRooms)
         {
             
             DateTime currentDate = bookingDetails.CheckInDate;
             while (currentDate <= bookingDetails.CheckOutDate)
             {
-                await _hotelAvailability.Add(new HotelAvailabilityByDate(searchRoom.HotelId, currentDate, _hotelRepository.Get(searchRoom.HotelId).Result.TotalNoOfRooms - bookingDetails.NoOfRoomsBooked));
+                await _hotelAvailability.Add(new HotelAvailabilityByDate(searchRooms.HotelId, currentDate, _hotelRepository.Get(searchRooms.HotelId).Result.TotalNoOfRooms - bookingDetails.NoOfRoomsBooked));
                 currentDate = currentDate.AddDays(1);
             }
         }
 
-        public async Task AllocateRooms(int bookId)
+        public async Task AllocateRooms(int bookId, SearchRoomsDTO searchRooms)
         {
-            foreach (var roomType in bookingDetailsDTO)
+            foreach (var roomType in bookingRoomsList)
             {
-                var rooms = _roomRepository.Get().Result.Where(r => r.HotelId == searchRoom.HotelId).Where(r => r.RoomType.Type == roomType.RoomType).ToList();
+                var rooms = _roomRepository.Get().Result.Where(r => r.HotelId == searchRooms.HotelId).Where(r => r.RoomType.Type == roomType.RoomType).ToList();
                 for (int i = 0; i < roomType.RoomsNeeded; i++)
                 {
                     foreach (var room in rooms)
                     {
-                        if (!room.roomsBooked.Any(r => (searchRoom.CheckInDate >= r.CheckInDate && searchRoom.CheckInDate < r.CheckOutDate) && (searchRoom.CheckoutDate >= r.CheckInDate && searchRoom.CheckoutDate < r.CheckOutDate)))
+                        if (!room.roomsBooked.Any(r => (searchRooms.CheckInDate >= r.CheckInDate && searchRooms.CheckInDate < r.CheckOutDate) && (searchRooms.CheckoutDate >= r.CheckInDate && searchRooms.CheckoutDate < r.CheckOutDate)))
                         {
-                            BookedRooms bkroom = new BookedRooms(room.RoomId, bookId, searchRoom.CheckInDate, searchRoom.CheckoutDate);
+                            BookedRooms bkroom = new BookedRooms(room.RoomId, bookId, searchRooms.CheckInDate, searchRooms.CheckoutDate);
                             await _bookedRoomsRepository.Add(bkroom);
+                            break;
                         }
                         else
                         {
@@ -137,9 +158,9 @@ namespace HotelBookingSystemAPI.Services
                 await _bookingRepository.Update(booking);
                 return "Booking Canceled successfully!";
             }
-            catch(ObjectNotAvailableException e)
+            catch(ObjectNotAvailableException)
             {
-                throw e;
+                throw ;
             }
         }
 
@@ -154,9 +175,9 @@ namespace HotelBookingSystemAPI.Services
                 await _hotelRepository.Update(hotel);
                 return "Thanks for your rating!";
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectNotAvailableException )
             {
-                throw e;
+                throw ;
             }
             
         }

@@ -15,7 +15,7 @@ namespace HotelBookingSystemAPI.Repositories
         public virtual async Task<T> Add(T item)
         {
             _context.Add(item);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(true);
             return item;
         }
 

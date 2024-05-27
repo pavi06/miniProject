@@ -2,7 +2,7 @@
 {
     public class BookDetailsDTO
     {
-        public RoomTypes RoomType { get; set; }
+        public string RoomType { get; set; }
         public int RoomsNeeded { get; set; }
 
     }

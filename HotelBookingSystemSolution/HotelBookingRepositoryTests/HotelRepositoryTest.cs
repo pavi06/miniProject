@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingRepositoryTests
 {
-    public class Tests
+    public class HotelRepositoryTests
     {
 
         IRepository<int, Hotel> hotelRepository;
@@ -20,6 +20,9 @@ namespace HotelBookingRepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             hotelRepository = new HotelRepository(context);
+            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            hotelRepository.Add(hotel);
+
 
         }
 
@@ -39,24 +42,24 @@ namespace HotelBookingRepositoryTests
         public void AddHotelFailTest()
         {
             //Arrange 
-            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5,  IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             //Action
             var result = hotelRepository.Add(hotel).Result;
             //Assert
-            Assert.IsNull(result);
+            Assert.AreEqual(null, result);
         }
 
-        //[Test]
-        //public void AddHotelExceptionTest()
-        //{
-        //    //Arrange 
-        //    Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, NoOfRoomsAvailable = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
-        //    //Action
-        //    var exception = Assert.Throws<ObjectAlreadyExistsException>(() => hotelRepository.Add(hotel));
-        //    //Assert
-        //    Assert.AreEqual("Hotel Already Exists!", exception.Message);
+        [Test]
+        public void AddHotelExceptionTest()
+        {
+            //Arrange 
+            Hotel hotel = new Hotel() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            //Action
+            var exception = Assert.Throws<ObjectAlreadyExistsException>(() => hotelRepository.Add(hotel));
+            //Assert
+            Assert.AreEqual("Hotel Already Exists!", exception.Message);
 
-        //}
+        }
 
         [Test]
         public void DeleteHotelSuccessTest()
@@ -80,7 +83,7 @@ namespace HotelBookingRepositoryTests
         public void DeleteHotelExceptionTest()
         {
             //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => hotelRepository.Delete(3));
+            var exception = Assert.Throws<ObjectNotAvailableException>(() => hotelRepository.Delete(2));
             //Assert
             Assert.AreEqual("Hotel Not Available!", exception.Message);
         }
@@ -89,7 +92,7 @@ namespace HotelBookingRepositoryTests
         public void GetHotelSuccessTest()
         {
             //Arrange
-            Hotel hotel = new Hotel() { Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5,IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            Hotel hotel = new Hotel() { Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
             hotelRepository.Add(hotel);
             //Action
             var result = hotelRepository.Get(2).Result;
@@ -107,7 +110,7 @@ namespace HotelBookingRepositoryTests
         }
 
         [Test]
-        public void GetHotelExceptionTest()
+        public async Task GetHotelExceptionTest()
         {
             //Action
             var exception = Assert.Throws<ObjectNotAvailableException>(() => hotelRepository.Get(3));
@@ -123,7 +126,7 @@ namespace HotelBookingRepositoryTests
             //Action
             var result = hotelRepository.Get().Result;
             //Assert
-            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual(1, result.Count());
         }
 
         [Test]
@@ -137,21 +140,19 @@ namespace HotelBookingRepositoryTests
         }
 
         [Test]
-        public void UpdateHotelSuccessTest()
+        public async Task UpdateHotelSuccessTest()
         {
-            Hotel hotel = new Hotel() { HotelId = 1, Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 9, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
-            //Action
+            Hotel hotel = await hotelRepository.Get(1);
+            hotel.Name = "XYZ Residency";
             var result = hotelRepository.Update(hotel).Result;
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void UpdateHotelExceptionTest()
+        public async Task UpdateHotelExceptionTest()
         {
-            Hotel hotel = new Hotel() { HotelId= 4, Name = "XYZ Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 9,  IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
-            //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => hotelRepository.Update(hotel));
+            var exception = Assert.Throws<ObjectNotAvailableException>(() => hotelRepository.Get(3));
             //Assert
             Assert.AreEqual("Hotel Not available!", exception.Message);
         }

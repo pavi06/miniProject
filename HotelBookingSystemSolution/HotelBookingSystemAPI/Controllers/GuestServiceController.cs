@@ -14,16 +14,15 @@ using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-    [Authorize(Roles ="User")]
+    [Authorize(Roles ="Admin,User")]
     [Route("api/[controller]")]
     [ApiController]
     public class GuestServiceController : ControllerBase
     {
         private readonly IGuestSearchService _guestService;
         private readonly IGuestBookingService _bookingService;
-        protected BookingReturnDTO bookingDetails;
-        protected SearchRoomsDTO searchRoom;
-        protected int paymentId;
+        protected static SearchRoomsDTO searchRoom { get; set; }
+        protected int paymentId { get; set; }
 
         public GuestServiceController(IGuestSearchService guestService, IGuestBookingService bookingService)
         {
@@ -31,7 +30,6 @@ namespace HotelBookingSystemAPI.Controllers
             _bookingService = bookingService;
         }
 
-        [Authorize(Roles ="Admin")]
         [HttpPost("GetHotelsByLocationAndDate")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -53,7 +51,6 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
 
-        [Authorize(Roles ="Admin")]
         [HttpPost("GetRoomsByHotel")]
         [ProducesResponseType(typeof(List<AvailableRoomTypesDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -62,7 +59,7 @@ namespace HotelBookingSystemAPI.Controllers
             searchRoom = searchRoomDTO;
             try
             {
-                TimeSpan diff = searchRoom.CheckoutDate - searchRoom.CheckInDate;
+                TimeSpan diff = searchRoomDTO.CheckoutDate - searchRoomDTO.CheckInDate;
                 if ((int)diff.TotalDays >= 8)
                 {
                     return BadRequest(new ErrorModel(404, "Cannot book for more than a week"));
@@ -89,8 +86,7 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-                BookingReturnDTO result = await _bookingService.BookRooms(bookRooms,loggedUser);
-                bookingDetails = result;
+                BookingReturnDTO result = await _bookingService.BookRooms(bookRooms,loggedUser, searchRoom);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -100,34 +96,16 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
 
-        [HttpPost("MakePayment")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [HttpPost("MakePaymentAndConfirmBooking")]
+        [ProducesResponseType(typeof(PaymentReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> MakePayment(double amount)
-        {
-            try
-            {
-                paymentId = await _bookingService.MakePayment(amount);
-                string result = paymentId >0 ? "Payment Successfull" : "Payment Not Successfull";
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ErrorModel(400, ex.Message));
-            }
-
-        }
-
-        [HttpPost("ConfirmBooking")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> ConfirmBooking(BookingReturnDTO bookingDetails,int paymentId)
+        public async Task<ActionResult<PaymentReturnDTO>> MakePayment(double amount)
         {
             try
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-                string result = await _bookingService.ConfirmBooking(bookingDetails,paymentId,loggedUser);
-                return Ok(result);
+                var payment = await _bookingService.MakePayment(amount, loggedUser,searchRoom);
+                return Ok(payment);
             }
             catch (Exception ex)
             {
@@ -135,6 +113,24 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+
+        //[HttpPost("ConfirmBooking")]
+        //[ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        //public async Task<ActionResult<string>> ConfirmBooking(int paymentId)
+        //{
+        //    try
+        //    {
+        //        var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
+        //        string result = await _bookingService.ConfirmBooking(bookingDetails,paymentId,loggedUser, searchRoom);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new ErrorModel(400, ex.Message));
+        //    }
+
+        //}
 
         [HttpPut("CancelBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]

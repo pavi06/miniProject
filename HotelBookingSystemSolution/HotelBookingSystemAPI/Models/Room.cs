@@ -17,6 +17,8 @@ namespace HotelBookingSystemAPI.Models
 
         public List<BookedRooms> roomsBooked { get; set; }
 
+        public Room() { }
+
         public Room(int typeId, int hotelId, string? images)
         {
             TypeId = typeId;

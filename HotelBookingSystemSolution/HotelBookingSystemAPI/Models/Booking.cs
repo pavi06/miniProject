@@ -9,6 +9,7 @@ namespace HotelBookingSystemAPI.Models
         public int BookId { get; set; }
         public int GuestId { get; set; }
         public Guest Guest { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public int NoOfRooms { get; set; }
         public double TotalAmount { get; set; }
         public double AdvancePayment { get; set; }

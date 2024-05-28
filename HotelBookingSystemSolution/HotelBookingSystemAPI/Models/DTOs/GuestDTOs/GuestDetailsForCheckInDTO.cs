@@ -2,8 +2,13 @@
 {
     public class GuestDetailsForCheckInDTO
     {
-        public int GuestName { get; set; }
+        public string GuestName { get; set; }
         public string GuestPhoneNumber { get; set; }
 
+        public GuestDetailsForCheckInDTO(string guestName, string guestPhoneNumber)
+        {
+            GuestName = guestName;
+            GuestPhoneNumber = guestPhoneNumber;
+        }
     }
 }

@@ -15,7 +15,7 @@ using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-    [Authorize(Roles ="Admin,User")]
+    [Authorize(Roles = "Admin,User")]
     [Route("api/[controller]")]
     [ApiController]
     public class GuestBookingController : ControllerBase
@@ -123,23 +123,6 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        //[HttpPost("ConfirmBooking")]
-        //[ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<string>> ConfirmBooking(int paymentId)
-        //{
-        //    try
-        //    {
-        //        var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-        //        string result = await _bookingService.ConfirmBooking(bookingDetails,paymentId,loggedUser, searchRoom);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ErrorModel(400, ex.Message));
-        //    }
-
-        //}
 
         [HttpPut("CancelBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -148,7 +131,8 @@ namespace HotelBookingSystemAPI.Controllers
         {
             try
             {
-                string result = await _bookingService.CancelBooking(bookingId);
+                var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
+                string result = await _bookingService.CancelBooking(bookingId, loggedUser);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -9,6 +9,7 @@
         public double DiscountPercent { get; set; }
         public double FinalAmount { get; set; }
 
+        public MyBookingDTO() { }
         public MyBookingDTO(int hotelId, int noOfRoomsBooked, DateTime bookedDate, double totalAmount, double discountPercent, double finalAmount)
         {
             HotelId = hotelId;

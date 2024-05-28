@@ -7,9 +7,9 @@ namespace HotelBookingSystemAPI.Interfaces
 {
     public interface IHotelEmployeeService
     {
-        public Task<List<GuestDetailsForCheckInDTO>> GetAllCheckInForToday();
-        public Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday();
-        public Task<List<PaymentDetailsDTO>> GetAllPaymentsForBooking(int bookingId);
+
+        public Task<List<GuestDetailsForCheckInDTO>> GetAllCheckInForToday(int loggedUserWorksFor);
+        public Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor);
 
     }
 }

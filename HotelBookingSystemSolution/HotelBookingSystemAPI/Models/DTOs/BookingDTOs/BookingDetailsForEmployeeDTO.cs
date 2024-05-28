@@ -3,14 +3,14 @@
     public class BookingDetailsForEmployeeDTO
     {
         public int BookingId { get; set; }
-        public int GuestId { get; set; }
+        public string GuestName { get; set; }
         public string PhoneNumber { get; set; }
-        public List<BookDetailsDTO> RoomsNeeded { get; set; }
+        public Dictionary<string,int> RoomsNeeded { get; set; }
 
-        public BookingDetailsForEmployeeDTO(int bookingId, int guestId, string phoneNumber, List<BookDetailsDTO> roomsNeeded)
+        public BookingDetailsForEmployeeDTO(int bookingId, string guestName, string phoneNumber, Dictionary<string,int> roomsNeeded)
         {
             BookingId = bookingId;
-            GuestId = guestId;
+            GuestName = guestName;
             PhoneNumber = phoneNumber;
             RoomsNeeded = roomsNeeded;
         }

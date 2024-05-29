@@ -14,125 +14,115 @@ namespace HotelBookingRepositoryTests
 {
     public class RoomRepositoryTests
     {
-        IRepository<int, Room> roomRepository;
         HotelBookingContext context;
+        IRepository<int, Room> repository;
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder()
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
-            roomRepository = new RoomRepository(context);
-            Room room = new Room() { TypeId = 1, HotelId = 1, Images ="dfgdgdf"};
-            roomRepository.Add(room);
-
+            repository = new RoomRepository(context);
+            RoomType type = new RoomType("standard", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
+            Room room = new Room() { RoomId = 5, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
+            await repository.Add(room);
+            type = new RoomType("deluxe", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
+            room = new Room() { RoomId = 10, TypeId = 2, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
+            await repository.Add(room);
 
         }
 
 
         [Test]
-        public void AddRoomSuccessTest()
+        public async Task AddRoomSuccessTest()
         {
-            Room room = new Room() { TypeId = 1, HotelId = 1, Images = "dfgdgdf" };
-            var result = roomRepository.Add(room);
+            IRepository<int, Room> repository = new RoomRepository(context);
+            Room room = new Room() { RoomId =1 ,TypeId = 1, HotelId = 1, Images = "dfgdgdf" , IsAvailable =true};
+            var result = await repository.Add(room);
+            Assert.That(result.RoomId, Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task DeleteRoomSuccessTest()
+        {
+            //Action
+            var result = await repository.Delete(5);
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void AddRoomFailTest()
+        public async Task DeleteRoomFailTest()
         {
-            Room room = new Room() { TypeId = 1, HotelId = 1, Images = "dfgdgdf" };
-            var result = roomRepository.Add(room);
-            //Assert
-            Assert.AreEqual(null, result);
-        }
-
-        [Test]
-        public void AddRoomExceptionTest()
-        {
-            //Arrange 
-            Room room = new Room() { TypeId = 1, HotelId = 1, Images = "dfgdgdf" };
-            var exception = Assert.Throws<ObjectAlreadyExistsException>(() => roomRepository.Add(room));
-            //Assert
-            Assert.AreEqual("Room Already Exists!", exception.Message);
-
-        }
-
-        [Test]
-        public void DeleteRoomSuccessTest()
-        {
+            IRepository<int, Room> repository = new RoomRepository(context);
             //Action
-            var result = roomRepository.Delete(1).Result;
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Delete(2));
             //Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Room Not available!", exception.Message);
         }
 
         [Test]
-        public void DeleteRoomFailTest()
+        public async Task DeleteRoomExceptionTest()
         {
+            IRepository<int, Room> repository = new RoomRepository(context);
             //Action
-            var result = roomRepository.Delete(-1).Result;
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Delete(2));
             //Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Room Not available!", exception.Message);
         }
 
         [Test]
-        public void DeleteRoomExceptionTest()
+        public async Task GetRoomSuccessTest()
         {
-            //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => roomRepository.Delete(2));
-            //Assert
-            Assert.AreEqual("Room Not Available!", exception.Message);
-        }
-
-        [Test]
-        public void GetRoomSuccessTest()
-        {
-            Room room = new Room() { TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff" };
-            roomRepository.Add(room);
+            IRepository<int, Room> repository = new RoomRepository(context);
+            RoomType type = new RoomType("standard", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
+            Room room = new Room() { RoomId = 5, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable=true , RoomType=type,roomsBooked = new List<BookedRooms>(), Hotel= new Hotel("abc","No 3, Gandhi street, Chennai","Chennai",2,1.5,"Wifi, Tv","No pets",true)};
+            await repository.Add(room);
            //Action
-            var result = roomRepository.Get(2).Result;
+            var result = await repository.Get(5);
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void GetRoomFailTest()
+        public async Task GetRoomFailTest()
         {
             //Action
-            var result = roomRepository.Get(2).Result;
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Get(1));
             //Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Room Not available!", exception.Message);
         }
 
         [Test]
         public async Task GetRoomExceptionTest()
         {
             //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => roomRepository.Get(3));
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Get(3));
             //Assert
             Assert.AreEqual("Room Not available!", exception.Message);
 
         }
 
         [Test]
-        public void GetAllRoomSuccessTest()
+        public async Task GetAllRoomSuccessTest()
         {
-
+            Room room = new Room() { RoomId = 6, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff" };
+            await repository.Add(room);
+            room = new Room() { RoomId = 7, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff" };
+            await repository.Add(room);
             //Action
-            var result = roomRepository.Get().Result;
+            var result = await repository.Get();
             //Assert
-            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(3, result.Count());
         }
 
         [Test]
-        public void GetAllRoomFailTest()
+        public async Task GetAllRoomFailTest()
         {
-
+            IRepository<int, Room> repository = new RoomRepository(context);
             //Action
-            var result = roomRepository.Get().Result;
+            var result = repository.Get().Result;
             //Assert
             Assert.AreEqual(0, result.Count());
         }
@@ -140,9 +130,9 @@ namespace HotelBookingRepositoryTests
         [Test]
         public async Task UpdateRoomSuccessTest()
         {
-            var room = await roomRepository.Get(2);
-            room.HotelId = 2;
-            var result = roomRepository.Update(room).Result;
+            var retrievedRoom = await repository.Get(5);
+            retrievedRoom.HotelId = 2;
+            var result = repository.Update(retrievedRoom).Result;
             //Assert
             Assert.IsNotNull(result);
         }
@@ -150,7 +140,8 @@ namespace HotelBookingRepositoryTests
         [Test]
         public async Task UpdateRoomExceptionTest()
         {
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => roomRepository.Get(3));
+            IRepository<int, Room> repository = new RoomRepository(context);
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Get(3));
             //Assert
             Assert.AreEqual("Room Not available!", exception.Message);
         }

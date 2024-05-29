@@ -34,10 +34,7 @@ namespace HotelBookingSystemAPI.Services
             int count = 0;
             foreach (Room room in rooms)
             {
-                if (room.roomsBooked.Any(rb => (checkinDate.Date>= rb.CheckInDate.Date && checkinDate.Date< rb.CheckOutDate.Date) && (checkoutDate.Date >= rb.CheckInDate.Date && checkoutDate.Date < rb.CheckOutDate.Date))){
-                }
-                else
-                {
+                if (!room.roomsBooked.Any(rb => (checkinDate.Date < rb.CheckOutDate.Date && checkoutDate.Date>rb.CheckInDate.Date))){
                     count++;
                 }
             }

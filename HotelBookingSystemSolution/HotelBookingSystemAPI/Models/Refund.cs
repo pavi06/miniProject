@@ -17,6 +17,8 @@ namespace HotelBookingSystemAPI.Models
 
         public double RefundAmount { get; set; }
 
+        public Refund() { }
+
         public Refund(int guestId, int bookId, double refundAmount)
         {
             GuestId = guestId;

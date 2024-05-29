@@ -32,7 +32,7 @@ namespace HotelBookingSystemAPI.Repositories
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("RoomType");
             }
         }
 
@@ -67,7 +67,7 @@ namespace HotelBookingSystemAPI.Repositories
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("RoomType");
             }
 
         }

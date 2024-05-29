@@ -15,5 +15,7 @@ namespace HotelBookingSystemAPI.Models
 
         [ForeignKey("GuestId")]
         public Guest Guest { get; set; }
+
+        public User() { }
     }
 }

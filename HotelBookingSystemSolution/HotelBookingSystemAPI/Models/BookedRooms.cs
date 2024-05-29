@@ -12,6 +12,7 @@ namespace HotelBookingSystemAPI.Models
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
 
+        public BookedRooms() { }
         public BookedRooms(int roomId, int bookingId, DateTime checkInDate, DateTime checkOutDate)
         {
             RoomId = roomId;

@@ -133,7 +133,7 @@ namespace HotelBookingSystemAPI.Services
                 {
                     foreach (var room in rooms)
                     {
-                        if (!room.roomsBooked.Any(r => (searchRooms.CheckInDate.Date >= r.CheckInDate.Date && searchRooms.CheckInDate.Date < r.CheckOutDate.Date) && (searchRooms.CheckoutDate.Date >= r.CheckInDate.Date && searchRooms.CheckoutDate.Date < r.CheckOutDate.Date)))
+                        if (!room.roomsBooked.Any(r => (searchRooms.CheckInDate.Date < r.CheckOutDate.Date && searchRooms.CheckoutDate.Date > r.CheckInDate.Date)))
                         {
                             BookedRooms bkroom = new BookedRooms(room.RoomId, bookId, searchRooms.CheckInDate, searchRooms.CheckoutDate);
                             await _bookedRoomsRepository.Add(bkroom);

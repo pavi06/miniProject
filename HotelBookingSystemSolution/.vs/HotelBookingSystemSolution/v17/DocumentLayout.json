@@ -3,44 +3,8 @@
   "WorkspaceRootPath": "C:\\MiniProject\\HotelBookingSystemSolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\bookingrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\bookingrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\repositories\\abstractrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\repositories\\abstractrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\refundrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\refundrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\hotelavailabilityrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\hotelavailabilityrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\paymentrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\paymentrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\ratingrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\ratingrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\userrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\userrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\bookedroomsrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\bookedroomsrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingrepositorytests\\employeerepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{301A3649-7658-4E0F-A775-4E5C41972F09}|HotelBookingRepositoryTests\\HotelBookingRepositoryTests.csproj|solutionrelative:hotelbookingrepositorytests\\employeerepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -59,123 +23,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Room.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\Room.cs",
-              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\Room.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\Room.cs",
-              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\Room.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAuwBMAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:27:34.796Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BookingRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\BookingRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\BookingRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\BookingRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\BookingRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:24:29.797Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "HotelAvailabilityRepositoryTests.cs",
               "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\HotelAvailabilityRepositoryTests.cs",
               "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\HotelAvailabilityRepositoryTests.cs",
               "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\HotelAvailabilityRepositoryTests.cs",
               "RelativeToolTip": "HotelBookingRepositoryTests\\HotelAvailabilityRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAEUAAAAAAAAAAAAIwFMAAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:23:42.459Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PaymentRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\PaymentRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\PaymentRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\PaymentRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\PaymentRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:23:18.567Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RatingRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\RatingRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\RatingRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\RatingRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\RatingRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:22:28.332Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RefundRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\RefundRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\RefundRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\RefundRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\RefundRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:22:08.928Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UserRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\UserRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\UserRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\UserRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\UserRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:21:33.898Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "BookedRoomsRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\BookedRoomsRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\BookedRoomsRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\BookedRoomsRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\BookedRoomsRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:21:04.011Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "EmployeeRepositoryTests.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\EmployeeRepositoryTests.cs",
-              "RelativeDocumentMoniker": "HotelBookingRepositoryTests\\EmployeeRepositoryTests.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingRepositoryTests\\EmployeeRepositoryTests.cs",
-              "RelativeToolTip": "HotelBookingRepositoryTests\\EmployeeRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:20:40.508Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AbstractRepository.cs",
-              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Repositories\\AbstractRepository.cs",
-              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Repositories\\AbstractRepository.cs",
-              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Repositories\\AbstractRepository.cs",
-              "RelativeToolTip": "HotelBookingSystemAPI\\Repositories\\AbstractRepository.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAA5wBMAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T11:01:39.57Z"
+              "WhenOpened": "2024-05-29T11:23:42.459Z",
+              "EditorCaption": ""
             }
           ]
         }

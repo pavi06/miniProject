@@ -29,7 +29,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<Rating> Get(int key)
         {
-            var rating = await _context.Ratings.SingleOrDefaultAsync(h => h.HotelId == key);
+            var rating = await _context.Ratings.SingleOrDefaultAsync(h => h.RatingId == key);
             if (rating == null)
                 throw new ObjectNotAvailableException("Rating");
             return rating;
@@ -46,7 +46,7 @@ namespace HotelBookingSystemAPI.Repositories
         {
             try
             {
-                if (await Get(item.HotelId) != null)
+                if (await Get(item.RatingId) != null)
                 {
                     _context.Entry<Rating>(item).State = EntityState.Modified;
                     await _context.SaveChangesAsync();

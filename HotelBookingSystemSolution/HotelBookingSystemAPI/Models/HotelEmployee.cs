@@ -19,6 +19,7 @@ namespace HotelBookingSystemAPI.Models
         public byte[] PasswordHashKey { get; set; }
         public string Status { get; set; }
 
+        public HotelEmployee() { }
         public HotelEmployee(int hotelId, string name, string email, string phoneNumber, string address)
         {
             HotelId = hotelId;

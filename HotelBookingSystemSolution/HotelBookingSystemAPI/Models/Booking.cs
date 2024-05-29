@@ -24,6 +24,7 @@ namespace HotelBookingSystemAPI.Models
 
         public List<Payment> Payments { get; set; }
 
+        public Booking() { }
         public Booking(int guestId, int noOfRooms, double totalAmount, double advancePayment, double discount, string bookingStatus, int? paymentId, int hotelId)
         {
             GuestId = guestId;

@@ -130,7 +130,11 @@ namespace HotelBookingRepositoryTests
         [Test]
         public async Task UpdateRoomSuccessTest()
         {
-            var retrievedRoom = await repository.Get(5);
+            IRepository<int, Room> repository = new RoomRepository(context);
+            RoomType type = new RoomType("standard", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
+            Room room = new Room() { RoomId = 12, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
+            //Action
+            var retrievedRoom = await repository.Add(room);
             retrievedRoom.HotelId = 2;
             var result = repository.Update(retrievedRoom).Result;
             //Assert

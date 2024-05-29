@@ -14,6 +14,7 @@ namespace HotelBookingSystemAPI.Models
         public string PaymentMode { get; set; } 
         public DateTime PaymentDate { get; set; } = DateTime.Now;
 
+        public Payment() { }
         public Payment(double amountPaid, string paymentStatus, string paymentMode)
         {
             AmountPaid = amountPaid;

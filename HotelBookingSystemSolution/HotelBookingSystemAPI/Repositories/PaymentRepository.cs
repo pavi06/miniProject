@@ -42,9 +42,22 @@ namespace HotelBookingSystemAPI.Repositories
 
         }
 
-        public override Task<Payment> Update(Payment item)
+        public override async Task<Payment> Update(Payment item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (await Get(item.PaymentId) != null)
+                {
+                    _context.Entry<Payment>(item).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return item;
+                }
+                throw new ObjectNotAvailableException("Payment");
+            }
+            catch (ObjectNotAvailableException)
+            {
+                throw;
+            }
         }
     }
 }

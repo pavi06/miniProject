@@ -18,6 +18,7 @@ namespace HotelBookingSystemAPI.Models
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
 
+        public RoomType() { }
         public RoomType(string type, int occupancy, string images, double amount, int cotsAvailable, string amenities, double discount, int hotelId)
         {
             Type = type;

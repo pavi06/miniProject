@@ -28,6 +28,28 @@ namespace HotelBookingSystemAPI.Controllers
             _employeeRepository = employeeRepository;
         }
 
+        [AllowAnonymous]
+        [HttpPost("EmployeeLogin")]
+        [ProducesResponseType(typeof(UserLoginReturnDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserLoginReturnDTO>> Login(UserLoginDTO empDTO)
+        {
+            try
+            {
+                var employee = await _userService.EmployeeLogin(empDTO);
+                return Ok(employee);
+            }
+            catch (ObjectAlreadyExistsException e)
+            {
+                return BadRequest(new ErrorModel(400, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+        }
+
+        [AllowAnonymous]
         [HttpPost("RegisterEmployee")]
         [ProducesResponseType(typeof(EmployeeRegisterReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
@@ -37,6 +59,10 @@ namespace HotelBookingSystemAPI.Controllers
             {
                 var employee = await _userService.RegisterEmployee(empDTO);
                 return Ok(employee);
+            }
+            catch (ObjectAlreadyExistsException e)
+            {
+                return BadRequest(new ErrorModel(400,e.Message));
             }
             catch (Exception ex)
             {

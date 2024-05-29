@@ -74,27 +74,33 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<HotelReturnDTO> UpdateHotelAttribute(UpdateHotelDTO updateHotelDTO)
         {
-            var hotel = await _hotelRepository.Get(updateHotelDTO.HotelId);
-            switch (updateHotelDTO.AttributeName.ToLower())
-            {
-                case "amenities":
-                    hotel.Amenities = updateHotelDTO.AttributeValue;
-                    break;
-                case "restrictions":
-                    hotel.Restrictions = updateHotelDTO.AttributeValue;
-                    break;
-                case "totalnoofrooms":
-                    hotel.TotalNoOfRooms = Convert.ToInt32(updateHotelDTO.AttributeValue);
-                    break;
-                case "name":
-                    hotel.Name = updateHotelDTO.AttributeValue;
-                    break;
-                default:
-                    throw new Exception("No such attribute available!");
+            try{
+                var hotel = await _hotelRepository.Get(updateHotelDTO.HotelId);
+                switch (updateHotelDTO.AttributeName.ToLower())
+                {
+                    case "amenities":
+                        hotel.Amenities = updateHotelDTO.AttributeValue;
+                        break;
+                    case "restrictions":
+                        hotel.Restrictions = updateHotelDTO.AttributeValue;
+                        break;
+                    case "totalnoofrooms":
+                        hotel.TotalNoOfRooms = Convert.ToInt32(updateHotelDTO.AttributeValue);
+                        break;
+                    case "name":
+                        hotel.Name = updateHotelDTO.AttributeValue;
+                        break;
+                    default:
+                        throw new Exception("No such attribute available!");
+                }
+                var updatedHotel = await _hotelRepository.Update(hotel);
+                return new HotelReturnDTO(updatedHotel.HotelId, updatedHotel.Name, updatedHotel.Address, updatedHotel.City,
+                    updatedHotel.Rating, updatedHotel.Amenities, updatedHotel.Restrictions, updatedHotel.IsAvailable);
             }
-            var updatedHotel = await _hotelRepository.Update(hotel);
-            return new HotelReturnDTO(updatedHotel.HotelId, updatedHotel.Name, updatedHotel.Address, updatedHotel.City,
-                updatedHotel.Rating, string.Join(",", updatedHotel.Amenities), string.Join(",", updatedHotel.Restrictions), updatedHotel.IsAvailable); 
+            catch (ObjectsNotAvailableException)
+            {
+                throw new ObjectNotAvailableException("Hotel");
+            }
         }
 
         public async Task<string> UpdateHotelAvailabilityService(UpdateHotelStatusDTO statusDTO)
@@ -108,7 +114,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectNotAvailableException)
             {
-                throw;
+                throw new ObjectNotAvailableException("Hotel");
             }
 
         }

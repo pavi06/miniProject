@@ -5,14 +5,14 @@
         public int BookingId { get; set; }
         public string GuestName { get; set; }
         public string PhoneNumber { get; set; }
-        public Dictionary<string,int> RoomsNeeded { get; set; }
+        public Dictionary<string,int> RoomsBooked { get; set; }
 
-        public BookingDetailsForEmployeeDTO(int bookingId, string guestName, string phoneNumber, Dictionary<string,int> roomsNeeded)
+        public BookingDetailsForEmployeeDTO(int bookingId, string guestName, string phoneNumber, Dictionary<string,int> rooms)
         {
             BookingId = bookingId;
             GuestName = guestName;
             PhoneNumber = phoneNumber;
-            RoomsNeeded = roomsNeeded;
+            RoomsBooked = rooms;
         }
     }
 }

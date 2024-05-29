@@ -25,27 +25,27 @@ namespace HotelBookingSystemAPI.Repositories
         {
             try
             {
-                var hotelAvailability = await Get(key1, key2);
-                _context.Entry<BookedRooms>(hotelAvailability).State = EntityState.Deleted;
-                await _context.SaveChangesAsync();
-                return hotelAvailability;
+                var bookedRoom = await Get(key1, key2);
+                _context.BookedRooms.Remove(bookedRoom);
+                await _context.SaveChangesAsync(true);
+                return bookedRoom;
 
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("HotelAvailability");
             }
         }
 
         public async Task<BookedRooms> Get(int key1, int key2)
         {
-            var bookedRoom = await _context.BookedRooms.Include(br=>br.Room).SingleOrDefaultAsync(h => h.BookingId == key1 && h.RoomId == key2);
+            var bookedRoom = await _context.BookedRooms.Include(br=>br.Room).Include(br => br.Booking).SingleOrDefaultAsync(h => h.RoomId == key1 && h.BookingId == key2);
             return bookedRoom;
         }
 
         public async Task<IEnumerable<BookedRooms>> Get()
         {
-            var bookedRooms = await _context.BookedRooms.Include(br => br.Room).ToListAsync();
+            var bookedRooms = await _context.BookedRooms.Include(br => br.Room).Include(br => br.Booking).ToListAsync();
             return bookedRooms;
         }
 

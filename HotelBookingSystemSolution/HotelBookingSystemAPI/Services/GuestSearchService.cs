@@ -5,6 +5,7 @@ using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using HotelBookingSystemAPI.Repositories;
 using System.Linq;
 
 namespace HotelBookingSystemAPI.Services
@@ -14,16 +15,18 @@ namespace HotelBookingSystemAPI.Services
         protected readonly IRepository<int, Hotel> _hotelRepository;
         protected readonly IRepository<int, Guest> _guestRepository;
         protected readonly IRepository<int, Room> _roomRepository;
+        protected readonly IRepository<int, Booking> _bookingRepository;
         protected readonly IRepository<int, RoomType> _roomTypeRepository;
         protected readonly IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate> _hotelAvailability;
 
         public GuestSearchService(IRepository<int, Hotel> hotelRepository, IRepository<int, Room> roomRepository,IRepositoryForCompositeKey<int,DateTime, HotelAvailabilityByDate> hotelAvailabilityByDate,
-            IRepository<int,RoomType> roomTypeRepository,  IRepository<int, Guest> guestRepository) {
+            IRepository<int,RoomType> roomTypeRepository,  IRepository<int, Guest> guestRepository, IRepository<int,Booking> bookingRepository) {
             _hotelRepository = hotelRepository;  
             _roomRepository = roomRepository;
             _hotelAvailability = hotelAvailabilityByDate;
             _roomTypeRepository = roomTypeRepository;
             _guestRepository = guestRepository;
+            _bookingRepository = bookingRepository;
         }
 
         public async Task<int> NoOfRoomsAvailableInThatType(List<Room> rooms, DateTime checkinDate, DateTime checkoutDate)
@@ -31,7 +34,10 @@ namespace HotelBookingSystemAPI.Services
             int count = 0;
             foreach (Room room in rooms)
             {
-                if (!room.roomsBooked.Any(rb => (checkinDate>= rb.CheckInDate && checkinDate< rb.CheckOutDate) && (checkoutDate >= rb.CheckInDate && checkoutDate < rb.CheckOutDate))){
+                if (room.roomsBooked.Any(rb => (checkinDate.Date>= rb.CheckInDate.Date && checkinDate.Date< rb.CheckOutDate.Date) && (checkoutDate.Date >= rb.CheckInDate.Date && checkoutDate.Date < rb.CheckOutDate.Date))){
+                }
+                else
+                {
                     count++;
                 }
             }
@@ -96,13 +102,13 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<List<HotelRecommendationDTO>> HotelRecommendations(int loggedUser)
         {
-            var booking = _guestRepository.Get(loggedUser).Result.bookings;
+            var booking = _bookingRepository.Get().Result.Where(b=>b.GuestId == loggedUser).ToList();
             if(booking.Count > 0)
             {
                 var hotels = booking.Select(b => b.HotelId).Distinct().ToList();
                 //recommended based on previously booked preferences roomtype, hotel
-                var roomTypes = booking.SelectMany(b => b.RoomsBooked.Select(r => r.Room.RoomType.Type)).Distinct().ToList();
-                var roomsForRecomm = _roomTypeRepository.Get().Result.Where(r => roomTypes.Contains(r.Type) && r.Discount >= 5 && hotels.Contains(r.HotelId)).ToList();
+                var roomTypes = booking.SelectMany(b => b.RoomsBooked.Select(r => _roomRepository.Get(r.RoomId).Result.RoomType.Type)).Distinct().ToList();
+                var roomsForRecomm = _roomTypeRepository.Get().Result.Where(r => roomTypes.Contains(r.Type) && r.Discount >= 3.5 && hotels.Contains(r.HotelId)).ToList();
                 List<HotelRecommendationDTO> rooms = roomsForRecomm.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
                 return rooms;
 

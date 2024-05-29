@@ -38,7 +38,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<RoomType> Get(int key)
         {
-            var roomType = await _context.RoomTypes.SingleOrDefaultAsync(r => r.RoomTypeId == key);
+            var roomType = await _context.RoomTypes.Include(h=>h.Hotel).SingleOrDefaultAsync(r => r.RoomTypeId == key);
             if (roomType != null)
             {
                 return roomType;
@@ -48,7 +48,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<IEnumerable<RoomType>> Get()
         {
-            var roomTypes = await _context.RoomTypes.ToListAsync();
+            var roomTypes = await _context.RoomTypes.Include(h => h.Hotel).ToListAsync();
             return roomTypes;
 
         }

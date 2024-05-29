@@ -10,14 +10,12 @@ namespace HotelBookingSystemAPI.Services
 {
     public class HotelEmployeeService : IHotelEmployeeService
     {
-        private readonly IRepository<int, Hotel> _hotelRepository;
         private readonly IRepository<int, Guest> _guestRepository;
         private readonly IRepository<int, Room> _roomRepository;
         private readonly IRepository<int, Booking> _bookingRepository;        
 
-        public HotelEmployeeService(IRepository<int,Hotel> hotelRepository, IRepository<int, Guest> guestRepository, IRepository<int, Room> roomRepository,
+        public HotelEmployeeService(IRepository<int, Guest> guestRepository, IRepository<int, Room> roomRepository,
             IRepository<int,Booking> bookingRepository) {
-            _hotelRepository = hotelRepository;
             _guestRepository = guestRepository;
             _roomRepository = roomRepository;
             _bookingRepository = bookingRepository;
@@ -26,25 +24,16 @@ namespace HotelBookingSystemAPI.Services
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor)
         {
             //get all bookings for that hotel
-            var bookings = _hotelRepository.Get(loggedUserWorksFor).Result.bookingsForHotel.Where(b=>b.Date == DateTime.Now);
+            var bookings = _bookingRepository.Get().Result.Where(b=> b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date);
             var todayBookingRequests = new List<BookingDetailsForEmployeeDTO>();
             foreach(var booking in bookings)
             {
                 var guest = await _guestRepository.Get(booking.GuestId);
                 //mapping roomtype and count 
-                Dictionary<string, int> roomTypeAndCount = new Dictionary<string, int>();
-                foreach(var room in booking.RoomsBooked)
-                {
-                    var key = _roomRepository.Get(room.RoomId).Result.RoomType.Type;
-                    if (roomTypeAndCount.ContainsKey(key))
-                    {
-                        roomTypeAndCount[key] += 1;
-                    }
-                    else
-                    {
-                        roomTypeAndCount.Add(key, 1);
-                    }
-                }
+                var roomTypeAndCount = booking.RoomsBooked
+                    .Select(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type)
+                    .GroupBy(type => type)
+                    .ToDictionary(g => g.Key, g => g.Count());
                 todayBookingRequests.Add(new BookingDetailsForEmployeeDTO(booking.BookId, guest.Name, guest.PhoneNumber, roomTypeAndCount));
             }
             return todayBookingRequests;

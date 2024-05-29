@@ -5,6 +5,7 @@ using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using HotelBookingSystemAPI.Repositories;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -80,27 +81,33 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<RoomTypeReturnDTO> UpdateRoomTypeByAttribute(UpdateRoomTypeDTO updateDTO)
         {
-            var roomType = await _roomTypeRepository.Get(updateDTO.RoomTypeId);
-            switch (updateDTO.AttributeName.ToLower())
+            try
             {
-                case "amount":
-                    roomType.Amount = Convert.ToDouble(updateDTO.AttributeValue);
-                    break;
-                case "amenities":
-                    roomType.Amenities = updateDTO.AttributeValue;
-                    break;
-                case "discount":
-                    roomType.Discount = Convert.ToDouble(updateDTO.AttributeValue);
-                    break;
-                default:
-                    return null;
+                var roomType = await _roomTypeRepository.Get(updateDTO.RoomTypeId);
+                switch (updateDTO.AttributeName.ToLower())
+                {
+                    case "amount":
+                        roomType.Amount = Convert.ToDouble(updateDTO.AttributeValue);
+                        break;
+                    case "amenities":
+                        roomType.Amenities = updateDTO.AttributeValue;
+                        break;
+                    case "discount":
+                        roomType.Discount = Convert.ToDouble(updateDTO.AttributeValue);
+                        break;
+                    default:
+                        throw new Exception("No such attribute available!");
+                }
+                var updatedRoomType = await _roomTypeRepository.Update(roomType);
+                return new RoomTypeReturnDTO(updatedRoomType.RoomTypeId, updatedRoomType.Type, updatedRoomType.Occupancy, updatedRoomType.Images, updatedRoomType.Amount, updatedRoomType.CotsAvailable,
+                    updatedRoomType.Amenities, updatedRoomType.Discount, updatedRoomType.HotelId);
             }
-            var updatedRoomType = await _roomTypeRepository.Update(roomType);
-            return new RoomTypeReturnDTO(updatedRoomType.RoomTypeId,updatedRoomType.Type,updatedRoomType.Occupancy, string.Join(",",updatedRoomType.Images),updatedRoomType.Amount,updatedRoomType.CotsAvailable,
-                string.Join(",",updatedRoomType.Amenities),updatedRoomType.Discount,updatedRoomType.HotelId);
+            catch (ObjectsNotAvailableException)
+            {
+                throw new ObjectNotAvailableException("RoomType");
+            }
+            
         }
-
-
 
     }
 }

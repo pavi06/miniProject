@@ -66,7 +66,7 @@ namespace HotelBookingSystemAPI.Services
                     finalAmount = finalAmount - (finalAmount * 0.05);
                     discountPercent += 5;
                 }
-                bookingDetails = new BookingReturnDTO(searchRooms.HotelId, bookDetails.Sum(roomtype => roomtype.RoomsNeeded), searchRooms.CheckInDate, searchRooms.CheckoutDate, totalAmount, discountPercent, finalAmount, finalAmount / 2);
+                bookingDetails = new BookingReturnDTO(searchRooms.HotelId, _hotelRepository.Get(searchRooms.HotelId).Result.Name,bookDetails.Sum(roomtype => roomtype.RoomsNeeded), searchRooms.CheckInDate.Date, searchRooms.CheckoutDate.Date, Math.Round(totalAmount,2), Math.Round(discountPercent,2), Math.Round(finalAmount, 2), Math.Round(finalAmount / 2,2));
                 return bookingDetails;
             }
             catch (ObjectNotAvailableException)
@@ -80,7 +80,7 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 Payment payment = null; 
-                if(amount == bookingDetails.TotalAmount)
+                if(amount == bookingDetails.FinalAmount)
                     payment = new Payment(amount, "Successful - Full Payment Done", "Online Payment");
                 else
                     payment = new Payment(amount, "InProcess - Advance Payment", "Online Payment");
@@ -118,7 +118,7 @@ namespace HotelBookingSystemAPI.Services
             DateTime currentDate = bookingDetails.CheckInDate;
             while (currentDate <= bookingDetails.CheckOutDate)
             {
-                await _hotelAvailability.Add(new HotelAvailabilityByDate(searchRooms.HotelId, currentDate, _hotelRepository.Get(searchRooms.HotelId).Result.TotalNoOfRooms - bookingDetails.NoOfRoomsBooked - _roomRepository.Get().Result.Count(r=>r.IsAvailable == false)));
+                await _hotelAvailability.Add(new HotelAvailabilityByDate(searchRooms.HotelId, currentDate, _hotelRepository.Get(searchRooms.HotelId).Result.TotalNoOfRooms - bookingDetails.NoOfRoomsBooked - _roomRepository.Get().Result.Count(r=>r.IsAvailable == false && r.HotelId == searchRooms.HotelId)));
                 currentDate = currentDate.AddDays(1);
             }
         }
@@ -133,7 +133,7 @@ namespace HotelBookingSystemAPI.Services
                 {
                     foreach (var room in rooms)
                     {
-                        if (!room.roomsBooked.Any(r => (searchRooms.CheckInDate >= r.CheckInDate && searchRooms.CheckInDate < r.CheckOutDate) && (searchRooms.CheckoutDate >= r.CheckInDate && searchRooms.CheckoutDate < r.CheckOutDate)))
+                        if (!room.roomsBooked.Any(r => (searchRooms.CheckInDate.Date >= r.CheckInDate.Date && searchRooms.CheckInDate.Date < r.CheckOutDate.Date) && (searchRooms.CheckoutDate.Date >= r.CheckInDate.Date && searchRooms.CheckoutDate.Date < r.CheckOutDate.Date)))
                         {
                             BookedRooms bkroom = new BookedRooms(room.RoomId, bookId, searchRooms.CheckInDate, searchRooms.CheckoutDate);
                             await _bookedRoomsRepository.Add(bkroom);
@@ -158,39 +158,36 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var booking = await _bookingRepository.Get(bookId);
-                var checkInDate = DateTime.MinValue;
-                if (booking.RoomsBooked[0].CheckInDate == DateTime.Now)
+                var checkInDate = booking.RoomsBooked[0].CheckInDate.Date;
+                var checkOutDate = booking.RoomsBooked[0].CheckOutDate.Date;
+                if (booking.RoomsBooked[0].CheckInDate.Date == DateTime.Now.Date)
                 {
-                    checkInDate = booking.RoomsBooked[0].CheckInDate;
                     return "You cannot cancel today!";
                 }
-                foreach (var bookedRoom in booking.RoomsBooked)
-                {
-                    //deleting the booked rooms and updating the hotel rooms availability counttry
+                    //deleting the booked rooms and updating the hotel rooms availability count
                     try
                     {
-                        await _bookedRoomsRepository.Delete(bookedRoom.RoomId, bookedRoom.BookingId);
+                        booking.RoomsBooked.Select(async s=> await _bookedRoomsRepository.Delete(s.RoomId, s.BookingId));
                     }
                     catch (ObjectNotAvailableException)
                     {
                         throw new ObjectNotAvailableException("BookedRoom");
                     }
-                    DateTime currentDate = bookedRoom.CheckInDate;
+                    DateTime currentDate = checkInDate;
                     try
                     {
-                        while (currentDate <= bookedRoom.CheckOutDate)
+                        while (currentDate <= checkOutDate)
                         {
-                            var res = await _hotelAvailability.Get(bookedRoom.Room.HotelId, currentDate);
+                            var res = await _hotelAvailability.Get(booking.HotelId, currentDate);
                             res.RoomsAvailableCount += 1;
                             await _hotelAvailability.Update(res);
+                            currentDate = currentDate.AddDays(1);
                         }
                     }
                     catch (ObjectNotAvailableException)
                     {
                         throw new Exception("Room is not booked on that day");
                     }
-
-                }
                 //updating the status of booking
                 booking.BookingStatus = "Cancelled";
                 await _bookingRepository.Update(booking);
@@ -218,39 +215,45 @@ namespace HotelBookingSystemAPI.Services
             List<MyBookingDTO> myBookings = bookings.Select(b => new MyBookingDTO
             {
                 HotelId = b.HotelId,
+                HotelName = _hotelRepository.Get(b.HotelId).Result.Name,
                 NoOfRoomsBooked = b.NoOfRooms,
-                BookedDate = b.Date,
-                TotalAmount = b.TotalAmount,
-                DiscountPercent = b.Discount,
-                FinalAmount = b.TotalAmount - (b.Discount / 100 * b.HotelId)
+                BookedDate = b.Date.Date,
+                TotalAmount = Math.Round(b.TotalAmount,2),
+                DiscountPercent = Math.Round(b.Discount,2),
+                FinalAmount = Math.Round(b.TotalAmount - ((b.Discount / 100) * b.HotelId),2)
             }).ToList();
             return myBookings;
         }
 
         public async Task<string> ModifyBooking(int loggedUser, int bookingId, List<CancelRoomDTO> cancelRoom)
         {
-            if(cancelRoom.Sum(r=>r.NoOfRoomsToCancel) == _bookingRepository.Get(bookingId).Result.RoomsBooked.Count())
+            var bookedRooms = _bookingRepository.Get(bookingId).Result.RoomsBooked;
+            if (bookedRooms[0].CheckInDate.Date == DateTime.Now.Date)
+            {
+                return "Cannot modify booking now!";
+            }
+            if(cancelRoom.Sum(r=>r.NoOfRoomsToCancel) == bookedRooms.Count())
             {
                 return "Cannot Modify instead proceed with cancel booking!";
             }
             try
             {
-                var roomsBooked = _bookedRoomsRepository.Get().Result.Where(br => br.BookingId == bookingId).ToList();
                 var totalAmount = 0.0;
                 foreach (var room in cancelRoom)
                 {
-                    var res = roomsBooked.Where(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type == room.RoomType).Take(room.NoOfRoomsToCancel).ToList();
+                    var res = bookedRooms.Where(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type == room.RoomType).Take(room.NoOfRoomsToCancel).ToList();
                     totalAmount += _roomRepository.Get(res[0].RoomId).Result.RoomType.Amount * room.NoOfRoomsToCancel;
-                    foreach (var r in res)
-                    {
-                        _bookedRoomsRepository.Delete(r.RoomId, r.BookingId);
-                    }
-                    DateTime currentDate = roomsBooked[0].CheckInDate;
-                    while (currentDate <= roomsBooked[0].CheckOutDate)
+                    DateTime currentDate = bookedRooms[0].CheckInDate;
+                    while (currentDate <= bookedRooms[0].CheckOutDate)
                     {
                         var hotelAvailability = _hotelAvailability.Get(_bookingRepository.Get(bookingId).Result.HotelId, currentDate).Result;
                         hotelAvailability.RoomsAvailableCount += res.Count();
-                        currentDate.AddDays(1);
+                        await _hotelAvailability.Update(hotelAvailability);
+                        currentDate = currentDate.AddDays(1);
+                    }
+                    foreach (var r in res)
+                    {
+                        await _bookedRoomsRepository.Delete(r.RoomId, r.BookingId);
                     }
 
                 }

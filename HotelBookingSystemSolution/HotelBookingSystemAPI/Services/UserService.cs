@@ -27,7 +27,7 @@ namespace HotelBookingSystemAPI.Services
         #region Login
         public async Task<UserLoginReturnDTO> Login(UserLoginDTO loginDTO)
         {
-            var guest = _guestRepo.Get().Result.SingleOrDefault(g => g.Email == loginDTO.Email);
+            var guest = _guestRepo.Get().Result.SingleOrDefault(g => g.Email.ToLower() == loginDTO.Email.ToLower());
             var userDB = await _userRepo.Get(guest.GuestId);
             if (userDB == null)
             {
@@ -148,50 +148,60 @@ namespace HotelBookingSystemAPI.Services
 
 
         #region EmployeeRegister
-        public async Task<EmployeeRegisterReturnDTO> EmployeeRegister(RegisterEmployeeDTO empDTO)
+        public async Task<EmployeeRegisterReturnDTO> RegisterEmployee(RegisterEmployeeDTO empDTO)
         {
             HotelEmployee employee = null;
-            User user = null;
             try
             {
                 employee = new HotelEmployee(empDTO.HotelId,empDTO.Name,empDTO.Email,empDTO.PhoneNumber,empDTO.Address);
-                user = MapEmployeeDTOToUser(empDTO);
+                employee.Status = "Disabled";
+                HMACSHA512 hMACSHA = new HMACSHA512();
+                employee.PasswordHashKey = hMACSHA.Key;
+                employee.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(empDTO.Password));
                 employee = await _empRepo.Add(employee);
-                user.GuestId = employee.EmpId;
-                user = await _userRepo.Add(user);
                 EmployeeRegisterReturnDTO addedEmployee = new EmployeeRegisterReturnDTO(employee.Name, employee.Email, employee.Address, employee.PhoneNumber, employee.Role);
                 return addedEmployee;
             }
-            catch (Exception) { }
-            if (employee != null)
-                await RevertEmployeeInsert(employee);
-            if (user != null && employee == null)
-                await RevertEmployeeUserInsert(user);
+            catch (Exception) {
+               
+            }
             throw new UnableToRegisterException();
         }
 
-        private async Task RevertEmployeeUserInsert(User user)
+        #endregion
+
+        #region EmployeeLogin
+        public async Task<UserLoginReturnDTO> EmployeeLogin(UserLoginDTO loginDTO)
         {
-            await _userRepo.Delete(user.GuestId);
+            var emp = _empRepo.Get().Result.SingleOrDefault(g => g.Email.ToLower() == loginDTO.Email.ToLower());
+            if (emp == null)
+            {
+                throw new UnauthorizedUserException();
+            }
+            HMACSHA512 hMACSHA = new HMACSHA512(emp.PasswordHashKey);
+            var encrypterPass = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
+            bool isPasswordSame = ComparePassword(encrypterPass, emp.Password);
+            if (isPasswordSame)
+            {
+                if (emp.Status == "Active")
+                {
+                    UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(emp);
+                    return loginReturnDTO;
+                }
+
+                throw new UserNotActiveException();
+            }
+            throw new UnauthorizedUserException();
         }
 
-        private async Task RevertEmployeeInsert(HotelEmployee emp)
+        private UserLoginReturnDTO MapGuestToLoginReturn(HotelEmployee emp)
         {
-
-            await _empRepo.Delete(emp.EmpId);
+            UserLoginReturnDTO returnDTO = new UserLoginReturnDTO();
+            returnDTO.UserName = emp.Name;
+            returnDTO.Role = emp.Role ?? "User";
+            returnDTO.Token = _tokenService.GenerateTokenForEmployee(emp);
+            return returnDTO;
         }
-
-        private User MapEmployeeDTOToUser(RegisterEmployeeDTO employeeDTO)
-        {
-            User user = new User();
-            user.Status = "Disabled";
-            HMACSHA512 hMACSHA = new HMACSHA512();
-            user.PasswordHashKey = hMACSHA.Key;
-            user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(employeeDTO.Password));
-            //user.RefreshToken = _tokenService.GenerateRefreshToken();
-            //user.ExpiresOn = DateTime.Now.AddDays(1);
-            return user;
-        }
-        #endregion 
+        #endregion
     }
 }

@@ -38,6 +38,7 @@ namespace HotelBookingSystemAPI.Contexts
                 .HasIndex(e => e.Email)
                 .IsUnique();
 
+
             modelBuilder.Entity<BookedRooms>().HasKey(br => new { br.BookingId, br.RoomId });
 
             modelBuilder.Entity<HotelAvailabilityByDate>().HasKey(ha => new { ha.HotelId, ha.Date });

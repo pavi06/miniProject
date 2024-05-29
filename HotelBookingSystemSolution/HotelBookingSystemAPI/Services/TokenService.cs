@@ -42,5 +42,19 @@ namespace HotelBookingSystemAPI.Services
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
             return token;
         }
+
+        public string GenerateTokenForEmployee(HotelEmployee emp)
+        {
+            string token = string.Empty;
+            var claims = new List<Claim>(){
+                new Claim("UserId", emp.EmpId.ToString()),
+                new Claim("Email", emp.Email),
+                new Claim("Role",emp.Role)
+            };
+            var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
+            token = new JwtSecurityTokenHandler().WriteToken(myToken);
+            return token;
+        }
     }
 }

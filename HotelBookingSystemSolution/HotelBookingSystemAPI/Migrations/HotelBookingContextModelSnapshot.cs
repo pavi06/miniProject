@@ -88,44 +88,6 @@ namespace HotelBookingSystemAPI.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("HotelBookingSystemAPI.Models.DTOs.HotelEmployee", b =>
-                {
-                    b.Property<int>("EmpId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpId"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EmpId");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("Employees");
-                });
-
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Guest", b =>
                 {
                     b.Property<int>("GuestId")
@@ -140,7 +102,7 @@ namespace HotelBookingSystemAPI.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -155,6 +117,9 @@ namespace HotelBookingSystemAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("GuestId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Guests");
                 });
@@ -215,6 +180,47 @@ namespace HotelBookingSystemAPI.Migrations
                     b.HasKey("HotelId", "Date");
 
                     b.ToTable("HotelAvailabilityByDates");
+                });
+
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelEmployee", b =>
+                {
+                    b.Property<int>("EmpId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpId"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmpId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Payment", b =>
@@ -346,6 +352,7 @@ namespace HotelBookingSystemAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"), 1L, 1);
 
                     b.Property<string>("Amenities")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Amount")
@@ -359,6 +366,10 @@ namespace HotelBookingSystemAPI.Migrations
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Images")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Occupancy")
                         .HasColumnType("int");
@@ -432,20 +443,20 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotelBookingSystemAPI.Models.DTOs.HotelEmployee", b =>
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelAvailabilityByDate", b =>
                 {
                     b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
-                        .WithMany("employees")
+                        .WithMany("hotelAvailabilityByDates")
                         .HasForeignKey("HotelId")
                         .IsRequired();
 
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelAvailabilityByDate", b =>
+            modelBuilder.Entity("HotelBookingSystemAPI.Models.HotelEmployee", b =>
                 {
                     b.HasOne("HotelBookingSystemAPI.Models.Hotel", "Hotel")
-                        .WithMany("hotelAvailabilityByDates")
+                        .WithMany("employees")
                         .HasForeignKey("HotelId")
                         .IsRequired();
 

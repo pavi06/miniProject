@@ -5,19 +5,25 @@ using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using System.Linq;
 
 namespace HotelBookingSystemAPI.Services
 {
     public class GuestSearchService : IGuestSearchService
     {
         protected readonly IRepository<int, Hotel> _hotelRepository;
+        protected readonly IRepository<int, Guest> _guestRepository;
         protected readonly IRepository<int, Room> _roomRepository;
+        protected readonly IRepository<int, RoomType> _roomTypeRepository;
         protected readonly IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate> _hotelAvailability;
 
-        public GuestSearchService(IRepository<int, Hotel> hotelRepository, IRepository<int, Room> roomRepository,IRepositoryForCompositeKey<int,DateTime, HotelAvailabilityByDate> hotelAvailabilityByDate) {
+        public GuestSearchService(IRepository<int, Hotel> hotelRepository, IRepository<int, Room> roomRepository,IRepositoryForCompositeKey<int,DateTime, HotelAvailabilityByDate> hotelAvailabilityByDate,
+            IRepository<int,RoomType> roomTypeRepository,  IRepository<int, Guest> guestRepository) {
             _hotelRepository = hotelRepository;  
             _roomRepository = roomRepository;
             _hotelAvailability = hotelAvailabilityByDate;
+            _roomTypeRepository = roomTypeRepository;
+            _guestRepository = guestRepository;
         }
 
         public async Task<int> NoOfRoomsAvailableInThatType(List<Room> rooms, DateTime checkinDate, DateTime checkoutDate)
@@ -40,8 +46,8 @@ namespace HotelBookingSystemAPI.Services
                 var roomTypesDTO = new List<AvailableRoomTypesDTO>();
                 foreach (var roomType in roomTypes)
                 {
-                    var roomsAvailableCount = NoOfRoomsAvailableInThatType(_roomRepository.Get().Result.Where(r => r.HotelId == searchRoomDTO.HotelId).ToList(), searchRoomDTO.CheckInDate, searchRoomDTO.CheckoutDate).Result;
-                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.Type, roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.CotsAvailable, roomType.Amenities, roomType.Discount));
+                    var roomsAvailableCount = NoOfRoomsAvailableInThatType(_roomRepository.Get().Result.Where(r => r.HotelId == searchRoomDTO.HotelId && r.RoomType.Type == roomType.Type && r.IsAvailable == true).ToList(), searchRoomDTO.CheckInDate, searchRoomDTO.CheckoutDate).Result;
+                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.Type,roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.Discount));
                 }
                 return roomTypesDTO;
             }
@@ -54,26 +60,20 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<List<HotelReturnDTO>> GetHotelsByLocationAndDate(SearchHotelDTO hotelDTO)
         {
-            var hotels = new List<HotelReturnDTO>();
-                var hotelsAvailable = _hotelRepository.Get().Result.Where(h => h.City == hotelDTO.Location);
-                if (hotelsAvailable.Count() > 0)
+
+            var hotelsAvailable = _hotelRepository.Get().Result.Where(h => h.City.ToLower() == hotelDTO.Location.ToLower());
+            if (hotelsAvailable.Count() > 0)
+            {
+                List<HotelReturnDTO> hotels = hotelsAvailable.Select(hotel =>
                 {
-                    foreach (var hotel in hotelsAvailable)
-                    {
                     var hotelAvailability = _hotelAvailability.Get(hotel.HotelId, hotelDTO.Date).Result;
-                        if (hotelAvailability==null || hotelAvailability.RoomsAvailableCount > 0)                        
-                        {
-                            hotel.IsAvailable = true;
-                        }
-                        else
-                        {
-                            hotel.IsAvailable = false;
-                        }
-                        hotels.Add(new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable));
-                    }
-                    return hotels;
-                }
-                throw new ObjectsNotAvailableException("hotel");
+                    hotel.IsAvailable = hotelAvailability == null || hotelAvailability.RoomsAvailableCount > 0;
+                    return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
+
+                }).ToList();
+                return hotels;
+            }
+            throw new ObjectsNotAvailableException("hotel");
         }
 
         public async Task<List<HotelReturnDTO>> GetHotelsByRatings(SearchHotelDTO hotelDTO)
@@ -82,5 +82,35 @@ namespace HotelBookingSystemAPI.Services
             return hotels.OrderBy(h => h.Rating).ToList();
         }
 
+        public async Task<List<HotelReturnDTO>> GetHotelsByFeatures(List<string> features,SearchHotelDTO hotelDTO)
+        {
+            var hotels = await GetHotelsByLocationAndDate(hotelDTO);
+            return  hotels.Where(hotel => features.All(feature => hotel.Amenities.Contains(feature))).ToList();
+        }
+
+        public async Task<RoomTypeDescriptionDTO> GetDetailedDescriptionOfRoomType(int hotelId, string roomType)
+        {
+            var roomTypeRetrieved = _roomTypeRepository.Get().Result.FirstOrDefault(rt => rt.Type == roomType && rt.HotelId == hotelId);
+            return new RoomTypeDescriptionDTO(roomType, roomTypeRetrieved.Images, roomTypeRetrieved.Occupancy, roomTypeRetrieved.CotsAvailable, roomTypeRetrieved.Amenities);
+        }
+
+        public async Task<List<HotelRecommendationDTO>> HotelRecommendations(int loggedUser)
+        {
+            var booking = _guestRepository.Get(loggedUser).Result.bookings;
+            if(booking.Count > 0)
+            {
+                var hotels = booking.Select(b => b.HotelId).Distinct().ToList();
+                //recommended based on previously booked preferences roomtype, hotel
+                var roomTypes = booking.SelectMany(b => b.RoomsBooked.Select(r => r.Room.RoomType.Type)).Distinct().ToList();
+                var roomsForRecomm = _roomTypeRepository.Get().Result.Where(r => roomTypes.Contains(r.Type) && r.Discount >= 5 && hotels.Contains(r.HotelId)).ToList();
+                List<HotelRecommendationDTO> rooms = roomsForRecomm.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
+                return rooms;
+
+            }
+            //for first time user , the rooms with discount is recommended
+            var roomsForRecommForFirstTimeUser = _roomTypeRepository.Get().Result.Where(r => r.Discount >= 5).ToList();
+            List<HotelRecommendationDTO> roomsRecommended = roomsForRecommForFirstTimeUser.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
+            return roomsRecommended;
+        }
     }
 }

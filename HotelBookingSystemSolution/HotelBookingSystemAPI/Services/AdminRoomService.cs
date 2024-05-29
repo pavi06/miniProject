@@ -33,10 +33,12 @@ namespace HotelBookingSystemAPI.Services
         {
             try
             {
-                var roomType = new RoomType(roomTypeDTO.Type,roomTypeDTO.Occupancy,roomTypeDTO.Amount, roomTypeDTO.CotsAvailable, 
-                    roomTypeDTO.Amenities,roomTypeDTO.Discount, roomTypeDTO.HotelId);
+                var roomType = new RoomType(roomTypeDTO.Type,roomTypeDTO.Occupancy,roomTypeDTO.Images,roomTypeDTO.Amount, roomTypeDTO.CotsAvailable, 
+                    roomTypeDTO.Amenities, roomTypeDTO.Discount, roomTypeDTO.HotelId);
+
                 var addedRoomType = await _roomTypeRepository.Add(roomType);
-                return new RoomTypeReturnDTO(addedRoomType.RoomTypeId, addedRoomType.Occupancy, addedRoomType.Amount,  addedRoomType.CotsAvailable, addedRoomType.Amenities,
+
+                return new RoomTypeReturnDTO(addedRoomType.RoomTypeId, addedRoomType.Type,addedRoomType.Occupancy, addedRoomType.Images,addedRoomType.Amount,  addedRoomType.CotsAvailable, addedRoomType.Amenities,
                     addedRoomType.Discount,addedRoomType.HotelId);
             }
             catch (ObjectAlreadyExistsException)
@@ -94,8 +96,8 @@ namespace HotelBookingSystemAPI.Services
                     return null;
             }
             var updatedRoomType = await _roomTypeRepository.Update(roomType);
-            return new RoomTypeReturnDTO(updatedRoomType.RoomTypeId,updatedRoomType.Occupancy,updatedRoomType.Amount,updatedRoomType.CotsAvailable,
-                updatedRoomType.Amenities,updatedRoomType.Discount,updatedRoomType.HotelId);
+            return new RoomTypeReturnDTO(updatedRoomType.RoomTypeId,updatedRoomType.Type,updatedRoomType.Occupancy, string.Join(",",updatedRoomType.Images),updatedRoomType.Amount,updatedRoomType.CotsAvailable,
+                string.Join(",",updatedRoomType.Amenities),updatedRoomType.Discount,updatedRoomType.HotelId);
         }
 
 

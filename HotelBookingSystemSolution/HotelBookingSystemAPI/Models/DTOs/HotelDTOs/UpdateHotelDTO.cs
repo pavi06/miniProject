@@ -6,6 +6,7 @@
         public string AttributeName { get; set; }
         public string AttributeValue { get; set; }
 
+        public UpdateHotelDTO() { }
         public UpdateHotelDTO(int id, string attributeName, string attributeValue)
         {
             HotelId = id;

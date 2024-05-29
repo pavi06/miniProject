@@ -4,6 +4,7 @@ using HotelBookingSystemAPI.Models;
 using System.Security.Cryptography;
 using System.Text;
 using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
+using HotelBookingSystemAPI.Models.DTOs.EmployeeDTOs;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -12,19 +13,22 @@ namespace HotelBookingSystemAPI.Services
 
         private readonly IRepository<int, User> _userRepo;
         private readonly IRepository<int, Guest> _guestRepo;
+        private readonly IRepository<int, HotelEmployee> _empRepo;
         private readonly ITokenService _tokenService;
 
-        public UserService(IRepository<int, User> userRepo, IRepository<int, Guest> guestRepo, ITokenService tokenService)
+        public UserService(IRepository<int, User> userRepo, IRepository<int, Guest> guestRepo, ITokenService tokenService, IRepository<int, HotelEmployee> empRepo)
         {
             _userRepo = userRepo;
             _guestRepo = guestRepo;
             _tokenService = tokenService;
+            _empRepo = empRepo;
         }
 
         #region Login
         public async Task<UserLoginReturnDTO> Login(UserLoginDTO loginDTO)
         {
-            var userDB = await _userRepo.Get(loginDTO.UserId);
+            var guest = _guestRepo.Get().Result.SingleOrDefault(g => g.Email == loginDTO.Email);
+            var userDB = await _userRepo.Get(guest.GuestId);
             if (userDB == null)
             {
                 throw new UnauthorizedUserException();
@@ -34,7 +38,6 @@ namespace HotelBookingSystemAPI.Services
             bool isPasswordSame = ComparePassword(encrypterPass, userDB.Password);
             if (isPasswordSame)
             {
-                var guest = await _guestRepo.Get(loginDTO.UserId);
                 if (userDB.Status == "Active")
                 {
                     UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(guest);
@@ -49,7 +52,7 @@ namespace HotelBookingSystemAPI.Services
         private UserLoginReturnDTO MapGuestToLoginReturn(Guest guest)
         {
             UserLoginReturnDTO returnDTO = new UserLoginReturnDTO();
-            returnDTO.UserId = guest.GuestId;
+            returnDTO.UserName = guest.Name;
             returnDTO.Role = guest.Role ?? "User";
             returnDTO.Token = _tokenService.GenerateToken(guest);
             return returnDTO;
@@ -82,7 +85,7 @@ namespace HotelBookingSystemAPI.Services
                 guest = await _guestRepo.Add(guest);
                 user.GuestId = guest.GuestId;
                 user = await _userRepo.Add(user);
-                GuestReturnDTO addedGuest = new GuestReturnDTO(guest.GuestId, guest.Name, guest.Email, guest.Address, guest.PhoneNumber, guest.Role);
+                GuestReturnDTO addedGuest = new GuestReturnDTO(guest.Name, guest.Email, guest.Address, guest.PhoneNumber, guest.Role);
                 return addedGuest;
             }
             catch (Exception) { }
@@ -111,6 +114,8 @@ namespace HotelBookingSystemAPI.Services
             HMACSHA512 hMACSHA = new HMACSHA512();
             user.PasswordHashKey = hMACSHA.Key;
             user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(guestDTO.Password));
+            //user.RefreshToken = _tokenService.GenerateRefreshToken();
+            //user.ExpiresOn = DateTime.Now.AddDays(1);
             return user;
         }
         #endregion 
@@ -133,12 +138,60 @@ namespace HotelBookingSystemAPI.Services
                 }
                 catch (ObjectNotAvailableException)
                 {
-                    throw;
+                    throw new ObjectNotAvailableException("User");
                 }
             }
             throw new ObjectNotAvailableException("User");
 
         }
         #endregion
+
+
+        #region EmployeeRegister
+        public async Task<EmployeeRegisterReturnDTO> EmployeeRegister(RegisterEmployeeDTO empDTO)
+        {
+            HotelEmployee employee = null;
+            User user = null;
+            try
+            {
+                employee = new HotelEmployee(empDTO.HotelId,empDTO.Name,empDTO.Email,empDTO.PhoneNumber,empDTO.Address);
+                user = MapEmployeeDTOToUser(empDTO);
+                employee = await _empRepo.Add(employee);
+                user.GuestId = employee.EmpId;
+                user = await _userRepo.Add(user);
+                EmployeeRegisterReturnDTO addedEmployee = new EmployeeRegisterReturnDTO(employee.Name, employee.Email, employee.Address, employee.PhoneNumber, employee.Role);
+                return addedEmployee;
+            }
+            catch (Exception) { }
+            if (employee != null)
+                await RevertEmployeeInsert(employee);
+            if (user != null && employee == null)
+                await RevertEmployeeUserInsert(user);
+            throw new UnableToRegisterException();
+        }
+
+        private async Task RevertEmployeeUserInsert(User user)
+        {
+            await _userRepo.Delete(user.GuestId);
+        }
+
+        private async Task RevertEmployeeInsert(HotelEmployee emp)
+        {
+
+            await _empRepo.Delete(emp.EmpId);
+        }
+
+        private User MapEmployeeDTOToUser(RegisterEmployeeDTO employeeDTO)
+        {
+            User user = new User();
+            user.Status = "Disabled";
+            HMACSHA512 hMACSHA = new HMACSHA512();
+            user.PasswordHashKey = hMACSHA.Key;
+            user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(employeeDTO.Password));
+            //user.RefreshToken = _tokenService.GenerateRefreshToken();
+            //user.ExpiresOn = DateTime.Now.AddDays(1);
+            return user;
+        }
+        #endregion 
     }
 }

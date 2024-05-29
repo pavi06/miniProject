@@ -13,5 +13,14 @@ namespace HotelBookingSystemAPI.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string Role { get; set; } = "HotelEmployee";
+
+        public HotelEmployee(int hotelId, string name, string email, string phoneNumber, string address)
+        {
+            HotelId = hotelId;
+            Name = name;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Address = address;
+        }
     }
 }

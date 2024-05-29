@@ -8,21 +8,40 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using System.Security.Claims;
+using HotelBookingSystemAPI.Models.DTOs.EmployeeDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-    //[Authorize (Roles = "HotelEmployee")]
+    [Authorize(Roles = "HotelEmployee")]
     [Route("api/[controller]")]
     [ApiController]
     public class HotelEmployeeController : ControllerBase
     {
         private readonly IHotelEmployeeService _employeeService;
+        private readonly IUserService _userService;
         private readonly IRepository<int, HotelEmployee> _employeeRepository;
 
-        public HotelEmployeeController(IHotelEmployeeService employeeService, IRepository<int,HotelEmployee> employeeRepository)
+        public HotelEmployeeController(IHotelEmployeeService employeeService, IRepository<int,HotelEmployee> employeeRepository, IUserService userService)
         {
             _employeeService = employeeService; 
+            _userService = userService;
             _employeeRepository = employeeRepository;
+        }
+
+        [HttpPost("RegisterEmployee")]
+        [ProducesResponseType(typeof(EmployeeRegisterReturnDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<EmployeeRegisterReturnDTO>> Register(RegisterEmployeeDTO empDTO)
+        {
+            try
+            {
+                var employee = await _userService.RegisterEmployee(empDTO);
+                return Ok(employee);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
         }
 
         [HttpGet("GetAllBookingRequestRaisedToday")]

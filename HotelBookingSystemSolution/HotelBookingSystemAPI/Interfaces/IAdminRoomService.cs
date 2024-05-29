@@ -11,5 +11,6 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<ReturnRoomDTO> UpdateRoomStatusForHotel(int roomId);
         public Task<RoomTypeReturnDTO> UpdateRoomTypeByAttribute(UpdateRoomTypeDTO updateDTO);
         public Task<bool> UpdateRoomImages(int roomId, string imageUrls);
+
     }
 }

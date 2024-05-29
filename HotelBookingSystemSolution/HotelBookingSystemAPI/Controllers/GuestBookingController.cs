@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
+using HotelBookingSystemAPI.Services;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -20,15 +21,15 @@ namespace HotelBookingSystemAPI.Controllers
     [ApiController]
     public class GuestBookingController : ControllerBase
     {
-        private readonly IGuestSearchService _guestService;
+        private readonly IGuestSearchService _guestSearchService;
         private readonly IGuestBookingService _bookingService;
         protected static SearchRoomsDTO searchRoom { get; set; }
-        protected int paymentId { get; set; }
+        protected static SearchHotelDTO searchHotel { get; set; }
 
-        public GuestBookingController(IGuestSearchService guestService, IGuestBookingService bookingService)
+        public GuestBookingController(IGuestSearchService guestService,IGuestBookingService bookingService )
         {
-            _guestService = guestService;
             _bookingService = bookingService;
+            _guestSearchService = guestService;
         }
 
         #region GetHotels
@@ -37,12 +38,13 @@ namespace HotelBookingSystemAPI.Controllers
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<HotelReturnDTO>>> GetHotels(SearchHotelDTO searchHotelDTO)
         {
+            searchHotel = searchHotelDTO;
             try
             {
-                List<HotelReturnDTO> result = await _guestService.GetHotelsByLocationAndDate(searchHotelDTO);
+                List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByLocationAndDate(searchHotelDTO);
                 return Ok(result);
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectsNotAvailableException e)
             {
                 return NotFound(new ErrorModel(404, e.Message));
             }
@@ -53,6 +55,55 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
         #endregion
+
+
+        #region GetHotelsByRating
+        [HttpGet("GetHotelsByRating")]
+        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotelsByRanking()
+        {
+            try
+            {
+                List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByRatings(searchHotel);
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+
+        #region GetHotelsByCertainFeatures
+        [HttpPost("GetHotelsByFeatures")]
+        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotelsByFeature(List<string> features)
+        {
+            try
+            {
+                List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByFeatures(features,searchHotel);
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
 
         #region getRoomsAvailableInThatHotel
         [HttpPost("GetRoomsByHotel")]
@@ -68,7 +119,7 @@ namespace HotelBookingSystemAPI.Controllers
                 {
                     return BadRequest(new ErrorModel(404, "Cannot book for more than a week"));
                 }
-                List<AvailableRoomTypesDTO> result = await _guestService.GetAvailableRoomTypesByHotel(searchRoomDTO);
+                List<AvailableRoomTypesDTO> result = await _guestSearchService.GetAvailableRoomTypesByHotel(searchRoomDTO);
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
@@ -83,6 +134,31 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+
+        #region GetDetailsOfRoomType
+        [HttpPost("GetDetailsOfRoomType")]
+        [ProducesResponseType(typeof(RoomTypeDescriptionDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<RoomTypeDescriptionDTO>> GetDetailsOfRoom(string roomType)
+        {
+            try
+            {
+                var result = await _guestSearchService.GetDetailedDescriptionOfRoomType(searchRoom.HotelId,roomType);
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+
         #region RequestRoomsNeeded
         [HttpPost("BookRooms")]
         [ProducesResponseType(typeof(BookingReturnDTO), StatusCodes.Status200OK)]
@@ -92,7 +168,7 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-                BookingReturnDTO result = await _bookingService.BookRooms(bookRooms,loggedUser, searchRoom);
+                BookingReturnDTO result = await _bookingService.BookRooms(bookRooms, loggedUser, searchRoom);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -103,6 +179,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+
         #region MakePaymentAndConfirmBooking
         [HttpPost("MakePaymentAndConfirmBooking")]
         [ProducesResponseType(typeof(PaymentReturnDTO), StatusCodes.Status200OK)]
@@ -112,7 +189,7 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-                var payment = await _bookingService.MakePayment(amount, loggedUser,searchRoom);
+                var payment = await _bookingService.MakePayment(amount, loggedUser, searchRoom);
                 return Ok(payment);
             }
             catch (Exception ex)
@@ -124,6 +201,7 @@ namespace HotelBookingSystemAPI.Controllers
         #endregion
 
 
+        #region CancelBooking
         [HttpPut("CancelBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -141,8 +219,35 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+        #endregion
 
 
+        #region ModifyBooking
+        [HttpPut("ModifyBooking")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<string>> ModifyBooking(int bookingId, List<CancelRoomDTO> cancelRoomDTO)
+        {
+            try
+            {
+                var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
+                string result = await _bookingService.ModifyBooking(loggedUser, bookingId,cancelRoomDTO);
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+
+        #region GetMyBookings
         [HttpGet("GetMyBookings")]
         [ProducesResponseType(typeof(List<MyBookingDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -164,7 +269,31 @@ namespace HotelBookingSystemAPI.Controllers
             }
 
         }
+        #endregion
 
+        #region GetRecommandedHotel
+        [HttpGet("GetRecommandation")]
+        [ProducesResponseType(typeof(List<HotelRecommendationDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<HotelRecommendationDTO>>> GetRecommandedHotels()
+        {
+            try
+            {
+                var loggedInUser = Convert.ToInt32(User.FindFirstValue("UserId"));
+                var result = await _guestSearchService.HotelRecommendations(loggedInUser);
+                if (result.Count > 0)
+                {
+                    return Ok(result);
+                }
+                return NotFound(new ErrorModel(404, "No Hotels are recommanded"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
 
     }
 }

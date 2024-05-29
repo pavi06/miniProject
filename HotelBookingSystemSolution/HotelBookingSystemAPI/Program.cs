@@ -77,6 +77,7 @@ namespace HotelBookingSystemAPI
 
             #region Repositories
             builder.Services.AddScoped<IRepository<int, Guest>, GuestRepository>();
+            builder.Services.AddScoped<IRepository<int, Guest>, GuestBookingsRepository>();
             builder.Services.AddScoped<IRepository<int, Hotel>, HotelRepository>();
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
             builder.Services.AddScoped<IRepository<int, Room>, RoomRepository>();

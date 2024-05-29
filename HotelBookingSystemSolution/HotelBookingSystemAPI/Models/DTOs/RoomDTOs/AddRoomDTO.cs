@@ -5,11 +5,10 @@ namespace HotelBookingSystemAPI.Models.DTOs.RoomDTOs
 {
     public class AddRoomDTO
     {
-        [Required]
+        [Required(ErrorMessage = "Value cannot be null")]
         public int TypeId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Value cannot be null")]
         public int HotelId { get; set; }
-        [Required]
         public string? Images { get; set; }
     }
 }

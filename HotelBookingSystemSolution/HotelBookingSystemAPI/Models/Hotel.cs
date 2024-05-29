@@ -13,7 +13,7 @@ namespace HotelBookingSystemAPI.Models
         public double Rating { get; set; } = 0;
         public string Amenities { get; set; }
         public string Restrictions { get; set; }
-        public bool IsAvailable { get; set; }
+        public bool IsAvailable { get; set; } 
 
         #region NavigationProperties
         public List<Room> Rooms { get; set; } 
@@ -38,14 +38,5 @@ namespace HotelBookingSystemAPI.Models
             IsAvailable = isAvailable;
         }
 
-        public Hotel(string name, string address, string city, int totalNoOfRooms, string amenities, string restrictions)
-        {
-            Name = name;
-            Address = address;
-            City = city;
-            TotalNoOfRooms = totalNoOfRooms;
-            Amenities = amenities;
-            Restrictions = restrictions;
-        }
     }
 }

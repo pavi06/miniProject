@@ -10,7 +10,7 @@ using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminHotelController : ControllerBase
@@ -43,13 +43,13 @@ namespace HotelBookingSystemAPI.Controllers
         }
 
         [HttpPut("UpdateHotelAvailabilityStatus")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<bool>> UpdateHotelStatus([FromBody] UpdateHotelStatusDTO updateHotelStatusDTO)
+        public async Task<ActionResult<string>> UpdateHotelStatus([FromBody] UpdateHotelStatusDTO updateHotelStatusDTO)
         {
             try
             {
-                bool result = await _hotelService.UpdateHotelAvailabilityService(updateHotelStatusDTO);
+                var result = await _hotelService.UpdateHotelAvailabilityService(updateHotelStatusDTO);
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)

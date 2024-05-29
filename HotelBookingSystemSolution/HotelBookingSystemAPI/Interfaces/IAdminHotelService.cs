@@ -7,7 +7,7 @@ namespace HotelBookingSystemAPI.Interfaces
     public interface IAdminHotelService
     {
         public Task<HotelReturnDTO> RegisterHotel(HotelRegisterDTO hotelDTO);
-        public Task<bool> UpdateHotelAvailabilityService(UpdateHotelStatusDTO updateHotelStatusDTO);
+        public Task<string> UpdateHotelAvailabilityService(UpdateHotelStatusDTO updateHotelStatusDTO);
         public Task<HotelReturnDTO> UpdateHotelAttribute(UpdateHotelDTO updateHotelDTO);
         public Task<List<HotelReturnDTO>> GetAllHotels();
         public Task<HotelReturnDTO> GetHotelById(int hotelId);

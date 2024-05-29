@@ -8,7 +8,7 @@ using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminBasicController : ControllerBase

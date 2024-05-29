@@ -29,7 +29,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<Booking> Get(int key)
         {
-            var booking = await _context.Bookings.SingleOrDefaultAsync(b => b.BookId == key);
+            var booking = await _context.Bookings.Include(br => br.RoomsBooked).SingleOrDefaultAsync(b => b.BookId == key);
             if (booking == null)
                 throw new ObjectNotAvailableException("Booking");
             return booking;
@@ -37,7 +37,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<IEnumerable<Booking>> Get()
         {
-            var bookings = await _context.Bookings.ToListAsync();
+            var bookings = await _context.Bookings.Include(br => br.RoomsBooked).ToListAsync();
             return bookings;
 
         }

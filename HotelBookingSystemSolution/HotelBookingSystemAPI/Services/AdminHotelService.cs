@@ -21,7 +21,7 @@ namespace HotelBookingSystemAPI.Services
             {
                 foreach(var hotel in await _hotelRepository.Get())
                 {
-                    hotels.Append(new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable));
+                    hotels.Append(new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, string.Join(",", hotel.Amenities), string.Join(",", hotel.Restrictions), hotel.IsAvailable));
                 }
                 return hotels;
             }
@@ -33,7 +33,7 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var hotel = await _hotelRepository.Get(hotelId);
-                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
+                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, string.Join(",", hotel.Amenities), string.Join(",", hotel.Restrictions), hotel.IsAvailable);
             }
             catch (ObjectNotAvailableException)
             {
@@ -45,8 +45,8 @@ namespace HotelBookingSystemAPI.Services
         {
             try
             {
-                var hotel = new Hotel(hotelDTO.Name, hotelDTO.Address, hotelDTO.City, hotelDTO.TotalNoOfRooms,
-                 hotelDTO.Amenities, hotelDTO.Restrictions);
+                var hotel = new Hotel(hotelDTO.Name, hotelDTO.Address, hotelDTO.City, hotelDTO.TotalNoOfRooms,0,
+                 hotelDTO.Amenities, hotelDTO.Restrictions, true);
                 var addedHotel = await _hotelRepository.Add(hotel);
                 return new HotelReturnDTO(addedHotel.HotelId, addedHotel.Name, addedHotel.Address, addedHotel.City, 
                      addedHotel.Rating, addedHotel.Amenities, addedHotel.Restrictions, addedHotel.IsAvailable);
@@ -63,7 +63,7 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var hotel = await _hotelRepository.Delete(hotelId);
-                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City,   hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
+                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City,   hotel.Rating, string.Join(",", hotel.Amenities), string.Join(",", hotel.Restrictions), hotel.IsAvailable);
             }
             catch (ObjectNotAvailableException)
             {
@@ -90,21 +90,21 @@ namespace HotelBookingSystemAPI.Services
                     hotel.Name = updateHotelDTO.AttributeValue;
                     break;
                 default:
-                    return null;
+                    throw new Exception("No such attribute available!");
             }
             var updatedHotel = await _hotelRepository.Update(hotel);
             return new HotelReturnDTO(updatedHotel.HotelId, updatedHotel.Name, updatedHotel.Address, updatedHotel.City,
-                updatedHotel.Rating, updatedHotel.Amenities, updatedHotel.Restrictions, updatedHotel.IsAvailable); 
+                updatedHotel.Rating, string.Join(",", updatedHotel.Amenities), string.Join(",", updatedHotel.Restrictions), updatedHotel.IsAvailable); 
         }
 
-        public async Task<bool> UpdateHotelAvailabilityService(UpdateHotelStatusDTO statusDTO)
+        public async Task<string> UpdateHotelAvailabilityService(UpdateHotelStatusDTO statusDTO)
         {
             try
             {
                 var hotel = await _hotelRepository.Get(statusDTO.HotelId);
                 hotel.IsAvailable = statusDTO.Status;
                 await _hotelRepository.Update(hotel);
-                return true;
+                return "Status updated successfully";
             }
             catch (ObjectNotAvailableException)
             {

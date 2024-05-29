@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-    [Authorize(Roles ="User")]
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class GuestRatingController : ControllerBase

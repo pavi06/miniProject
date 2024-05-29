@@ -13,25 +13,25 @@ namespace HotelBookingSystemAPI.Services
         private readonly IRepository<int, Hotel> _hotelRepository;
         private readonly IRepository<int, Guest> _guestRepository;
         private readonly IRepository<int, Room> _roomRepository;
-        private readonly IRepository<int, Booking> _bookingRepository;
-        private readonly IRepositoryForCompositeKey<int, DateTime, BookedRooms> _bookedRoomsRepository;
+        private readonly IRepository<int, Booking> _bookingRepository;        
 
         public HotelEmployeeService(IRepository<int,Hotel> hotelRepository, IRepository<int, Guest> guestRepository, IRepository<int, Room> roomRepository,
-            IRepositoryForCompositeKey<int,DateTime,BookedRooms> bookedRoomsRepository, IRepository<int,Booking> bookingRepository) {
+            IRepository<int,Booking> bookingRepository) {
             _hotelRepository = hotelRepository;
             _guestRepository = guestRepository;
             _roomRepository = roomRepository;
-            _bookedRoomsRepository = bookedRoomsRepository;
             _bookingRepository = bookingRepository;
         }
 
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor)
         {
+            //get all bookings for that hotel
             var bookings = _hotelRepository.Get(loggedUserWorksFor).Result.bookingsForHotel.Where(b=>b.Date == DateTime.Now);
             var todayBookingRequests = new List<BookingDetailsForEmployeeDTO>();
             foreach(var booking in bookings)
             {
                 var guest = await _guestRepository.Get(booking.GuestId);
+                //mapping roomtype and count 
                 Dictionary<string, int> roomTypeAndCount = new Dictionary<string, int>();
                 foreach(var room in booking.RoomsBooked)
                 {

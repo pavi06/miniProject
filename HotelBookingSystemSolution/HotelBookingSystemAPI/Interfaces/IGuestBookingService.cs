@@ -55,5 +55,14 @@ namespace HotelBookingSystemAPI.Interfaces
         /// <returns></returns>
         public Task<List<MyBookingDTO>> GetMyBookings(int loggedUserId);
 
+
+        /// <summary>
+        /// To cancel a room from the booked rooms
+        /// </summary>
+        /// <param name="bookingId">bookingid</param>
+        /// <param name="cancelRoom">dto with roomtype and no of rooms to cancel</param>
+        /// <returns>returns a string stating the cancellation is successful or not </returns>
+        public Task<string> ModifyBooking(int loggedUser, int bookingId, List<CancelRoomDTO> cancelRoom);
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using HotelBookingSystemAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Options;
 using System.Reflection.Metadata;
 
 namespace HotelBookingSystemAPI.Contexts
@@ -12,6 +14,7 @@ namespace HotelBookingSystemAPI.Contexts
         }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<HotelEmployee> Employees { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
@@ -20,13 +23,20 @@ namespace HotelBookingSystemAPI.Contexts
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Refund> Refunds { get; set; }
-        public DbSet<HotelAvailabilityByDate> HotelAvailabilityByDates { get; set; }
-        public DbSet<HotelEmployee> Employees { get; set; }
+        public DbSet<HotelAvailabilityByDate> HotelAvailabilityByDates { get; set; }      
 
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Guest>()
+                .HasIndex(g => g.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<HotelEmployee>()
+                .HasIndex(e => e.Email)
+                .IsUnique();
 
             modelBuilder.Entity<BookedRooms>().HasKey(br => new { br.BookingId, br.RoomId });
 

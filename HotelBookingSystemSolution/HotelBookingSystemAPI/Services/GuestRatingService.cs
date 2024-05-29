@@ -20,8 +20,10 @@ namespace HotelBookingSystemAPI.Services
         {
             try
             {
-                if(await _ratingRepository.Delete(rateId) != null)
+                var ratingProvided = await _ratingRepository.Get(rateId);
+                if (await _ratingRepository.Delete(rateId) != null)
                 {
+                    await UpdateOverAllRating(ratingProvided);
                     return "Your feedback removed successfully";
                 }
                 else
@@ -31,7 +33,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectNotAvailableException)
             {
-                throw;
+                throw new ObjectNotAvailableException("Rating");
             }
         }
 
@@ -48,9 +50,17 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectNotAvailableException)
             {
-                throw;
+                throw new ObjectNotAvailableException("Rating");
             }
 
         }
+
+        public async Task UpdateOverAllRating(Rating rating)
+        {
+            var hotel = _hotelRepository.Get(rating.HotelId).Result;
+            hotel.Rating = (hotel.Rating - rating.ReviewRating) / (hotel.Ratings.Count()-1);
+            await _hotelRepository.Update(hotel);
+        }
+            
     }
 }

@@ -64,5 +64,13 @@ namespace HotelBookingSystemAPI.Interfaces
         /// <returns>returns a string stating the cancellation is successful or not </returns>
         public Task<string> ModifyBooking(int loggedUser, int bookingId, List<CancelRoomDTO> cancelRoom);
 
+        /// <summary>
+        /// Calculates the refund amount for booking cancellation. Refund is calculated based on the checkin date
+        /// </summary>
+        /// <param name="checkInDate">checkin date of booking</param>
+        /// <param name="totalAmount">total amount paid earlier</param>
+        /// <returns></returns>
+        public Task<double> CalculateRefundAmount(DateTime checkInDate, double totalAmount);
+
     }
 }

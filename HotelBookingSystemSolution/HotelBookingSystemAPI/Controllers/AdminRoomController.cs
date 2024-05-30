@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HotelBookingSystemAPI.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]

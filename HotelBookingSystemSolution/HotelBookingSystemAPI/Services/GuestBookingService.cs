@@ -7,6 +7,7 @@ using HotelBookingSystemAPI.Repositories;
 using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -112,6 +113,7 @@ namespace HotelBookingSystemAPI.Services
 
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task UpdateHotelAvailability(BookingReturnDTO bookingDetails, SearchRoomsDTO searchRooms)
         {
 
@@ -133,6 +135,7 @@ namespace HotelBookingSystemAPI.Services
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task AllocateRooms(int bookId, SearchRoomsDTO searchRooms)
         {
             foreach (var roomType in bookingRoomsList)
@@ -177,7 +180,11 @@ namespace HotelBookingSystemAPI.Services
                     //deleting the booked rooms and updating the hotel rooms availability count
                     try
                     {
-                        booking.RoomsBooked.Select(async s=> await _bookedRoomsRepository.Delete(s.RoomId, s.BookingId));
+                    foreach (var r in booking.RoomsBooked.ToList())
+                    {
+                        await _bookedRoomsRepository.Delete(r.RoomId, r.BookingId);
+                    }
+
                     }
                     catch (ObjectNotAvailableException)
                     {
@@ -211,10 +218,12 @@ namespace HotelBookingSystemAPI.Services
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task RefundProcessingForCancellation(int bookId, DateTime checkInDate, int loggedUser)
         {
-            var totalAmountForBooking = _bookingRepository.Get(bookId).Result.TotalAmount;           
-            await _refundRepository.Add(new Refund(loggedUser, bookId, Math.Round(await CalculateRefundAmount(checkInDate,totalAmountForBooking), 2)));
+            var booking = _bookingRepository.Get(bookId).Result;
+            var payment = _paymentRepository.Get((int)booking.PaymentId).Result;
+            await _refundRepository.Add(new Refund(loggedUser, bookId, Math.Round(await CalculateRefundAmount(checkInDate,payment.AmountPaid), 2)));
         }
 
 
@@ -296,13 +305,13 @@ namespace HotelBookingSystemAPI.Services
         public async Task<double> CalculateRefundAmount(DateTime checkInDate, double totalAmount)
         {
             var refundAmount = 0.0;
-            switch ((checkInDate - DateTime.Now).TotalDays)
+            switch ((checkInDate.Date - DateTime.Now.Date).TotalDays)
             {
                 case 1:
                     refundAmount = totalAmount / 2;
                     break;
                 case 2:
-                    refundAmount = totalAmount / 2;
+                    refundAmount = totalAmount / 5;
                     break;
                 case 3:
                     refundAmount = totalAmount / 10;

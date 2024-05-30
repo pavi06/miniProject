@@ -76,13 +76,13 @@ namespace HotelBookingSystemAPI.Services
                 }).ToList();
                 return hotels;
             }
-            throw new ObjectsNotAvailableException("hotel");
+            throw new ObjectsNotAvailableException("hotels");
         }
 
         public async Task<List<HotelReturnDTO>> GetHotelsByRatings(SearchHotelDTO hotelDTO)
         {
             var hotels = await GetHotelsByLocationAndDate(hotelDTO);
-            return hotels.OrderBy(h => h.Rating).ToList();
+            return hotels.OrderByDescending(h => h.Rating).ToList();
         }
 
         public async Task<List<HotelReturnDTO>> GetHotelsByFeatures(List<string> features,SearchHotelDTO hotelDTO)

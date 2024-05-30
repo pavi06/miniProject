@@ -23,20 +23,28 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor)
         {
-            //get all bookings for that hotel
-            var bookings = _bookingRepository.Get().Result.Where(b=> b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date);
-            var todayBookingRequests = new List<BookingDetailsForEmployeeDTO>();
-            foreach(var booking in bookings)
+            try
             {
-                var guest = await _guestRepository.Get(booking.GuestId);
-                //mapping roomtype and count 
-                var roomTypeAndCount = booking.RoomsBooked
-                    .Select(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type)
-                    .GroupBy(type => type)
-                    .ToDictionary(g => g.Key, g => g.Count());
-                todayBookingRequests.Add(new BookingDetailsForEmployeeDTO(booking.BookId, guest.Name, guest.PhoneNumber, roomTypeAndCount));
+                //get all bookings for that hotel
+                var bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date);
+                var todayBookingRequests = new List<BookingDetailsForEmployeeDTO>();
+                foreach (var booking in bookings)
+                {
+                    var guest = await _guestRepository.Get(booking.GuestId);
+                    //mapping roomtype and count 
+                    var roomTypeAndCount = booking.RoomsBooked
+                        .Select(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type)
+                        .GroupBy(type => type)
+                        .ToDictionary(g => g.Key, g => g.Count());
+                    todayBookingRequests.Add(new BookingDetailsForEmployeeDTO(booking.BookId, guest.Name, guest.PhoneNumber, roomTypeAndCount));
+                }
+                return todayBookingRequests;
             }
-            return todayBookingRequests;
+            catch (ObjectNotAvailableException)
+            {
+                throw new ObjectNotAvailableException("User");
+            }
+            
         }
 
         public async Task<List<GuestDetailsForCheckInDTO>> GetAllCheckInForToday(int loggedUserWorksFor)

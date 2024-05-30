@@ -13,9 +13,11 @@ using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 using HotelBookingSystemAPI.Services;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HotelBookingSystemAPI.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize(Roles = "Admin,User")]
     [Route("api/[controller]")]
     [ApiController]

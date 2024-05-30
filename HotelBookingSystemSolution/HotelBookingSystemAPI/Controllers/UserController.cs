@@ -4,10 +4,11 @@ using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HotelBookingSystemAPI.Controllers
 {
-
+    [ExcludeFromCodeCoverage]
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]

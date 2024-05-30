@@ -1,4 +1,5 @@
-﻿using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
+﻿using HotelBookingSystemAPI.Models;
+using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
 {
@@ -20,5 +21,14 @@ namespace HotelBookingSystemAPI.Interfaces
         /// <param name="rateId">rating object id</param>
         /// <returns></returns>
         public Task<string> DeleteRatingProvided(int rateId);
+
+        /// <summary>
+        /// Method which updates the overall rating for the hotel based on the rating provided or deleted.
+        /// </summary>
+        /// <param name="rating">rating object</param>
+        /// <param name="val">value which is of boolean type is sent to modify the rating.
+        /// If true, new rating is added else rating is deleted.</param>
+        /// <returns></returns>
+        public Task UpdateOverAllRating(Rating rating, bool val);
     }
 }

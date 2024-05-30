@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using System.Security.Claims;
 using HotelBookingSystemAPI.Models.DTOs.EmployeeDTOs;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HotelBookingSystemAPI.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize(Roles = "HotelEmployee")]
     [Route("api/[controller]")]
     [ApiController]

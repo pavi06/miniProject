@@ -51,6 +51,10 @@ namespace HotelBookingSystemAPI.Services
                     guestDetails.Add(new GuestDetailsForCheckInDTO(guest.Name, guest.PhoneNumber));
                 }
             }
+            if(guestDetails.Count() > 0)
+            {
+                return guestDetails;
+            }
             throw new ObjectsNotAvailableException("Booking");
         }
 

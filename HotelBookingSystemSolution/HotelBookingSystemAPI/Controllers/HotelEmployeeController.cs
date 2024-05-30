@@ -100,10 +100,10 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var loggedUserWorksFor = _employeeRepository.Get(Convert.ToInt32(User.FindFirstValue("UserId"))).Result.HotelId;
-                var result = await _employeeService.GetAllBookingRequestDoneToday(loggedUserWorksFor);
+                var result = await _employeeService.GetAllCheckInForToday(loggedUserWorksFor);
                 return Ok(result);
             }
-            catch (ObjectNotAvailableException e)
+            catch (ObjectsNotAvailableException e)
             {
                 return NotFound(new ErrorModel(404, e.Message));
             }

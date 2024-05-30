@@ -38,7 +38,7 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
 
-        [HttpPost("RemoveMyRatings")]
+        [HttpDelete("RemoveMyRatings")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<string>> RemoveRating(int ratingId)

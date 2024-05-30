@@ -90,9 +90,9 @@ namespace HotelBookingSystemAPI.Services
                 var bookingConfirmation = await ConfirmBooking(bookingDetails, payId, loggedUser, searchRooms);
                 return new PaymentReturnDTO(bookingConfirmation.BookingId, bookingConfirmation.BookingId > 0 ? $"Payment Successfull..\n{bookingConfirmation.Status}" : $"Payment Not Successfull\n{bookingConfirmation.Status}");
             }
-            catch (Exception)
+            catch (ObjectNotAvailableException)
             {
-                throw;
+                throw new ObjectNotAvailableException("HotelAvailability");
             }
 
         }
@@ -100,38 +100,54 @@ namespace HotelBookingSystemAPI.Services
         #region ConfirmBooking
         public async Task<BookingConfirmationDTO> ConfirmBooking(BookingReturnDTO bookingDetails, int payId, int loggedUser, SearchRoomsDTO searchRooms)
         {
-            if (payId > 0)
+            int bookId = 0;
+            try
             {
-                var addBooking = new Booking(loggedUser, bookingDetails.NoOfRoomsBooked, bookingDetails.FinalAmount, bookingDetails.AdvancePayment,
-                bookingDetails.DiscountPercent, "Confirmed", payId, searchRooms.HotelId);
-                var bookId = _bookingRepository.Add(addBooking).Result.BookId;
-                await UpdateHotelAvailability(bookingDetails, searchRooms);
-                await AllocateRooms(bookId, searchRooms);
-                return new BookingConfirmationDTO(bookId, "Booking Confirmed!");
+                if (payId > 0)
+                {
+                    var addBooking = new Booking(loggedUser, bookingDetails.NoOfRoomsBooked, bookingDetails.FinalAmount, bookingDetails.AdvancePayment,
+                    bookingDetails.DiscountPercent, "Confirmed", payId, searchRooms.HotelId);
+                    bookId = _bookingRepository.Add(addBooking).Result.BookId;
+                    await UpdateHotelAvailability(bookingDetails, searchRooms);
+                    await AllocateRooms(bookId, searchRooms);
+                    return new BookingConfirmationDTO(bookId, "Booking Confirmed!");
+                }
+                return new BookingConfirmationDTO(-1, "Booking process Failed!");
             }
-            return new BookingConfirmationDTO(-1, "Booking process Failed!");
+            catch (ObjectNotAvailableException)
+            {
+                await _bookingRepository.Delete(bookId);
+                await _paymentRepository.Delete(payId);
+            }
+            throw new ObjectNotAvailableException("HotelAvailability");
 
         }
 
         [ExcludeFromCodeCoverage]
         public async Task UpdateHotelAvailability(BookingReturnDTO bookingDetails, SearchRoomsDTO searchRooms)
         {
-
-            DateTime currentDate = bookingDetails.CheckInDate;
-            while (currentDate < bookingDetails.CheckOutDate)
+            try
             {
-                var hotelavail = _hotelAvailability.Get(searchRooms.HotelId, currentDate).Result;
-                if ( hotelavail!= null)
+                DateTime currentDate = bookingDetails.CheckInDate;
+                while (currentDate < bookingDetails.CheckOutDate)
                 {
-                    hotelavail.RoomsAvailableCount -= bookingDetails.NoOfRoomsBooked;
-                    await _hotelAvailability.Update(hotelavail);
-                }
-                else
-                {
-                    await _hotelAvailability.Add(new HotelAvailabilityByDate(searchRooms.HotelId, currentDate, _hotelRepository.Get(searchRooms.HotelId).Result.TotalNoOfRooms - bookingDetails.NoOfRoomsBooked - _roomRepository.Get().Result.Count(r => r.IsAvailable == false && r.HotelId == searchRooms.HotelId)));
+                    var hotelavail = _hotelAvailability.Get(searchRooms.HotelId, currentDate).Result;
+                    if (hotelavail != null)
+                    {
+                        hotelavail.RoomsAvailableCount -= bookingDetails.NoOfRoomsBooked;
+                        await _hotelAvailability.Update(hotelavail);
+                    }
+                    else
+                    {
+                        await _hotelAvailability.Add(new HotelAvailabilityByDate(searchRooms.HotelId, currentDate, _hotelRepository.Get(searchRooms.HotelId).Result.TotalNoOfRooms - bookingDetails.NoOfRoomsBooked - _roomRepository.Get().Result.Count(r => r.IsAvailable == false && r.HotelId == searchRooms.HotelId)));
 
+                    }
+                    currentDate = currentDate.AddDays(1);
                 }
-                currentDate = currentDate.AddDays(1);
+            }
+            catch (ObjectNotAvailableException)
+            {
+                throw new ObjectNotAvailableException("HotelAvailability");
             }
         }
 

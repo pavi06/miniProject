@@ -72,6 +72,50 @@ namespace HotelBookingSystemAPI.Controllers
             }
         }
 
+        [HttpGet("GetAllBookingRequest")]
+        [ProducesResponseType(typeof(List<BookingDetailsForEmployeeDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<BookingDetailsForEmployeeDTO>>> GetAllBookings()
+        {
+            try
+            {
+                var loggedUserWorksFor = _employeeRepository.Get(Convert.ToInt32(User.FindFirstValue("UserId"))).Result.HotelId;
+                var result = await _employeeService.GetAllBookingRequest(loggedUserWorksFor);
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+
+        [HttpGet("GetAllBookingRequestByFiltering")]
+        [ProducesResponseType(typeof(List<BookingDetailsForEmployeeDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<BookingDetailsForEmployeeDTO>>> GetAllBookingsByAttribute(string attribute, string attributeValue)
+        {
+            try
+            {
+                var loggedUserWorksFor = _employeeRepository.Get(Convert.ToInt32(User.FindFirstValue("UserId"))).Result.HotelId;
+                var result = await _employeeService.GetAllBookingRequestByFilteration(loggedUserWorksFor, attribute,attributeValue );
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+
         [HttpGet("GetAllBookingRequestRaisedToday")]
         [ProducesResponseType(typeof(List<BookingDetailsForEmployeeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

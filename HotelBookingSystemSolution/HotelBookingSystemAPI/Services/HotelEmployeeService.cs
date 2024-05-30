@@ -21,24 +21,36 @@ namespace HotelBookingSystemAPI.Services
             _bookingRepository = bookingRepository;
         }
 
+        public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequest(int loggedUserWorksFor)
+        {
+            var bookings =  _bookingRepository.Get().Result.Where(b=>b.HotelId == loggedUserWorksFor).ToList();
+            return await MapBookingDetailsForEmployee(bookings);
+        }
+
+        public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, string attribute, string attributeValue)
+        {
+            List<Booking> bookings = null;
+            switch (attribute.ToLower())
+            {
+                case "month":
+                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Month == Convert.ToInt32(attributeValue)).ToList();
+                    break;
+                case "date":
+                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == Convert.ToDateTime(attributeValue).Date).ToList();
+                    break;
+                default:
+                    throw new Exception("Invalid Attribute value");
+            }
+            return await MapBookingDetailsForEmployee(bookings);
+        }
+
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor)
         {
             try
             {
                 //get all bookings for that hotel
-                var bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date);
-                var todayBookingRequests = new List<BookingDetailsForEmployeeDTO>();
-                foreach (var booking in bookings)
-                {
-                    var guest = await _guestRepository.Get(booking.GuestId);
-                    //mapping roomtype and count 
-                    var roomTypeAndCount = booking.RoomsBooked
-                        .Select(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type)
-                        .GroupBy(type => type)
-                        .ToDictionary(g => g.Key, g => g.Count());
-                    todayBookingRequests.Add(new BookingDetailsForEmployeeDTO(booking.BookId, guest.Name, guest.PhoneNumber, roomTypeAndCount));
-                }
-                return todayBookingRequests;
+                var bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date).ToList();
+                return await MapBookingDetailsForEmployee(bookings);
             }
             catch (ObjectNotAvailableException)
             {
@@ -64,6 +76,23 @@ namespace HotelBookingSystemAPI.Services
                 return guestDetails;
             }
             throw new ObjectsNotAvailableException("Booking");
+        }
+
+        public async Task<List<BookingDetailsForEmployeeDTO>> MapBookingDetailsForEmployee(List<Booking> bookings)
+        {
+            var BookingRequests = new List<BookingDetailsForEmployeeDTO>();
+            foreach (var booking in bookings)
+            {
+                var guest = await _guestRepository.Get(booking.GuestId);
+                //mapping roomtype and count 
+                var roomTypeAndCount = booking.RoomsBooked
+                    .Select(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type)
+                    .GroupBy(type => type)
+                    .ToDictionary(g => g.Key, g => g.Count());
+                BookingRequests.Add(new BookingDetailsForEmployeeDTO(booking.BookId, guest.Name, guest.PhoneNumber, roomTypeAndCount, booking.BookingStatus));
+            }
+            return BookingRequests;
+
         }
 
     }

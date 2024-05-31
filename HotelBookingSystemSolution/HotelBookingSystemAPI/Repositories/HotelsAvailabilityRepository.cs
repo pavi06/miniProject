@@ -34,13 +34,15 @@ namespace HotelBookingSystemAPI.Repositories
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("HotelAvailability");
             }
         }
 
         public async Task<HotelAvailabilityByDate> Get(int key1, DateTime key2)
         {
             var hotelAvailability = await _context.HotelAvailabilityByDates.SingleOrDefaultAsync(h => h.HotelId == key1 && h.Date == key2);
+            if (hotelAvailability == null)
+                throw new ObjectNotAvailableException("HotelAvailability");
             return hotelAvailability;
         }
 
@@ -60,11 +62,11 @@ namespace HotelBookingSystemAPI.Repositories
                     await _context.SaveChangesAsync();
                     return item;
                 }
-                throw new ObjectNotAvailableException("Hotel");
+                throw new ObjectNotAvailableException("HotelAvailability");
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("HotelAvailability"); 
             }
         }
     }

@@ -26,7 +26,7 @@ namespace HotelBookingSystemAPIBLTests
         IRepositoryForCompositeKey<int, DateTime, HotelAvailabilityByDate> hotelAvailability;
         IGuestSearchService guestSearchService;
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder()
                                                          .UseInMemoryDatabase("dummyDB");
@@ -38,7 +38,19 @@ namespace HotelBookingSystemAPIBLTests
             roomTypeRepository = new RoomTypeRepository(context);
             hotelAvailability = new HotelsAvailabilityRepository(context);
             guestSearchService = new GuestSearchService(hotelRepository, roomRepository, hotelAvailability, roomTypeRepository,guestRepository,bookingRepository);
-
+            Hotel hotel = new Hotel()
+            {
+                HotelId=1,
+                Name = "ABC Residency",
+                Address = "No 3, Nehru street, ooty",
+                City = "Ooty",
+                TotalNoOfRooms = 5,
+                IsAvailable = true,
+                Rating = 4.0,
+                Amenities = "Wifi, Parking",
+                Restrictions = "No Pets"
+            };
+            await hotelRepository.Add(hotel);
         }
 
         [Test]
@@ -52,7 +64,7 @@ namespace HotelBookingSystemAPIBLTests
         public async Task GetHotelsByLocationFailTests()
         {
             var exception = Assert.ThrowsAsync<ObjectsNotAvailableException>(() => guestSearchService.GetHotelsByLocationAndDate(new SearchHotelDTO() { Location = "Ooty", Date = DateTime.Now.Date }));
-            Assert.AreEqual("No hotel are available!", exception.Message);
+            Assert.AreEqual("No hotels are available!", exception.Message);
         }
 
         [Test]
@@ -115,8 +127,8 @@ namespace HotelBookingSystemAPIBLTests
         [Test]
         public async Task GetAvailableRoomTypeByHotelFailTest()
         {
-            var result = Assert.ThrowsAsync<ObjectNotAvailableException>(() => guestSearchService.GetAvailableRoomTypesByHotel(new SearchRoomsDTO() { HotelId = 8, CheckInDate = DateTime.Now.Date, CheckoutDate = DateTime.Now.AddDays(2) }));
-            Assert.AreEqual("Hotel Not available!", result.Message);
+            var result = Assert.ThrowsAsync<AggregateException>(() => guestSearchService.GetAvailableRoomTypesByHotel(new SearchRoomsDTO() { HotelId = 8, CheckInDate = DateTime.Now.Date, CheckoutDate = DateTime.Now.AddDays(2) }));
+            Assert.AreEqual("One or more errors occurred. (Hotel Not available!)", result.Message);
         }
 
     }

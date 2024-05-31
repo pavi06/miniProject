@@ -24,16 +24,18 @@ namespace HotelBookingSystemAPI.Controllers
         }
 
 
+        #region UserLogin
         [HttpPost("Login")]
         [ProducesResponseType(typeof(UserLoginReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<UserLoginReturnDTO>> Login(UserLoginDTO userLoginDTO)
+        public async Task<ActionResult<UserLoginReturnDTO>> Login([FromBody]UserLoginDTO userLoginDTO)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     var result = await _userService.Login(userLoginDTO);
+                    _logger.LogInformation("Login successfull");
                     return Ok(result);
                 }
                 catch (Exception ex)
@@ -44,22 +46,26 @@ namespace HotelBookingSystemAPI.Controllers
             }
             return BadRequest("All details are not provided. Please check");
         }
+        #endregion
 
-
+        #region UserRegistration
         [HttpPost("Register")]
         [ProducesResponseType(typeof(GuestReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GuestReturnDTO>> Register(GuestRegisterDTO guestDTO)
+        public async Task<ActionResult<GuestReturnDTO>> Register([FromBody]GuestRegisterDTO guestDTO)
         {
             try
             {
                 var guest = await _userService.Register(guestDTO);
+                _logger.LogInformation("Registration successfull");
                 return Ok(guest);
             }
             catch (Exception ex)
             {
+                _logger.LogError("Cannot register at this moment");
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
         }
+        #endregion
     }
 }

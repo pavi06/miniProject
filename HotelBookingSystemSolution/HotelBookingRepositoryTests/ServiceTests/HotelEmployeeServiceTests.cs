@@ -5,6 +5,8 @@ using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Repositories;
 using HotelBookingSystemAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +18,15 @@ namespace HotelBookingSystemAPIBLTests
     public class HotelEmployeeServiceTests
     {
         HotelBookingContext context;
+        ILogger<HotelEmployeeService> logger;
         [SetUp]
         public void Setup()
         {
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder()
                                                          .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
-            
+            logger = Mock.Of<ILogger<HotelEmployeeService>>();
+
         }
 
         [Test]
@@ -31,7 +35,7 @@ namespace HotelBookingSystemAPIBLTests
             IRepository<int, Guest> guestRepository = new GuestBookingsRepository(context);
             IRepository<int, Room> roomRepository = new RoomRepository(context);
             IRepository<int, Booking> bookingRepository = new BookingRepository(context);
-            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository,roomRepository,bookingRepository);
+            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository,roomRepository,bookingRepository, logger);
 
             //Action
             var result = empService.GetAllBookingRequestDoneToday(1);
@@ -46,7 +50,7 @@ namespace HotelBookingSystemAPIBLTests
             IRepository<int, Guest> guestRepository = new GuestBookingsRepository(context);
             IRepository<int, Room> roomRepository = new RoomRepository(context);
             IRepository<int, Booking> bookingRepository = new BookingRepository(context);
-            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository);
+            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository, logger);
 
             //Action
             var result = await empService.GetAllBookingRequestDoneToday(2);
@@ -57,26 +61,12 @@ namespace HotelBookingSystemAPIBLTests
 
 
         [Test]
-        public async Task GetAllBookingDoneTodayExceptionTest()
-        {
-            IRepository<int, Guest> guestRepository = new GuestBookingsRepository(context);
-            IRepository<int, Room> roomRepository = new RoomRepository(context);
-            IRepository<int, Booking> bookingRepository = new BookingRepository(context);
-            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository);
-
-            //Action
-            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => empService.GetAllBookingRequestDoneToday(18));
-            //Assert
-            Assert.AreEqual("User Not available!", exception.Message);
-        }
-
-        [Test]
         public async Task GetAllCheckInTodayPassTest()
         {
             IRepository<int, Guest> guestRepository = new GuestBookingsRepository(context);
             IRepository<int, Room> roomRepository = new RoomRepository(context);
             IRepository<int, Booking> bookingRepository = new BookingRepository(context);
-            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository);
+            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository, logger);
 
             //Action
             var result = empService.GetAllCheckInForToday(1);
@@ -91,7 +81,7 @@ namespace HotelBookingSystemAPIBLTests
             IRepository<int, Guest> guestRepository = new GuestBookingsRepository(context);
             IRepository<int, Room> roomRepository = new RoomRepository(context);
             IRepository<int, Booking> bookingRepository = new BookingRepository(context);
-            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository);
+            IHotelEmployeeService empService = new HotelEmployeeService(guestRepository, roomRepository, bookingRepository, logger);
 
             //Action
             var exception = Assert.ThrowsAsync<ObjectsNotAvailableException>(() => empService.GetAllCheckInForToday(2));

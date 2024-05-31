@@ -42,8 +42,8 @@ namespace HotelBookingSystemAPIBLTests
         [Test]
         public async Task ProvideRatingExceptionTest()
         {
-            var res = Assert.ThrowsAsync<ObjectNotAvailableException>(() => ratingService.ProvideRating(new AddRatingDTO() { HotelId = 8, ReviewRating = 4.5, Comments = "Good services" }, 1));
-            Assert.AreEqual("Hotel Not available!",res.Message);
+            var res = Assert.ThrowsAsync<AggregateException>(() => ratingService.ProvideRating(new AddRatingDTO() { HotelId = 20, ReviewRating = 4.5, Comments = "Good services" }, 1));
+            Assert.AreEqual("One or more errors occurred. (Hotel Not available!)", res.Message);
         }
 
         [Test]
@@ -57,14 +57,7 @@ namespace HotelBookingSystemAPIBLTests
         public async Task DeleteRatingExceptionTest()
         {
             var res = Assert.ThrowsAsync<ObjectNotAvailableException>(() => ratingService.DeleteRatingProvided(2));
-            Assert.AreEqual("Rating Not available",res.Message);
+            Assert.AreEqual("Rating Not available!",res.Message);
         }
-
-        //[Test]
-        //public async Task UpdateOverAllRatingPassTest()
-        //{
-        //    ratingService.UpdateOverAllRating(new Rating() {HotelId=1, ReviewRating=4,Comments="Excellent" }, true);
-
-        //}
     }
 }

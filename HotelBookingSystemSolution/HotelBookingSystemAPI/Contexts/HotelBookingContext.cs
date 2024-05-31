@@ -29,7 +29,7 @@ namespace HotelBookingSystemAPI.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            //unique email id field
             modelBuilder.Entity<Guest>()
                 .HasIndex(g => g.Email)
                 .IsUnique();
@@ -38,64 +38,75 @@ namespace HotelBookingSystemAPI.Contexts
                 .HasIndex(e => e.Email)
                 .IsUnique();
 
-
+            //composite keys
             modelBuilder.Entity<BookedRooms>().HasKey(br => new { br.BookingId, br.RoomId });
 
             modelBuilder.Entity<HotelAvailabilityByDate>().HasKey(ha => new { ha.HotelId, ha.Date });
 
 
+            //hotel ->  has many -> rooms
             modelBuilder.Entity<Room>()
                .HasOne(r => r.Hotel)
                .WithMany(h => h.Rooms)
                .HasForeignKey(r => r.HotelId)
                .OnDelete(DeleteBehavior.Restrict);
 
+            //hotel -> has many -> Ratings
             modelBuilder.Entity<Rating>()
                 .HasOne(r => r.Hotel)
                 .WithMany(h => h.Ratings)
                 .HasForeignKey(r => r.HotelId)
                 .IsRequired();
 
+            //booking , Rooms (Many to many)
+            //each booking -> has many -> rooms (bookedRooms)
             modelBuilder.Entity<BookedRooms>()
                .HasOne(br => br.Booking)
                .WithMany(b => b.RoomsBooked)
                .HasForeignKey(br => br.BookingId);
 
+            //each room -> has involved in many -> booking (bookedRooms)
             modelBuilder.Entity<BookedRooms>()
                .HasOne(br => br.Room)
                .WithMany(r => r.roomsBooked)
                .HasForeignKey(br => br.RoomId);
 
+            //guest -> can have many -> bookings associated with him/her
             modelBuilder.Entity<Booking>()
                .HasOne(b => b.Guest)
                .WithMany(p => p.bookings)
                .HasForeignKey(b => b.GuestId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
+            //each hotel -> has many -> bookings
             modelBuilder.Entity<Booking>()
                .HasOne(b => b.Hotel)
                .WithMany(h => h.bookingsForHotel)
                .HasForeignKey(b => b.HotelId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 
+            //hotel -> has many -> roomsTypes
             modelBuilder.Entity<RoomType>()
               .HasOne(r => r.Hotel)
               .WithMany(h => h.RoomTypes)
               .HasForeignKey(r => r.HotelId)
               .OnDelete(DeleteBehavior.ClientSetNull);
 
+            //booking -> has many -> payments 
             modelBuilder.Entity<Payment>()
               .HasOne(p => p.Book)
               .WithMany(b => b.Payments)
               .HasForeignKey(p => p.BookId)
               .OnDelete(DeleteBehavior.ClientSetNull);
 
+            //hotel -> has many -> hotelavailability( date diff.)
             modelBuilder.Entity<HotelAvailabilityByDate>()
               .HasOne(ha => ha.Hotel)
               .WithMany(h => h.hotelAvailabilityByDates)
               .HasForeignKey(ha => ha.HotelId)
               .OnDelete(DeleteBehavior.ClientSetNull);
 
+            //hotel -> has many -> employees
             modelBuilder.Entity<HotelEmployee>()
                 .HasOne(e => e.Hotel)
                 .WithMany(h => h.employees)

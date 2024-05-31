@@ -24,8 +24,8 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             guestRepository = new GuestRepository(context);
-            //Guest guest = new Guest("Pavi", "pavi@gamil.com", "9796756456", "Tamil Nadu, Chennai");
-            //guestRepository.Add(guest);
+            Guest guest = new Guest("Pavi", "pavi@gamil.com", "9796756456", "Tamil Nadu, Chennai");
+            guestRepository.Add(guest);
 
         }
 
@@ -87,9 +87,9 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         public async Task DeleteGuestExceptionTest()
         {
             //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => guestRepository.Delete(2));
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => guestRepository.Delete(3));
             //Assert
-            Assert.AreEqual("User Not Available!", exception.Message);
+            Assert.AreEqual("User Not available!", exception.Message);
         }
 
         [Test]
@@ -107,19 +107,19 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         public void GetGuestFailTest()
         {
             //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => guestRepository.Get(3));
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => guestRepository.Get(3));
             //Assert
-            Assert.AreEqual("Guest Not available!", exception.Message);
+            Assert.AreEqual("User Not available!", exception.Message);
 
         }
 
         [Test]
-        public async Task GetGuesExceptionTest()
+        public async Task GetGuestExceptionTest()
         {
             //Action
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => guestRepository.Get(3));
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => guestRepository.Get(3));
             //Assert
-            Assert.AreEqual("Guest Not available!", exception.Message);
+            Assert.AreEqual("User Not available!", exception.Message);
 
         }
 
@@ -156,9 +156,9 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         [Test]
         public async Task UpdateGuestExceptionTest()
         {
-            var exception = Assert.Throws<ObjectNotAvailableException>(() => guestRepository.Get(3));
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => guestRepository.Get(2));
             //Assert
-            Assert.AreEqual("Guest Not available!", exception.Message);
+            Assert.AreEqual("User Not available!", exception.Message);
         }
     }
 }

@@ -21,11 +21,11 @@ namespace HotelBookingSystemAPIBLTests
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder()
                                                          .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
-            //IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
-            //IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
+            IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
+            IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
 
-            //HotelRegisterDTO hotel = new HotelRegisterDTO() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
-            //hotelService.RegisterHotel(hotel);
+            HotelRegisterDTO hotel = new HotelRegisterDTO() { Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            hotelService.RegisterHotel(hotel);
         }
 
         [Test]

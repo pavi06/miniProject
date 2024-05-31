@@ -311,6 +311,9 @@ namespace HotelBookingSystemAPI.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("GuestId")
                         .HasColumnType("int");
 

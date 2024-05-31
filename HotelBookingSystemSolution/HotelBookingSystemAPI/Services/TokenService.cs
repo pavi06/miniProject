@@ -12,11 +12,13 @@ namespace HotelBookingSystemAPI.Services
     {
         private readonly string _secretKey;
         private readonly SymmetricSecurityKey _key;
+        private readonly ILogger<TokenService> _logger;
 
-        public TokenService(IConfiguration configuration)
+        public TokenService(IConfiguration configuration, ILogger<TokenService> logger)
         {
             _secretKey = configuration.GetSection("TokenKey").GetSection("JWT").Value.ToString();
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+            _logger = logger;
         }
 
         //public string GenerateRefreshToken()
@@ -40,6 +42,7 @@ namespace HotelBookingSystemAPI.Services
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
             var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
+            _logger.LogInformation("Token generated successfully");
             return token;
         }
 
@@ -54,6 +57,7 @@ namespace HotelBookingSystemAPI.Services
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
             var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
+            _logger.LogInformation("Token generated successfully");
             return token;
         }
     }

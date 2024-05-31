@@ -5,7 +5,7 @@ namespace HotelBookingSystemAPI.Models.DTOs.RoomDTOs
 {
     public class SearchRoomsDTO
     {
-        [Required]
+        [Required(AllowEmptyStrings =false,ErrorMessage ="HotelId cannot be null")]
         public int HotelId { get; set; }
 
         [Required(ErrorMessage = "Date should be provided")]

@@ -24,14 +24,14 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             repository = new PaymentRepository(context);
-            //    Payment payment = new Payment()
-            //    {
-            //        AmountPaid = 2500,
-            //    PaymentStatus = "Completed",
-            //    PaymentMode = "Online"
+            Payment payment = new Payment()
+            {
+                AmountPaid = 2500,
+                PaymentStatus = "Completed",
+                PaymentMode = "Online"
 
-            //};
-            //    await repository.Add(payment);
+            };
+            await repository.Add(payment);
 
         }
 

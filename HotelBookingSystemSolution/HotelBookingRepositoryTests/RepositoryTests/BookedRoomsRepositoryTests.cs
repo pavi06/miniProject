@@ -24,8 +24,40 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             repository = new BookedRoomsRepository(context);
-            Room room = new Room() {RoomId=1, TypeId=1,HotelId=1, Images="kjhjfgn" };
-            Hotel hotel = new Hotel() {HotelId=1, Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            IRepository<int, RoomType> roomTypeRepo = new RoomTypeRepository(context);
+            RoomType roomType = new RoomType()
+            {
+                RoomTypeId = 1,
+                Type = "Standard",
+                Occupancy = 4,
+                Images = "jhghfgh",
+                Amount = 3000,
+                CotsAvailable = 2,
+                Amenities = "Wifi, Parking",
+                Discount = 0,
+                HotelId = 1
+            };
+            await roomTypeRepo.Add(roomType);
+            IRepository<int, Room> roomRepo = new RoomRepository(context);
+            Room room = new Room() { RoomId = 1, TypeId = 1, HotelId = 1, Images = "kjhjfgn" };
+            await roomRepo.Add(room);
+            IRepository<int, Booking> bookingRepo = new BookingRepository(context);
+            Booking book = new Booking()
+            {
+                BookId = 1,
+                GuestId = 1,
+                NoOfRooms = 2,
+                TotalAmount = 5000,
+                AdvancePayment = 2500,
+                Discount = 2,
+                BookingStatus = "Confirmed",
+                PaymentId = 1,
+                HotelId = 1
+            };
+            await bookingRepo.Add(book);
+            IRepository<int, Hotel> hotelRepo = new HotelRepository(context);
+            Hotel hotel = new Hotel() { HotelId = 1, Name = "ABC Residency", Address = "No 3, Nehru street, chennai", City = "Chennai", TotalNoOfRooms = 5, IsAvailable = true, Rating = 4.0, Amenities = "Wifi, Parking", Restrictions = "No Pets" };
+            await hotelRepo.Add(hotel);
             BookedRooms br = new BookedRooms()
             {
                 RoomId = 1,
@@ -64,9 +96,9 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         public async Task DeleteRoomFailTest()
         {
             //Action
-            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Delete(2, 1));
+            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Delete(1, 1));
             //Assert
-            Assert.AreEqual("Room Not available!", exception.Message);
+            Assert.AreEqual("BookedRoom Not available!", exception.Message);
         }
 
         [Test]
@@ -74,7 +106,7 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         {
             var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Delete(2, 3));
             //Assert
-            Assert.AreEqual("Room Not available!", exception.Message);
+            Assert.AreEqual("BookedRoom Not available!", exception.Message);
         }
 
         [Test]
@@ -91,7 +123,7 @@ namespace HotelBookingSystemAPITests.RepositoryTests
             //Action
             var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Get(1, 3));
             //Assert
-            Assert.AreEqual("Room Not available!", exception.Message);
+            Assert.AreEqual("BookedRoom Not available!", exception.Message);
         }
 
         [Test]
@@ -100,7 +132,7 @@ namespace HotelBookingSystemAPITests.RepositoryTests
             //Action
             var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Get(3, 4));
             //Assert
-            Assert.AreEqual("Room Not available!", exception.Message);
+            Assert.AreEqual("BookedRoom Not available!", exception.Message);
 
         }
 
@@ -124,16 +156,9 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         [Test]
         public async Task UpdateRoomSuccessTest()
         {
-            BookedRooms br = new BookedRooms()
-            {
-                RoomId = 2,
-                BookingId = 1,
-                CheckInDate = new DateTime(),
-                CheckOutDate = new DateTime()
-            };
-            var retrievedRoom = await repository.Add(br);
-            retrievedRoom.BookingId = 2;
-            var result = await repository.Update(retrievedRoom);
+            var val = await repository.Get(1, 1);
+            val.BookingId = 3;
+            var result = await repository.Update(val);
             //Assert
             Assert.IsNotNull(result);
         }
@@ -143,7 +168,7 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         {
             var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => repository.Get(3, 1));
             //Assert
-            Assert.AreEqual("Room Not available!", exception.Message);
+            Assert.AreEqual("BookedRoom Not available!", exception.Message);
         }
     }
 }

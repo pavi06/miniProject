@@ -139,3 +139,6 @@ C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\obj\Debug\net6.0
 C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\obj\Debug\net6.0\HotelBookingSystemAPI.pdb
 C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\obj\Debug\net6.0\HotelBookingSystemAPI.genruntimeconfig.cache
 C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\obj\Debug\net6.0\ref\HotelBookingSystemAPI.dll
+C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\bin\Debug\net6.0\log4net.dll
+C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\bin\Debug\net6.0\Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll
+C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll

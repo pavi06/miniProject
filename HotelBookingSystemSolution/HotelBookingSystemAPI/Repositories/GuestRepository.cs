@@ -31,7 +31,7 @@ namespace HotelBookingSystemAPI.Repositories
                 return person;
             }
             catch(ObjectNotAvailableException)
-{
+            {
                 throw new ObjectNotAvailableException("User");
             }
         }

@@ -18,11 +18,15 @@ namespace HotelBookingSystemAPI.Controllers
     public class AdminHotelController : ControllerBase
     {
         private readonly IAdminHotelService _hotelService;
+        private readonly ILogger<AdminHotelController> _logger;
 
-        public AdminHotelController(IAdminHotelService hotelService) { 
+        public AdminHotelController(IAdminHotelService hotelService, ILogger<AdminHotelController> logger)
+        {
             _hotelService = hotelService;
+            _logger = logger;
         }
 
+        #region AddHotel
         [HttpPost("RegisterHotel")]
         [ProducesResponseType(typeof(HotelReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -31,19 +35,23 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 HotelReturnDTO result = await _hotelService.RegisterHotel(hotel);
+                _logger.LogInformation("Hotel Added successfully");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
-            {
+            {   _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
         }
+        #endregion
 
+        #region UpdateHotelStatus
         [HttpPut("UpdateHotelAvailabilityStatus")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -52,19 +60,24 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var result = await _hotelService.UpdateHotelAvailabilityService(updateHotelStatusDTO);
+                _logger.LogInformation("Hotel satatus updated");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
         }
+        #endregion
 
+        #region UpdateHotel
         [HttpPut("UpdateHotel")]
         [ProducesResponseType(typeof(HotelReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -73,19 +86,22 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var result = await _hotelService.UpdateHotelAttribute(updateHotelDTO);
+                _logger.LogInformation("Successfully updated");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
         }
-
+        #endregion
 
     }
 }

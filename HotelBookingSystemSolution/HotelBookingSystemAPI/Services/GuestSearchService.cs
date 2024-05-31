@@ -56,7 +56,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch(ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("Hotel");
             }
             
         }
@@ -94,6 +94,8 @@ namespace HotelBookingSystemAPI.Services
         public async Task<RoomTypeDescriptionDTO> GetDetailedDescriptionOfRoomType(int hotelId, string roomType)
         {
             var roomTypeRetrieved = _roomTypeRepository.Get().Result.FirstOrDefault(rt => rt.Type == roomType && rt.HotelId == hotelId);
+            if (roomTypeRetrieved == null)
+                throw new ObjectNotAvailableException("RoomType");
             return new RoomTypeDescriptionDTO(roomType, roomTypeRetrieved.Images, roomTypeRetrieved.Occupancy, roomTypeRetrieved.CotsAvailable, roomTypeRetrieved.Amenities);
         }
 

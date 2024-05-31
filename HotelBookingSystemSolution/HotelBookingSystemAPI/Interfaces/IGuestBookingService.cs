@@ -1,4 +1,5 @@
-﻿using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
+﻿using HotelBookingSystemAPI.Models;
+using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
@@ -71,6 +72,17 @@ namespace HotelBookingSystemAPI.Interfaces
         /// <param name="totalAmount">total amount paid earlier</param>
         /// <returns></returns>
         public Task<double> CalculateRefundAmount(DateTime checkInDate, double totalAmount);
+
+        /// <summary>
+        /// Calculates refund amount for room cancellation only if full payment is done.
+        /// else  refund will not be done.
+        /// (user for modify booking)
+        /// </summary>
+        /// <param name="loggedUser"></param>
+        /// <param name="updatedBooking"></param>
+        /// <param name="totalAmount"></param>
+        /// <returns></returns>
+        public Task CalculateRefundForRoomCancel(int loggedUser, Booking updatedBooking, double totalAmount);
 
     }
 }

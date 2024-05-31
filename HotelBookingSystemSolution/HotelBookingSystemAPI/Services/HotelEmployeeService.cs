@@ -12,20 +12,31 @@ namespace HotelBookingSystemAPI.Services
     {
         private readonly IRepository<int, Guest> _guestRepository;
         private readonly IRepository<int, Room> _roomRepository;
-        private readonly IRepository<int, Booking> _bookingRepository;        
+        private readonly IRepository<int, Booking> _bookingRepository; 
+        private readonly ILogger<HotelEmployeeService> _logger; 
 
         public HotelEmployeeService(IRepository<int, Guest> guestRepository, IRepository<int, Room> roomRepository,
-            IRepository<int,Booking> bookingRepository) {
+            IRepository<int,Booking> bookingRepository, ILogger<HotelEmployeeService> logger) {
             _guestRepository = guestRepository;
             _roomRepository = roomRepository;
             _bookingRepository = bookingRepository;
+            _logger = logger;
         }
 
+        #region GetAllBookingRequest
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequest(int loggedUserWorksFor)
         {
             var bookings =  _bookingRepository.Get().Result.Where(b=>b.HotelId == loggedUserWorksFor).ToList();
-            return await MapBookingDetailsForEmployee(bookings);
+            var mappedValue =  await MapBookingDetailsForEmployee(bookings);
+            if(mappedValue.Count>0 )
+            {
+                _logger.LogInformation("Bookings retrieved");
+                return mappedValue;
+            }
+            _logger.LogInformation("No bookings are available");
+            throw new ObjectsNotAvailableException("Bookings");
         }
+        #endregion
 
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, string attribute, string attributeValue)
         {
@@ -41,21 +52,16 @@ namespace HotelBookingSystemAPI.Services
                 default:
                     throw new Exception("Invalid Attribute value");
             }
+            _logger.LogInformation("Bookings retrieved");
             return await MapBookingDetailsForEmployee(bookings);
         }
 
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor)
         {
-            try
-            {
                 //get all bookings for that hotel
-                var bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date).ToList();
-                return await MapBookingDetailsForEmployee(bookings);
-            }
-            catch (ObjectNotAvailableException)
-            {
-                throw new ObjectNotAvailableException("User");
-            }
+            var bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == DateTime.Now.Date).ToList();
+            _logger.LogInformation("Bookings retrieved");
+            return await MapBookingDetailsForEmployee(bookings);
             
         }
 
@@ -73,8 +79,10 @@ namespace HotelBookingSystemAPI.Services
             }
             if(guestDetails.Count() > 0)
             {
+                _logger.LogInformation("Guest details retrieved");
                 return guestDetails;
             }
+            _logger.LogInformation("No bookings are available");
             throw new ObjectsNotAvailableException("Booking");
         }
 
@@ -91,6 +99,7 @@ namespace HotelBookingSystemAPI.Services
                     .ToDictionary(g => g.Key, g => g.Count());
                 BookingRequests.Add(new BookingDetailsForEmployeeDTO(booking.BookId, guest.Name, guest.PhoneNumber, roomTypeAndCount, booking.BookingStatus));
             }
+            _logger.LogInformation("Bookings retrieved");
             return BookingRequests;
 
         }

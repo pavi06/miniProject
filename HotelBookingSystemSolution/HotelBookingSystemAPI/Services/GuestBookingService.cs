@@ -57,7 +57,9 @@ namespace HotelBookingSystemAPI.Services
                 double discountPercent = 0.0;
                 foreach (var roomtype in bookDetails)
                 {
-                    var roomType = _roomTypeRepository.Get().Result.FirstOrDefault(r => r.Type.ToLower() == roomtype.RoomType.ToLower());
+                    var roomType = _roomTypeRepository.Get().Result.FirstOrDefault(r => r.Type.ToLower() == roomtype.RoomType.ToLower() && r.HotelId == searchRooms.HotelId);
+                    if (roomType == null)
+                        throw new ObjectNotAvailableException("RoomType");
                     totalAmount += roomType.Amount * roomtype.RoomsNeeded;
                     discountPercent += roomType.Discount;
                     finalAmount += (roomType.Amount - (roomType.Amount * (roomType.Discount / 100))) * roomtype.RoomsNeeded;
@@ -67,12 +69,12 @@ namespace HotelBookingSystemAPI.Services
                     finalAmount = finalAmount - (finalAmount * 0.05);
                     discountPercent += 5;
                 }
-                bookingDetails = new BookingReturnDTO(searchRooms.HotelId, _hotelRepository.Get(searchRooms.HotelId).Result.Name,bookDetails.Sum(roomtype => roomtype.RoomsNeeded), searchRooms.CheckInDate.Date, searchRooms.CheckoutDate.Date, Math.Round(totalAmount,2), Math.Round(discountPercent,2), Math.Round(finalAmount, 2), Math.Round(finalAmount / 2,2));
+                bookingDetails = new BookingReturnDTO(searchRooms.HotelId, _hotelRepository.Get(searchRooms.HotelId).Result.Name,bookDetails.Sum(roomtype => roomtype.RoomsNeeded), searchRooms.CheckInDate.Date, searchRooms.CheckoutDate.Date, Math.Round(totalAmount,2), discountPercent, Math.Round(finalAmount, 2), Math.Round(finalAmount / 2,2));
                 return bookingDetails;
             }
             catch (ObjectNotAvailableException)
             {
-                throw new ObjectNotAvailableException("RoomType");
+                throw new ObjectNotAvailableException("User");
             }
         }
 
@@ -80,8 +82,8 @@ namespace HotelBookingSystemAPI.Services
         {
             try
             {
-                Payment payment = null; 
-                if(amount == bookingDetails.FinalAmount)
+                Payment payment = null;
+                if (amount == bookingDetails.FinalAmount)
                     payment = new Payment(amount, "Successful - Full Payment Done", "Online Payment");
                 else
                     payment = new Payment(amount, "InProcess - Advance Payment", "Online Payment");
@@ -89,10 +91,11 @@ namespace HotelBookingSystemAPI.Services
                 //method call to confirm booking 
                 var bookingConfirmation = await ConfirmBooking(bookingDetails, payId, loggedUser, searchRooms);
                 return new PaymentReturnDTO(bookingConfirmation.BookingId, bookingConfirmation.BookingId > 0 ? $"Payment Successfull..\n{bookingConfirmation.Status}" : $"Payment Not Successfull\n{bookingConfirmation.Status}");
+
             }
             catch (ObjectNotAvailableException)
             {
-                throw new ObjectNotAvailableException("HotelAvailability");
+                throw new ObjectNotAvailableException("Payment");
             }
 
         }
@@ -108,6 +111,9 @@ namespace HotelBookingSystemAPI.Services
                     var addBooking = new Booking(loggedUser, bookingDetails.NoOfRoomsBooked, bookingDetails.FinalAmount, bookingDetails.AdvancePayment,
                     bookingDetails.DiscountPercent, "Confirmed", payId, searchRooms.HotelId);
                     bookId = _bookingRepository.Add(addBooking).Result.BookId;
+                    var payment = _paymentRepository.Get(payId).Result;
+                    payment.BookId=bookId;
+                    await _paymentRepository.Update(payment);
                     await UpdateHotelAvailability(bookingDetails, searchRooms);
                     await AllocateRooms(bookId, searchRooms);
                     return new BookingConfirmationDTO(bookId, "Booking Confirmed!");
@@ -118,16 +124,13 @@ namespace HotelBookingSystemAPI.Services
             {
                 await _bookingRepository.Delete(bookId);
                 await _paymentRepository.Delete(payId);
+                throw new ObjectNotAvailableException("Payment");
             }
-            throw new ObjectNotAvailableException("HotelAvailability");
-
         }
 
         [ExcludeFromCodeCoverage]
         public async Task UpdateHotelAvailability(BookingReturnDTO bookingDetails, SearchRoomsDTO searchRooms)
         {
-            try
-            {
                 DateTime currentDate = bookingDetails.CheckInDate;
                 while (currentDate < bookingDetails.CheckOutDate)
                 {
@@ -144,11 +147,6 @@ namespace HotelBookingSystemAPI.Services
                     }
                     currentDate = currentDate.AddDays(1);
                 }
-            }
-            catch (ObjectNotAvailableException)
-            {
-                throw new ObjectNotAvailableException("HotelAvailability");
-            }
         }
 
         [ExcludeFromCodeCoverage]
@@ -245,72 +243,88 @@ namespace HotelBookingSystemAPI.Services
 
         public async Task<List<MyBookingDTO>> GetMyBookings(int loggedUser)
         {
-            var bookings = _guestRepository.Get(loggedUser).Result.bookings;
-            //mapping each booking to dto
-            List<MyBookingDTO> myBookings = bookings.Select(b => new MyBookingDTO
+            try
             {
-                HotelId = b.HotelId,
-                HotelName = _hotelRepository.Get(b.HotelId).Result.Name,
-                NoOfRoomsBooked = b.NoOfRooms,
-                BookedDate = b.Date.Date,
-                TotalAmount = Math.Round(b.TotalAmount,2),
-                DiscountPercent = Math.Round(b.Discount,2),
-                FinalAmount = Math.Round(b.TotalAmount - ((b.Discount / 100) * b.HotelId),2)
-            }).ToList();
-            return myBookings;
+                var bookings = _guestRepository.Get(loggedUser).Result.bookings;
+                //mapping each booking to dto
+                List<MyBookingDTO> myBookings = bookings.Select(b => new MyBookingDTO
+                {
+                    HotelId = b.HotelId,
+                    HotelName = _hotelRepository.Get(b.HotelId).Result.Name,
+                    NoOfRoomsBooked = b.NoOfRooms,
+                    BookedDate = b.Date.Date,
+                    TotalAmount = Math.Round(b.TotalAmount, 2),
+                    DiscountPercent = Math.Round(b.Discount, 2),
+                    FinalAmount = Math.Round(b.TotalAmount - ((b.Discount / 100) * b.HotelId), 2)
+                }).ToList();
+                return myBookings;
+            }
+            catch (ObjectNotAvailableException)
+            {
+                throw new ObjectNotAvailableException("User");
+            }
         }
 
         public async Task<string> ModifyBooking(int loggedUser, int bookingId, List<CancelRoomDTO> cancelRoom)
         {
-            var bookedRooms = _bookingRepository.Get(bookingId).Result.RoomsBooked;
-            if (bookedRooms[0].CheckInDate.Date == DateTime.Now.Date)
-            {
-                return "Cannot modify booking now!";
-            }
-            if(cancelRoom.Sum(r=>r.NoOfRoomsToCancel) == bookedRooms.Count())
-            {
-                return "Cannot Modify instead proceed with cancel booking!";
-            }
             try
             {
-                var totalAmount = 0.0;
-                foreach (var room in cancelRoom)
+                var bookedRooms = _bookingRepository.Get(bookingId).Result.RoomsBooked;
+                if (bookedRooms[0].CheckInDate.Date == DateTime.Now.Date)
                 {
-                    var res = bookedRooms.Where(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type == room.RoomType).Take(room.NoOfRoomsToCancel).ToList();
-                    totalAmount += _roomRepository.Get(res[0].RoomId).Result.RoomType.Amount * room.NoOfRoomsToCancel;
-                    foreach (var r in res)
+                    return "Cannot modify booking";
+                }
+                if (cancelRoom.Sum(r => r.NoOfRoomsToCancel) == bookedRooms.Count())
+                {
+                    return "Cannot Modify instead proceed with cancel booking!";
+                }
+                try
+                {
+                    var totalAmount = 0.0;
+                    foreach (var room in cancelRoom)
                     {
-                        await _bookedRoomsRepository.Delete(r.RoomId, r.BookingId);
-                    }
+                        var res = bookedRooms.Where(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type.ToLower() == room.RoomType.ToLower()).Take(room.NoOfRoomsToCancel).ToList();
+                        totalAmount += _roomRepository.Get(res[0].RoomId).Result.RoomType.Amount * room.NoOfRoomsToCancel;
+                        foreach (var r in res)
+                        {
+                            await _bookedRoomsRepository.Delete(r.RoomId, r.BookingId);
+                        }
 
+                    }
+                    DateTime currentDate = bookedRooms[0].CheckInDate.Date;
+                    while (currentDate < bookedRooms[0].CheckOutDate.Date)
+                    {
+                        var hotelAvailability = _hotelAvailability.Get(_bookingRepository.Get(bookingId).Result.HotelId, currentDate).Result;
+                        hotelAvailability.RoomsAvailableCount += cancelRoom.Sum(r => r.NoOfRoomsToCancel);
+                        await _hotelAvailability.Update(hotelAvailability);
+                        currentDate = currentDate.AddDays(1);
+                    }
+                    var bookedObj = _bookingRepository.Get(bookingId).Result;
+                    bookedObj.NoOfRooms -= cancelRoom.Sum(r => r.NoOfRoomsToCancel);
+                    bookedObj.TotalAmount -= totalAmount;
+                    var updatedBooking = await _bookingRepository.Update(bookedObj);
+                    if (updatedBooking != null)
+                    {
+                        await CalculateRefundForRoomCancel(loggedUser, updatedBooking, totalAmount);
+                        return $"Canceled successfully..\nRooms Booked - {updatedBooking.NoOfRooms}";
+                    }
+                    throw new ObjectNotAvailableException("Booking");
                 }
-                DateTime currentDate = bookedRooms[0].CheckInDate.Date;
-                while (currentDate < bookedRooms[0].CheckOutDate.Date)
+                catch (ObjectNotAvailableException)
                 {
-                    var hotelAvailability = _hotelAvailability.Get(_bookingRepository.Get(bookingId).Result.HotelId, currentDate).Result;
-                    hotelAvailability.RoomsAvailableCount += cancelRoom.Sum(r=>r.NoOfRoomsToCancel);
-                    await _hotelAvailability.Update(hotelAvailability);
-                    currentDate = currentDate.AddDays(1);
+                    throw new ObjectNotAvailableException("HotelAvailability");
                 }
-                var bookedObj = _bookingRepository.Get(bookingId).Result;
-                bookedObj.NoOfRooms -= cancelRoom.Sum(r => r.NoOfRoomsToCancel);
-                bookedObj.TotalAmount -= totalAmount; 
-                var updatedBooking = await _bookingRepository.Update(bookedObj);
-                if (updatedBooking != null)
-                {
-                    await calculateRefundForRoomCancel(loggedUser, updatedBooking, totalAmount);
-                    return $"Canceled successfully..\nRooms Booked - {updatedBooking.NoOfRooms}";
-                }
-                throw new ObjectNotAvailableException("Booking");
             }
-            catch (ObjectNotAvailableException )
+            catch (ObjectNotAvailableException)
             {
-                throw;
+                throw new ObjectNotAvailableException("Booking");
             }
             
         }
 
-        public async Task calculateRefundForRoomCancel(int loggedUser, Booking updatedBooking, double totalAmount)
+        [ExcludeFromCodeCoverage ]
+        //refund is calculated for room cancellation only if full payment is done.
+        public async Task CalculateRefundForRoomCancel(int loggedUser, Booking updatedBooking, double totalAmount)
         {
             if(_paymentRepository.Get((int)updatedBooking.PaymentId).Result.PaymentStatus == "Successful - Full Payment Done")
             {
@@ -318,10 +332,11 @@ namespace HotelBookingSystemAPI.Services
             }
         }
 
+        //calculate refund amount
         public async Task<double> CalculateRefundAmount(DateTime checkInDate, double totalAmount)
         {
             var refundAmount = 0.0;
-            switch ((checkInDate.Date - DateTime.Now.Date).TotalDays)
+            switch (Math.Abs((checkInDate.Date - DateTime.Now.Date).TotalDays))
             {
                 case 1:
                     refundAmount = totalAmount / 2;

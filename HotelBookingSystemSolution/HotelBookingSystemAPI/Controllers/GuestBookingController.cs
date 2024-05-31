@@ -25,16 +25,18 @@ namespace HotelBookingSystemAPI.Controllers
     {
         private readonly IGuestSearchService _guestSearchService;
         private readonly IGuestBookingService _bookingService;
+        private readonly ILogger<GuestBookingController> _logger;
         protected static SearchRoomsDTO searchRoom { get; set; }
         protected static SearchHotelDTO searchHotel { get; set; }
 
-        public GuestBookingController(IGuestSearchService guestService,IGuestBookingService bookingService )
+        public GuestBookingController(IGuestSearchService guestService,IGuestBookingService bookingService, ILogger<GuestBookingController> logger)
         {
             _bookingService = bookingService;
             _guestSearchService = guestService;
+            _logger = logger;
         }
 
-        #region GetHotels
+        #region GetHotelsByLocationAndDate
         [HttpPost("GetHotelsByLocationAndDate")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -44,14 +46,17 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByLocationAndDate(searchHotelDTO);
+                _logger.LogInformation("Successfully retrieved hotels");
                 return Ok(result);
             }
             catch (ObjectsNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -68,14 +73,17 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByRatings(searchHotel);
+                _logger.LogInformation("Hotels retrieved successfully based on rating");
                 return Ok(result);
             }
             catch (ObjectsNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -92,14 +100,17 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByFeatures(features,searchHotel);
+                _logger.LogInformation("Successfully retrieved hotels by its features");
                 return Ok(result);
             }
             catch (ObjectsNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogCritical(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -107,7 +118,7 @@ namespace HotelBookingSystemAPI.Controllers
         #endregion
 
 
-        #region getRoomsAvailableInThatHotel
+        #region GetAvailableRoomTypesInThatHotel
         [HttpPost("GetRoomsByHotel")]
         [ProducesResponseType(typeof(List<AvailableRoomTypesDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -122,14 +133,17 @@ namespace HotelBookingSystemAPI.Controllers
                     return BadRequest(new ErrorModel(404, "Cannot book for more than a week"));
                 }
                 List<AvailableRoomTypesDTO> result = await _guestSearchService.GetAvailableRoomTypesByHotel(searchRoomDTO);
+                _logger.LogInformation("Available roomsTypes displayed successfully!");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -146,14 +160,16 @@ namespace HotelBookingSystemAPI.Controllers
             try
             {
                 var result = await _guestSearchService.GetDetailedDescriptionOfRoomType(searchRoom.HotelId,roomType);
+                _logger.LogInformation("Description provided");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
-            {
+            {   _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -169,12 +185,15 @@ namespace HotelBookingSystemAPI.Controllers
         {
             try
             {
+                //Retrieved current user 
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
                 BookingReturnDTO result = await _bookingService.BookRooms(bookRooms, loggedUser, searchRoom);
+                _logger.LogInformation("Booking confirmation Description provided");
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -192,10 +211,12 @@ namespace HotelBookingSystemAPI.Controllers
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
                 var payment = await _bookingService.MakePayment(amount, loggedUser, searchRoom);
+                _logger.LogInformation("Payment done and booking confirmed!");
                 return Ok(payment);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -213,10 +234,12 @@ namespace HotelBookingSystemAPI.Controllers
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
                 string result = await _bookingService.CancelBooking(bookingId, loggedUser);
+                _logger.LogInformation("Booking Cancelled successfully");
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -234,14 +257,17 @@ namespace HotelBookingSystemAPI.Controllers
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
                 string result = await _bookingService.ModifyBooking(loggedUser, bookingId,cancelRoomDTO);
+                _logger.LogInformation("Booking Modified successfully");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)
             {
+                _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -261,12 +287,15 @@ namespace HotelBookingSystemAPI.Controllers
                 var result = await _bookingService.GetMyBookings(loggedInUser);
                 if (result.Count > 0)
                 {
+                    _logger.LogInformation("User Bookings retrieved!");
                     return Ok(result);
                 }
+                _logger.LogInformation("No bookings");
                 return NotFound(new ErrorModel(404,"No bookings were done"));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 
@@ -285,12 +314,14 @@ namespace HotelBookingSystemAPI.Controllers
                 var result = await _guestSearchService.HotelRecommendations(loggedInUser);
                 if (result.Count > 0)
                 {
+                    _logger.LogInformation("Recommendations provided");
                     return Ok(result);
                 }
                 return NotFound(new ErrorModel(404, "No Hotels are recommanded"));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new ErrorModel(400, ex.Message));
             }
 

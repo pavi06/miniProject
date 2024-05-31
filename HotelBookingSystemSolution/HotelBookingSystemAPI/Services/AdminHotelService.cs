@@ -37,7 +37,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("Hotel");
             }
         }
 
@@ -53,7 +53,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectAlreadyExistsException)
             {
-                throw ;
+                throw new ObjectAlreadyExistsException("Hotel");
             }
             
         }
@@ -67,7 +67,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectNotAvailableException)
             {
-                throw ;
+                throw new ObjectNotAvailableException("Hotel");
             }
             
         }

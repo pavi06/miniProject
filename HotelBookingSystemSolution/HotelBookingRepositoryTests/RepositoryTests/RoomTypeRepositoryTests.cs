@@ -37,6 +37,22 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                 HotelId = 1
             };
             await roomTypeRepository.Add(roomType);
+
+            Hotel hotel = new Hotel()
+            {
+                HotelId=1,
+                Name = "ABC Residency",
+                Address = "No 3, Nehru street, chennai",
+                City = "Chennai",
+                TotalNoOfRooms = 5,
+                IsAvailable = true,
+                Rating = 4.0,
+                Amenities = "Wifi, Parking",
+                Restrictions = "No Pets"
+            };
+            IRepository<int, Hotel> hotelRepo = new HotelRepository(context);
+            await hotelRepo.Add(hotel);
+
         }
 
 
@@ -64,7 +80,18 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         public async Task AddRoomTypeExceptionTest()
         {
             //Arrange 
-            RoomType roomType = new RoomType("Standard", 4, "jghfvhbmnm", 3000, 2, "Wifi, Parking", 0, 1);
+            RoomType roomType = new RoomType()
+            {
+                RoomTypeId = 1,
+                Type = "Standard",
+                Occupancy = 4,
+                Images = "jhghfgh",
+                Amount = 3000,
+                CotsAvailable = 2,
+                Amenities = "Wifi, Parking",
+                Discount = 0,
+                HotelId = 1
+            };
             var exception = Assert.Throws<ObjectAlreadyExistsException>(() => roomTypeRepository.Add(roomType));
             //Assert
             Assert.AreEqual("RoomType Already Exists!", exception.Message);
@@ -104,7 +131,7 @@ namespace HotelBookingSystemAPITests.RepositoryTests
             RoomType roomType = new RoomType()
             {
                 RoomTypeId = 2,
-                Type = "Standard",
+                Type = "Deluxe",
                 Occupancy = 4,
                 Images = "jhghfgh",
                 Amount = 3000,
@@ -116,15 +143,6 @@ namespace HotelBookingSystemAPITests.RepositoryTests
             await roomTypeRepository.Add(roomType);
             //Action
             var result = await roomTypeRepository.Get(2);
-            //Assert
-            Assert.IsNotNull(result);
-        }
-
-        [Test]
-        public async Task GetRoomTypeFailTest()
-        {
-            //Action
-            var result = roomTypeRepository.Get(2).Result;
             //Assert
             Assert.IsNotNull(result);
         }
@@ -162,7 +180,19 @@ namespace HotelBookingSystemAPITests.RepositoryTests
         [Test]
         public async Task UpdateRoomTypeSuccessTest()
         {
-            var room = await roomTypeRepository.Get(1);
+            RoomType roomType = new RoomType()
+            {
+                RoomTypeId = 5,
+                Type = "Standard deluxe",
+                Occupancy = 4,
+                Images = "jhghfgh",
+                Amount = 3000,
+                CotsAvailable = 2,
+                Amenities = "Wifi, Parking",
+                Discount = 0,
+                HotelId = 1
+            };
+            var room = await roomTypeRepository.Add(roomType);
             room.HotelId = 2;
             var result = await roomTypeRepository.Update(room);
             //Assert

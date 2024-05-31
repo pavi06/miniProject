@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 using HotelBookingSystemAPI.Models.DTOs.EmployeeDTOs;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -15,40 +16,54 @@ namespace HotelBookingSystemAPI.Services
         private readonly IRepository<int, Guest> _guestRepo;
         private readonly IRepository<int, HotelEmployee> _empRepo;
         private readonly ITokenService _tokenService;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IRepository<int, User> userRepo, IRepository<int, Guest> guestRepo, ITokenService tokenService, IRepository<int, HotelEmployee> empRepo)
+        public UserService(IRepository<int, User> userRepo, IRepository<int, Guest> guestRepo, ITokenService tokenService, IRepository<int, HotelEmployee> empRepo, ILogger<UserService> logger)
         {
             _userRepo = userRepo;
             _guestRepo = guestRepo;
             _tokenService = tokenService;
             _empRepo = empRepo;
+            _logger = logger;
         }
 
         #region Login
         public async Task<UserLoginReturnDTO> Login(UserLoginDTO loginDTO)
         {
-            var guest = _guestRepo.Get().Result.SingleOrDefault(g => g.Email.ToLower() == loginDTO.Email.ToLower());
-            var userDB = await _userRepo.Get(guest.GuestId);
-            if (userDB == null)
+            try
             {
+                var guest = _guestRepo.Get().Result.SingleOrDefault(g => g.Email.ToLower() == loginDTO.Email.ToLower());
+                var userDB = await _userRepo.Get(guest.GuestId);
+                if (userDB == null)
+                {
+                    _logger.LogCritical("Unauthorized access");
+                    throw new UnauthorizedUserException();
+                }
+                HMACSHA512 hMACSHA = new HMACSHA512(userDB.PasswordHashKey);
+                var encrypterPass = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
+                bool isPasswordSame = ComparePassword(encrypterPass, userDB.Password);
+                if (isPasswordSame)
+                {
+                    if (userDB.Status == "Active")
+                    {
+                        UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(guest);
+                        _logger.LogInformation("User logged in successfully");
+                        return loginReturnDTO;
+                    }
+                    _logger.LogError("User not avtivated yet!");
+                    throw new UserNotActiveException();
+                }
+                _logger.LogCritical("Unauthorized access");
                 throw new UnauthorizedUserException();
             }
-            HMACSHA512 hMACSHA = new HMACSHA512(userDB.PasswordHashKey);
-            var encrypterPass = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
-            bool isPasswordSame = ComparePassword(encrypterPass, userDB.Password);
-            if (isPasswordSame)
+            catch (ObjectsNotAvailableException)
             {
-                if (userDB.Status == "Active")
-                {
-                    UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(guest);
-                    return loginReturnDTO;
-                }
-
-                throw new UserNotActiveException();
+                _logger.LogCritical("User not available");
+                throw new ObjectNotAvailableException("User");
             }
-            throw new UnauthorizedUserException();
         }
 
+        [ExcludeFromCodeCoverage]
         private UserLoginReturnDTO MapGuestToLoginReturn(Guest guest)
         {
             UserLoginReturnDTO returnDTO = new UserLoginReturnDTO();
@@ -58,6 +73,7 @@ namespace HotelBookingSystemAPI.Services
             return returnDTO;
         }
 
+        [ExcludeFromCodeCoverage]
         private bool ComparePassword(byte[] encrypterPass, byte[] password)
         {
             for (int i = 0; i < encrypterPass.Length; i++)
@@ -86,6 +102,7 @@ namespace HotelBookingSystemAPI.Services
                 user.GuestId = guest.GuestId;
                 user = await _userRepo.Add(user);
                 GuestReturnDTO addedGuest = new GuestReturnDTO(guest.Name, guest.Email, guest.Address, guest.PhoneNumber, guest.Role);
+                _logger.LogInformation("User registered successfuly");
                 return addedGuest;
             }
             catch (Exception) { }
@@ -93,6 +110,7 @@ namespace HotelBookingSystemAPI.Services
                 await RevertGuestInsert(guest);
             if (user != null && guest == null)
                 await RevertUserInsert(user);
+            _logger.LogInformation("Unable to register at this moment");
             throw new UnableToRegisterException();
         }
 
@@ -107,6 +125,7 @@ namespace HotelBookingSystemAPI.Services
             await _guestRepo.Delete(guest.GuestId);
         }
 
+        [ExcludeFromCodeCoverage]
         private User MapGuestDTOToUser(GuestRegisterDTO guestDTO)
         {
             User user = new User();
@@ -134,13 +153,16 @@ namespace HotelBookingSystemAPI.Services
                 {
                     var updatedUSer = await _userRepo.Update(userRetrived);
                     user.Status = updatedUSer.Status;
+                    _logger.LogInformation("User activated");
                     return user;
                 }
                 catch (ObjectNotAvailableException)
                 {
+                    _logger.LogCritical("User not available");
                     throw new ObjectNotAvailableException("User");
                 }
             }
+            _logger.LogCritical("User not available");
             throw new ObjectNotAvailableException("User");
 
         }
@@ -160,11 +182,13 @@ namespace HotelBookingSystemAPI.Services
                 employee.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(empDTO.Password));
                 employee = await _empRepo.Add(employee);
                 EmployeeRegisterReturnDTO addedEmployee = new EmployeeRegisterReturnDTO(employee.Name, employee.Email, employee.Address, employee.PhoneNumber, employee.Role);
+                _logger.LogInformation("Employee registered successfully");
                 return addedEmployee;
             }
             catch (Exception) {
                
             }
+            _logger.LogCritical("Unable to register at this moment");
             throw new UnableToRegisterException();
         }
 
@@ -176,6 +200,7 @@ namespace HotelBookingSystemAPI.Services
             var emp = _empRepo.Get().Result.SingleOrDefault(g => g.Email.ToLower() == loginDTO.Email.ToLower());
             if (emp == null)
             {
+                _logger.LogCritical("Unauthorized access");
                 throw new UnauthorizedUserException();
             }
             HMACSHA512 hMACSHA = new HMACSHA512(emp.PasswordHashKey);
@@ -186,14 +211,17 @@ namespace HotelBookingSystemAPI.Services
                 if (emp.Status == "Active")
                 {
                     UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(emp);
+                    _logger.LogInformation("User activated");
                     return loginReturnDTO;
                 }
-
+                _logger.LogError("User not avtivated yet!");
                 throw new UserNotActiveException();
             }
+            _logger.LogCritical("Unauthorized access");
             throw new UnauthorizedUserException();
         }
 
+        [ExcludeFromCodeCoverage]
         private UserLoginReturnDTO MapGuestToLoginReturn(HotelEmployee emp)
         {
             UserLoginReturnDTO returnDTO = new UserLoginReturnDTO();

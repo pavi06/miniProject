@@ -2,8 +2,7 @@
 
 namespace HotelBookingSystemAPI.CustomExceptions
 {
-    [Serializable]
-    internal class UserNotActiveException : Exception
+    public class UserNotActiveException : Exception
     {
         public string msg = "";
         public UserNotActiveException()

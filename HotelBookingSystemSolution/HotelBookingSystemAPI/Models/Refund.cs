@@ -15,6 +15,8 @@ namespace HotelBookingSystemAPI.Models
         [ForeignKey("BookId")]
         public Booking Booking { get; set; }
 
+        public DateTime Date { get; set; } = DateTime.Now;
+
         public double RefundAmount { get; set; }
 
         public Refund() { }

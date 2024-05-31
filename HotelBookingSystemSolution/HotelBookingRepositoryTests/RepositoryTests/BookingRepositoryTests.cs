@@ -24,19 +24,19 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             repository = new BookingRepository(context);
-            //Booking booking = new Booking()
-            //{
-            //    BookId = 1,
-            //    GuestId = 1,
-            //    NoOfRooms = 2,
-            //    TotalAmount = 3500,
-            //    AdvancePayment = 1750,
-            //    Discount = 0,
-            //    BookingStatus = "Confirmed",
-            //    PaymentId = 1,
-            //    HotelId = 1,
-            //};
-            //await repository.Add(booking);
+            Booking booking = new Booking()
+            {
+                BookId = 1,
+                GuestId = 1,
+                NoOfRooms = 2,
+                TotalAmount = 3500,
+                AdvancePayment = 1750,
+                Discount = 0,
+                BookingStatus = "Confirmed",
+                PaymentId = 1,
+                HotelId = 1,
+            };
+            await repository.Add(booking);
 
         }
 

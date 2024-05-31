@@ -3,7 +3,7 @@
 namespace HotelBookingSystemAPI.CustomExceptions
 {
     [Serializable]
-    internal class UnauthorizedUserException : Exception
+    public class UnauthorizedUserException : Exception
     {
         public string msg = "";
         public UnauthorizedUserException()

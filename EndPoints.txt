@@ -5,9 +5,12 @@ PostMethods
 •	RegisterUser (params – name, address, email, phoneNumber, password)
 •	Login (params – email, password)
 •	GetHotelsByLocation  (params – location)
-•	GetRoomsByDateAndRoomTypeAndOccupancy (params - CheckinDate , RoomType , Occupany)
+•	GetRoomTypes of hotel
+•	GetDetails of roomType
+•	GetRoomsByDateAndRoomType (params - CheckinDate , RoomType , Occupany)
 •	GetRoomsByDate (params - Date)
 •	GetHotelsByRating
+•	GetHotelsByFeatures
 •	BookRoom (params – roomIds(list), checkinDate, checkoutDate)
 •	MakePayment (params – AmountPaid)
 •	ProvideFeedback (params – hotelId, rating, comment)
@@ -22,6 +25,7 @@ DeleteMethods
 
 GetMethods
 •	GetMyBookings
+•	GetRecommandedHotel
 
 
 Admin Accessible EndPoints :
@@ -36,6 +40,7 @@ PutMethods
 •	UpdateHotelDetails
 •	UpdateHotelAvailabilityStatus (params - HotelId, status)
 •	UpdateRooms 
+•	UpdateRoomStatus
 •	UpdateRoomTypes 
 
 
@@ -50,8 +55,14 @@ DeleteMethods
 •	DeleteRoom(params - roomId)
 
 Employee
-Get Methods:
+Post Methods:
+•	RegisterEmployee
+•	LoginEmployee
+•	GetAllBookingRequestByDateOrMonth
 •	GetAllBookingRequestRaisedToday
+
+GetMethods:
+•	GetAllBookingRequest
 •	GetAllCheckInDetailsForToday
 
 

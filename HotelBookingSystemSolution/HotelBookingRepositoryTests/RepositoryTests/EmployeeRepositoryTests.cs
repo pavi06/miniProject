@@ -26,19 +26,19 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             repository = new EmployeeRepository(context);
-            //HotelEmployee employee = new HotelEmployee()
-            //{
-            //    EmpId = 1,
-            //    HotelId = 2,
-            //    Name = "Pavi",
-            //    Email = "pavi@gmail.com",
-            //    PhoneNumber = "9786756455",
-            //    Address = "No 4, Gandhi street, Chennai",
-            //    Password = new byte[] { },
-            //    PasswordHashKey = new byte[] { },
-            //    Status = "Active",
-            //};
-            //await repository.Add(employee);
+            HotelEmployee employee = new HotelEmployee()
+            {
+                EmpId = 1,
+                HotelId = 2,
+                Name = "Pavi",
+                Email = "pavi@gmail.com",
+                PhoneNumber = "9786756455",
+                Address = "No 4, Gandhi street, Chennai",
+                Password = new byte[] { },
+                PasswordHashKey = new byte[] { },
+                Status = "Active",
+            };
+            await repository.Add(employee);
 
         }
 

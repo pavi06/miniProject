@@ -42,10 +42,14 @@ namespace HotelBookingSystemAPI.Services
         {
             try
             {
-                Rating rating = new Rating(loggedUser, ratingDTO.HotelId, ratingDTO.ReviewRating, ratingDTO.Comments);
-                var ratingAdded = await _ratingRepository.Add(rating);
-                await UpdateOverAllRating(ratingAdded, true);
-                return new RatingReturnDTO(ratingAdded.RatingId,ratingAdded.ReviewRating,ratingAdded.Comments);
+                if(_hotelRepository.Get(ratingDTO.HotelId).Result!=null)
+                {
+                    Rating rating = new Rating(loggedUser, ratingDTO.HotelId, ratingDTO.ReviewRating, ratingDTO.Comments);
+                    var ratingAdded = await _ratingRepository.Add(rating);
+                    await UpdateOverAllRating(ratingAdded, true);
+                    return new RatingReturnDTO(ratingAdded.RatingId, ratingAdded.ReviewRating, ratingAdded.Comments);
+                }
+                throw new ObjectNotAvailableException("Hotel");
             }
             catch (ObjectNotAvailableException)
             {

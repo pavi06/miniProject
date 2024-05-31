@@ -31,7 +31,7 @@ namespace HotelBookingSystemAPIBLTests
 
             //Action
             RoomTypeDTO roomType = new RoomTypeDTO()
-            {
+            { 
                 Type = "Standard",
                 Occupancy = 4,
                 Images = "jhghfgh",
@@ -201,7 +201,7 @@ namespace HotelBookingSystemAPIBLTests
             IRepository<int, RoomType> roomTypeRepository = new RoomTypeRepository(context);
             IAdminRoomService roomService = new AdminRoomService(roomRepository, roomTypeRepository);
             //Action
-            UpdateRoomTypeDTO update = new UpdateRoomTypeDTO() { HotelId = 1, RoomTypeId = 1, AttributeName = "", AttributeValue = "" };
+            UpdateRoomTypeDTO update = new UpdateRoomTypeDTO() { HotelId = 1, RoomTypeId = 1, AttributeName = "bookingId", AttributeValue = "6" };
             var exception = Assert.ThrowsAsync<Exception>(() => roomService.UpdateRoomTypeByAttribute(update));
             //Assert
             Assert.AreEqual("No such attribute available!", exception.Message);

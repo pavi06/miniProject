@@ -11,7 +11,6 @@ namespace HotelBookingSystemAPI.Services
 {
     public class UserService : IUserService
     {
-
         private readonly IRepository<int, User> _userRepo;
         private readonly IRepository<int, Guest> _guestRepo;
         private readonly IRepository<int, HotelEmployee> _empRepo;
@@ -33,6 +32,10 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var guest = _guestRepo.Get().Result.SingleOrDefault(g => g.Email.ToLower() == loginDTO.Email.ToLower());
+                if(guest == null)
+                {
+                    throw new ObjectNotAvailableException("User");
+                }
                 var userDB = await _userRepo.Get(guest.GuestId);
                 if (userDB == null)
                 {
@@ -46,7 +49,7 @@ namespace HotelBookingSystemAPI.Services
                 {
                     if (userDB.Status == "Active")
                     {
-                        UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(guest);
+                        UserLoginReturnDTO loginReturnDTO = await MapGuestToLoginReturn(guest);
                         _logger.LogInformation("User logged in successfully");
                         return loginReturnDTO;
                     }
@@ -63,17 +66,22 @@ namespace HotelBookingSystemAPI.Services
             }
         }
 
-        [ExcludeFromCodeCoverage]
-        private UserLoginReturnDTO MapGuestToLoginReturn(Guest guest)
+        private async Task<UserLoginReturnDTO> MapGuestToLoginReturn(Guest guest)
         {
             UserLoginReturnDTO returnDTO = new UserLoginReturnDTO();
             returnDTO.UserName = guest.Name;
             returnDTO.Role = guest.Role ?? "User";
-            returnDTO.Token = _tokenService.GenerateToken(guest);
+            returnDTO.AccessToken = _tokenService.GenerateToken(guest);
+            var token = _tokenService.GenerateRefreshToken();
+            returnDTO.RefreshToken = token.RfrshToken;
+            var user = await _userRepo.Get(guest.GuestId);
+            user.RefreshToken = token.RfrshToken;
+            user.CreatedOn = token.Created;
+            user.ExpiresOn = token.ExpiresOn;
+            await _userRepo.Update(user);
             return returnDTO;
         }
 
-        [ExcludeFromCodeCoverage]
         private bool ComparePassword(byte[] encrypterPass, byte[] password)
         {
             for (int i = 0; i < encrypterPass.Length; i++)
@@ -105,6 +113,10 @@ namespace HotelBookingSystemAPI.Services
                 _logger.LogInformation("User registered successfuly");
                 return addedGuest;
             }
+            catch (ObjectAlreadyExistsException)
+            {
+                throw new ObjectAlreadyExistsException("User");
+            }
             catch (Exception) { }
             if (guest != null)
                 await RevertGuestInsert(guest);
@@ -124,8 +136,6 @@ namespace HotelBookingSystemAPI.Services
 
             await _guestRepo.Delete(guest.GuestId);
         }
-
-        [ExcludeFromCodeCoverage]
         private User MapGuestDTOToUser(GuestRegisterDTO guestDTO)
         {
             User user = new User();
@@ -133,8 +143,6 @@ namespace HotelBookingSystemAPI.Services
             HMACSHA512 hMACSHA = new HMACSHA512();
             user.PasswordHashKey = hMACSHA.Key;
             user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(guestDTO.Password));
-            //user.RefreshToken = _tokenService.GenerateRefreshToken();
-            //user.ExpiresOn = DateTime.Now.AddDays(1);
             return user;
         }
         #endregion 
@@ -185,6 +193,10 @@ namespace HotelBookingSystemAPI.Services
                 _logger.LogInformation("Employee registered successfully");
                 return addedEmployee;
             }
+            catch (ObjectAlreadyExistsException)
+            {
+                throw new ObjectAlreadyExistsException("User");
+            }
             catch (Exception) {
                
             }
@@ -210,7 +222,7 @@ namespace HotelBookingSystemAPI.Services
             {
                 if (emp.Status == "Active")
                 {
-                    UserLoginReturnDTO loginReturnDTO = MapGuestToLoginReturn(emp);
+                    UserLoginReturnDTO loginReturnDTO = await MapGuestToLoginReturn(emp);
                     _logger.LogInformation("User activated");
                     return loginReturnDTO;
                 }
@@ -221,13 +233,18 @@ namespace HotelBookingSystemAPI.Services
             throw new UnauthorizedUserException();
         }
 
-        [ExcludeFromCodeCoverage]
-        private UserLoginReturnDTO MapGuestToLoginReturn(HotelEmployee emp)
+        private async Task<UserLoginReturnDTO> MapGuestToLoginReturn(HotelEmployee emp)
         {
             UserLoginReturnDTO returnDTO = new UserLoginReturnDTO();
             returnDTO.UserName = emp.Name;
             returnDTO.Role = emp.Role ?? "User";
-            returnDTO.Token = _tokenService.GenerateTokenForEmployee(emp);
+            returnDTO.AccessToken = _tokenService.GenerateTokenForEmployee(emp);
+            var token = _tokenService.GenerateRefreshToken();
+            returnDTO.RefreshToken =token.RfrshToken;
+            emp.RefreshToken = token.RfrshToken;
+            emp.CreatedOn =token.Created;
+            emp.ExpiresOn = token.ExpiresOn;
+            await _empRepo.Update(emp);
             return returnDTO;
         }
         #endregion

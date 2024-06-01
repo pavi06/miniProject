@@ -1,6 +1,8 @@
 ﻿using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -21,15 +23,16 @@ namespace HotelBookingSystemAPI.Services
             _logger = logger;
         }
 
-        //public string GenerateRefreshToken()
-        //{
-        //    var refreshToken = new RefreshToken()
-        //    {
-        //        RfrshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-        //        ExpiresOn = DateTime.Now.AddDays(1)
-        //    };
-        //    return refreshToken.ToString();
-        //}
+        //generate refresh token
+        public RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken()
+            {
+                RfrshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                ExpiresOn = DateTime.Now.AddMinutes(5)
+            };
+            return refreshToken;
+        }
 
         public string GenerateToken(Guest guest)
         {
@@ -40,7 +43,7 @@ namespace HotelBookingSystemAPI.Services
                 new Claim("Role",guest.Role)
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
-            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(2), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
             _logger.LogInformation("Token generated successfully");
             return token;
@@ -55,10 +58,30 @@ namespace HotelBookingSystemAPI.Services
                 new Claim("Role",emp.Role)
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
-            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
             _logger.LogInformation("Token generated successfully");
             return token;
+        }
+
+        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, 
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey)),
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+            return principal;
         }
     }
 }

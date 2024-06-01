@@ -5,6 +5,8 @@
         public int GuestId { get; set; }
         public string Status { get; set; }
 
+        public UserActivationDTO() { }
+
         public UserActivationDTO(int guestId, string status)
         {
             GuestId = guestId;

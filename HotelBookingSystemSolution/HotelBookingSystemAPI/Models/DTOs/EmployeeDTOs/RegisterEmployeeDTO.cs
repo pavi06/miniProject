@@ -20,5 +20,7 @@ namespace HotelBookingSystemAPI.Models.DTOs.EmployeeDTOs
         [MinLength(6, ErrorMessage = "Password has to be minimum of 6 chars long")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password cannot be empty")]
         public string Password { get; set; }
+
+        public RegisterEmployeeDTO() { }
     }
 }

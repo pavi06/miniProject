@@ -40,6 +40,8 @@ namespace HotelBookingSystemAPI.Repositories
         public async Task<BookedRooms> Get(int key1, int key2)
         {
             var bookedRoom = await _context.BookedRooms.Include(br=>br.Room).Include(br => br.Booking).SingleOrDefaultAsync(h => h.RoomId == key1 && h.BookingId == key2);
+            if(bookedRoom==null)
+                throw new ObjectNotAvailableException("BookedRoom");
             return bookedRoom;
         }
 

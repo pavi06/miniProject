@@ -1,4 +1,5 @@
 ﻿using HotelBookingSystemAPI.Models;
+using System.Security.Claims;
 
 namespace HotelBookingSystemAPI.Interfaces
 {
@@ -6,7 +7,9 @@ namespace HotelBookingSystemAPI.Interfaces
     {
         public string GenerateToken(Guest person);
         public string GenerateTokenForEmployee(HotelEmployee emp);
-        //public string GenerateRefreshToken();
+        public RefreshToken GenerateRefreshToken();
+        ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+
     }
 }
 

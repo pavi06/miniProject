@@ -65,7 +65,9 @@ namespace HotelBookingSystemAPI
                         ValidateAudience = false,
                         RoleClaimType = "Role",
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey:JWT"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey:JWT"])),
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     };
 
                 });

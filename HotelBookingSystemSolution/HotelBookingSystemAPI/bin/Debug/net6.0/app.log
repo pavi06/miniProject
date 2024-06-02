@@ -1,52 +1,49 @@
-INFO  07:22:50 Now listening on: http://localhost:5058
-INFO  07:22:50 Application started. Press Ctrl+C to shut down.
-INFO  07:22:50 Hosting environment: Development
-INFO  07:22:50 Content root path: C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\
-ERROR 07:23:06 An unhandled exception has occurred while executing the request.
-System.InvalidOperationException: Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'HotelBookingSystemAPI.Controllers.AdminBasicController'.
-   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
-   at lambda_method9(Closure , IServiceProvider , Object[] )
-   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
-   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
---- End of stack trace from previous location ---
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
-   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
-   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
-   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
-INFO  07:23:38 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
-INFO  07:23:41 Executed DbCommand (155ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INFO  10:10:07 Now listening on: http://localhost:5058
+INFO  10:10:07 Application started. Press Ctrl+C to shut down.
+INFO  10:10:07 Hosting environment: Development
+INFO  10:10:07 Content root path: C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\
+INFO  10:10:42 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:10:44 Executed DbCommand (131ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
 SELECT [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
 FROM [Guests] AS [g]
 LEFT JOIN [Bookings] AS [b] ON [g].[GuestId] = [b].[GuestId]
 ORDER BY [g].[GuestId]
-INFO  07:23:41 Executed DbCommand (95ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-SELECT TOP(2) [u].[GuestId], [u].[Password], [u].[PasswordHashKey], [u].[Status]
+INFO  10:10:45 Executed DbCommand (90ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
 FROM [Users] AS [u]
 WHERE [u].[GuestId] = @__key_0
-ERROR 07:24:12 An unhandled exception has occurred while executing the request.
-System.InvalidOperationException: Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'HotelBookingSystemAPI.Controllers.AdminBasicController'.
-   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
-   at lambda_method9(Closure , IServiceProvider , Object[] )
-   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
-   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
---- End of stack trace from previous location ---
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
-   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
-   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
-   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+INFO  10:10:45 Token generated successfully
+INFO  10:10:45 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:10:45 Executed DbCommand (5ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:10:46 Executed DbCommand (8ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 8000) (DbType = Binary), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedOn] = @p0, [ExpiresOn] = @p1, [Password] = @p2, [PasswordHashKey] = @p3, [RefreshToken] = @p4, [Status] = @p5
+WHERE [GuestId] = @p6;
+SELECT @@ROWCOUNT;
+INFO  10:10:46 User logged in successfully
+INFO  10:10:46 Login successfull
+INFO  10:11:32 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+WARN  10:11:32 Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+INFO  10:11:32 Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Hotels] AS [h]
+LEFT JOIN [Rooms] AS [r] ON [h].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [h].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [h].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [h].[HotelId] = [b].[HotelId]
+ORDER BY [h].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:11:33 Executed DbCommand (6ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:11:33 Executed DbCommand (2ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:11:33 Successfully retrieved hotels

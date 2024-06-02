@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "248OnPdkUPZJQwYTIgVgTlgJYfpbcwMaBBJ5iNW+zSAXaY28ihcMQ+VIMLmV+u0yhaYJJSVm2py47lK61MC4kA==",
+  "dgSpecHash": "rz2n0aZzGubvTDy/VQTyakQsS0I8SIJvQcki3q74hV8Xoq0IrJ8npTidyi+NsPY1rT/MOh9Q1x6pz0GXUyDyzQ==",
   "success": true,
   "projectFilePath": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPITests\\HotelBookingSystemAPITests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VC\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
-    "C:\\Users\\VC\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
+    "C:\\Users\\VC\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\VC\\.nuget\\packages\\log4net\\2.0.17\\log4net.2.0.17.nupkg.sha512",
     "C:\\Users\\VC\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.30\\microsoft.aspnetcore.authentication.jwtbearer.6.0.30.nupkg.sha512",
     "C:\\Users\\VC\\.nuget\\packages\\microsoft.codecoverage\\17.5.0\\microsoft.codecoverage.17.5.0.nupkg.sha512",

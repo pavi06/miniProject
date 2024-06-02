@@ -15,7 +15,7 @@
           "NUnit": "3.13.3",
           "NUnit.Analyzers": "3.6.1",
           "NUnit3TestAdapter": "4.4.2",
-          "coverlet.collector": "3.2.0"
+          "coverlet.collector": "6.0.2"
         },
         "runtime": {
           "HotelBookingSystemAPITests.dll": {}
@@ -32,7 +32,7 @@
           }
         }
       },
-      "coverlet.collector/3.2.0": {},
+      "coverlet.collector/6.0.2": {},
       "log4net/2.0.17": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.7.0"
@@ -916,12 +916,12 @@
       "path": "castle.core/5.1.1",
       "hashPath": "castle.core.5.1.1.nupkg.sha512"
     },
-    "coverlet.collector/3.2.0": {
+    "coverlet.collector/6.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-xjY8xBigSeWIYs4I7DgUHqSNoGqnHi7Fv7/7RZD02rvZyG3hlsjnQKiVKVWKgr9kRKgmV+dEfu8KScvysiC0Wg==",
-      "path": "coverlet.collector/3.2.0",
-      "hashPath": "coverlet.collector.3.2.0.nupkg.sha512"
+      "sha512": "sha512-bJShQ6uWRTQ100ZeyiMqcFlhP7WJ+bCuabUs885dJiBEzMsJMSFr7BOyeCw4rgvQokteGi5rKQTlkhfQPUXg2A==",
+      "path": "coverlet.collector/6.0.2",
+      "hashPath": "coverlet.collector.6.0.2.nupkg.sha512"
     },
     "log4net/2.0.17": {
       "type": "package",

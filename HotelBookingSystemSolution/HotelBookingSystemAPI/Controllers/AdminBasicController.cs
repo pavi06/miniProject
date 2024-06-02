@@ -23,7 +23,6 @@ namespace HotelBookingSystemAPI.Controllers
         {
             _userService = userService;
             _logger = logger;
-            _logger = logger;
         }
 
         #region ActivateUser

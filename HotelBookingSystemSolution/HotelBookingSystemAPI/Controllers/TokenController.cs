@@ -24,7 +24,7 @@ namespace HotelBookingSystemAPI.Controllers
 
         [HttpPost]
         [Route("refreshToken")]
-        public IActionResult Refresh(Token tokenModel)
+        public async Task<IActionResult> Refresh(Token tokenModel)
         {
             if (tokenModel == null)
                 return BadRequest("Invalid client request");
@@ -40,7 +40,7 @@ namespace HotelBookingSystemAPI.Controllers
             user.RefreshToken = newRefreshToken.RfrshToken;
             user.CreatedOn = newRefreshToken.Created;
             user.ExpiresOn = newRefreshToken.ExpiresOn;
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return Ok(new AuthenticatedResponseToken()
             {
                 AccessToken = newAccessToken,
@@ -52,13 +52,14 @@ namespace HotelBookingSystemAPI.Controllers
 
         [HttpPost, Authorize]
         [Route("revoke")]
-        public IActionResult Revoke()
+        public async Task<IActionResult> Revoke()
         {
             var username = User.FindFirstValue("UserId");
             var user = _context.Users.SingleOrDefault(u => u.GuestId.ToString() == username);
             if (user == null) return BadRequest();
             user.RefreshToken = null;
-            _context.SaveChangesAsync();
+            user.ExpiresOn = DateTime.MinValue;
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

@@ -134,11 +134,11 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPut("UpdateRoomImages")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> UpdateRoomImages(string type, int roomId, string images)
+        public async Task<ActionResult<string>> UpdateRoomImages(int roomId, string images)
         {
             try
             {
-                var result = await _roomService.UpdateRoomImages(type, roomId, images);
+                var result = await _roomService.UpdateRoomImages(roomId, images);
                 _logger.LogInformation("successfully updated");
                 return Ok(result);
             }

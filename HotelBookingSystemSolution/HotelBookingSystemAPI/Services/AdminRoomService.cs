@@ -52,9 +52,9 @@ namespace HotelBookingSystemAPI.Services
         #endregion
 
         #region UpdateRoomImages
-        public async Task<string> UpdateRoomImages(string type, int id, string imageUrls)
+        public async Task<string> UpdateRoomImages(int id, string imageUrls)
         {
-            if (type.ToLower() == "room")
+            try
             {
                 var room = await _roomRepository.Get(id);
                 room.Images = imageUrls;
@@ -64,17 +64,10 @@ namespace HotelBookingSystemAPI.Services
                 }
                 return "Images not updated! Try again later";
             }
-            else if (type.ToLower() == "roomType")
+            catch (ObjectNotAvailableException)
             {
-                var roomType = await _roomTypeRepository.Get(id);
-                roomType.Images = imageUrls;
-                if (await _roomTypeRepository.Update(roomType) != null)
-                {
-                    return "Images updated successfully";
-                }
-                return "Images not updated! Try again later";
+                throw new ObjectNotAvailableException("Room");
             }
-            throw new Exception("Invalid attribute value");
         }
         #endregion
 
@@ -115,6 +108,9 @@ namespace HotelBookingSystemAPI.Services
                         break;
                     case "discount":
                         roomType.Discount = Convert.ToDouble(updateDTO.AttributeValue);
+                        break;
+                    case "images":
+                        roomType.Images = updateDTO.AttributeValue;
                         break;
                     default:
                         throw new Exception("No such attribute available!");

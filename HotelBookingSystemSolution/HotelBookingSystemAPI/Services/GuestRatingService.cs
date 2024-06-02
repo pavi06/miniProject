@@ -4,6 +4,7 @@ using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Repositories;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -25,7 +26,7 @@ namespace HotelBookingSystemAPI.Services
                 var ratingProvided = await _ratingRepository.Get(rateId);
                 if (await _ratingRepository.Delete(rateId) != null)
                 {
-                    await UpdateOverAllRating(ratingProvided, false);
+                    await UpdateOverAllRating(ratingProvided);
                     return "Your feedback removed successfully";
                 }
                 else
@@ -49,7 +50,7 @@ namespace HotelBookingSystemAPI.Services
                 {
                     Rating rating = new Rating(loggedUser, ratingDTO.HotelId, ratingDTO.ReviewRating, ratingDTO.Comments);
                     var ratingAdded = await _ratingRepository.Add(rating);
-                    await UpdateOverAllRating(ratingAdded, true);
+                    await UpdateOverAllRating(ratingAdded);
                     return new RatingReturnDTO(ratingAdded.RatingId, ratingAdded.ReviewRating, ratingAdded.Comments);
                 }
                 throw new ObjectNotAvailableException("Hotel");
@@ -64,18 +65,12 @@ namespace HotelBookingSystemAPI.Services
 
         #region UpdatingOverAllRating
         [ExcludeFromCodeCoverage]
-        public async Task UpdateOverAllRating(Rating rating, bool val)
+        public async Task UpdateOverAllRating(Rating rating)
         {
             try{
                 var hotel = _hotelRepository.Get(rating.HotelId).Result;
-                if (val == true)
-                {
-                    hotel.Rating = (hotel.Rating + rating.ReviewRating) / (hotel.Ratings.Count());
-                }
-                else
-                {
-                    hotel.Rating = (hotel.Rating - rating.ReviewRating) / (hotel.Ratings.Count());
-                }                
+                var ratings = _ratingRepository.Get().Result.Where(r => r.HotelId == rating.HotelId);
+                hotel.Rating = ratings.Sum(r => r.ReviewRating) / ratings.Count();               
                 await _hotelRepository.Update(hotel);
             }
             catch (ObjectNotAvailableException)

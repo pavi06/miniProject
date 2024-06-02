@@ -92,7 +92,7 @@ namespace HotelBookingSystemAPI.Controllers
 
 
         #region GetHotelsByCertainFeatures
-        [HttpGet("GetHotelsByFeatures")]
+        [HttpPost("GetHotelsByFeatures")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<HotelReturnDTO>>> GetHotelsByFeature(List<string> features)

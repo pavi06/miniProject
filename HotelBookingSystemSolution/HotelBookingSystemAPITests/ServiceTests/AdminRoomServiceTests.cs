@@ -138,7 +138,7 @@ namespace HotelBookingSystemAPIServiceTests
             var result = await roomService.UpdateRoomImages(1, "jghhvhbj");
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.AreEqual("successfully updated", result);
         }
 
         [Test]

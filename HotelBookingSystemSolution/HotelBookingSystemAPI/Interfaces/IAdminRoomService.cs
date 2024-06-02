@@ -10,7 +10,7 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<ReturnRoomDTO> RegisterRoomForHotel(AddRoomDTO roomDTO);
         public Task<ReturnRoomDTO> UpdateRoomStatusForHotel(int roomId);
         public Task<RoomTypeReturnDTO> UpdateRoomTypeByAttribute(UpdateRoomTypeDTO updateDTO);
-        public Task<string> UpdateRoomImages(string type, int roomId, string imageUrls);
+        public Task<string> UpdateRoomImages(int roomId, string imageUrls);
 
     }
 }

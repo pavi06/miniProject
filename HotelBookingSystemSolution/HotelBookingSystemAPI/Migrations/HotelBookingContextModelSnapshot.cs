@@ -224,7 +224,6 @@ namespace HotelBookingSystemAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
@@ -430,7 +429,6 @@ namespace HotelBookingSystemAPI.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")

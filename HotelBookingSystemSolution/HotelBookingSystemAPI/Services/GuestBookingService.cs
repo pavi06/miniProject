@@ -46,7 +46,7 @@ namespace HotelBookingSystemAPI.Services
 
         }
 
-
+        #region BookRoomsDetails
         public async Task<BookingReturnDTO> BookRooms(List<BookDetailsDTO> bookDetails, int loggedUserId, SearchRoomsDTO searchRooms)
         {
             bookingRoomsList = bookDetails;
@@ -77,7 +77,9 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("User");
             }
         }
+        #endregion
 
+        #region MakePaymentAndConfirmBooking
         public async Task<PaymentReturnDTO> MakePayment(double amount, int loggedUser, SearchRoomsDTO searchRooms)
         {
             try
@@ -122,6 +124,7 @@ namespace HotelBookingSystemAPI.Services
             }
             catch (ObjectNotAvailableException)
             {
+                //revert changes if something goes wrong
                 await _bookingRepository.Delete(bookId);
                 await _paymentRepository.Delete(payId);
                 throw new ObjectNotAvailableException("Payment");
@@ -180,6 +183,9 @@ namespace HotelBookingSystemAPI.Services
 
         #endregion
 
+        #endregion
+
+        #region CancelBooking
         public async Task<string> CancelBooking(int bookId, int loggedUserId)
         {
             try
@@ -239,8 +245,9 @@ namespace HotelBookingSystemAPI.Services
             var payment = _paymentRepository.Get((int)booking.PaymentId).Result;
             await _refundRepository.Add(new Refund(loggedUser, bookId, Math.Round(await CalculateRefundAmount(checkInDate,payment.AmountPaid), 2)));
         }
+        #endregion
 
-
+        #region GetMyBookings
         public async Task<List<MyBookingDTO>> GetMyBookings(int loggedUser)
         {
             try
@@ -264,16 +271,20 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("User");
             }
         }
+        #endregion
 
+        #region ModifyBooking
         public async Task<string> ModifyBooking(int loggedUser, int bookingId, List<CancelRoomDTO> cancelRoom)
         {
             try
             {
+                //cannot modify on the day of booking
                 var bookedRooms = _bookingRepository.Get(bookingId).Result.RoomsBooked;
                 if (bookedRooms[0].CheckInDate.Date == DateTime.Now.Date)
                 {
                     return "Cannot modify booking";
                 }
+                //if booked rooms count == cancel rooms count -> cannot modify , instead cancel booking 
                 if (cancelRoom.Sum(r => r.NoOfRoomsToCancel) == bookedRooms.Count())
                 {
                     return "Cannot Modify instead proceed with cancel booking!";
@@ -283,6 +294,7 @@ namespace HotelBookingSystemAPI.Services
                     var totalAmount = 0.0;
                     foreach (var room in cancelRoom)
                     {
+                        //retrieving rooms to cancel
                         var res = bookedRooms.Where(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type.ToLower() == room.RoomType.ToLower()).Take(room.NoOfRoomsToCancel).ToList();
                         totalAmount += _roomRepository.Get(res[0].RoomId).Result.RoomType.Amount * room.NoOfRoomsToCancel;
                         foreach (var r in res)
@@ -291,6 +303,7 @@ namespace HotelBookingSystemAPI.Services
                         }
 
                     }
+                    //updating hotelavailability status
                     DateTime currentDate = bookedRooms[0].CheckInDate.Date;
                     while (currentDate < bookedRooms[0].CheckOutDate.Date)
                     {
@@ -299,6 +312,7 @@ namespace HotelBookingSystemAPI.Services
                         await _hotelAvailability.Update(hotelAvailability);
                         currentDate = currentDate.AddDays(1);
                     }
+                    //updating bill
                     var bookedObj = _bookingRepository.Get(bookingId).Result;
                     bookedObj.NoOfRooms -= cancelRoom.Sum(r => r.NoOfRoomsToCancel);
                     bookedObj.TotalAmount -= totalAmount;
@@ -331,7 +345,9 @@ namespace HotelBookingSystemAPI.Services
                 await _refundRepository.Add(new Refund(loggedUser, updatedBooking.BookId, Math.Round(await CalculateRefundAmount(updatedBooking.RoomsBooked[0].CheckInDate, totalAmount), 2)));
             }
         }
+        #endregion
 
+        #region CalculateRefundAmount
         //calculate refund amount
         public async Task<double> CalculateRefundAmount(DateTime checkInDate, double totalAmount)
         {
@@ -353,5 +369,7 @@ namespace HotelBookingSystemAPI.Services
             }
             return refundAmount;
         }
+        #endregion
+
     }
 }

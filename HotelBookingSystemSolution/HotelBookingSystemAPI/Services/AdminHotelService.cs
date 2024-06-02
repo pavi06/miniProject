@@ -14,40 +14,48 @@ namespace HotelBookingSystemAPI.Services
             _hotelRepository = hotelRepository;
         }
 
+        #region GetAllHotels
         public async Task<List<HotelReturnDTO>> GetAllHotels()
         {
-            var hotels = new List<HotelReturnDTO>();
-            if(hotels.Count()>=1)
-            {
-                foreach(var hotel in await _hotelRepository.Get())
-                {
-                    hotels.Append(new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, string.Join(",", hotel.Amenities), string.Join(",", hotel.Restrictions), hotel.IsAvailable));
-                }
+            List<HotelReturnDTO> hotels = (await _hotelRepository.Get())
+                .Select(hotel => new HotelReturnDTO(
+                    hotel.HotelId,
+                    hotel.Name,
+                    hotel.Address,
+                    hotel.City,
+                    hotel.Rating,
+                    hotel.Amenities,
+                    hotel.Restrictions,
+                    hotel.IsAvailable))
+                .ToList();
+            if (hotels.Count()>=1)
                 return hotels;
-            }
             throw new ObjectsNotAvailableException("hotels");
         }
+        #endregion
 
+        #region GetHotelById
         public async Task<HotelReturnDTO> GetHotelById(int hotelId)
         {
             try
             {
                 var hotel = await _hotelRepository.Get(hotelId);
-                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, string.Join(",", hotel.Amenities), string.Join(",", hotel.Restrictions), hotel.IsAvailable);
+                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
             }
             catch (ObjectNotAvailableException)
             {
                 throw new ObjectNotAvailableException("Hotel");
             }
         }
+        #endregion
 
+        #region AddHotel
         public async Task<HotelReturnDTO> RegisterHotel(HotelRegisterDTO hotelDTO)
         {
             try
             {
-                var hotel = new Hotel(hotelDTO.Name, hotelDTO.Address, hotelDTO.City, hotelDTO.TotalNoOfRooms,0,
-                 hotelDTO.Amenities, hotelDTO.Restrictions, true);
-                var addedHotel = await _hotelRepository.Add(hotel);
+                var addedHotel = await _hotelRepository.Add( new Hotel(hotelDTO.Name, hotelDTO.Address, hotelDTO.City, hotelDTO.TotalNoOfRooms, 0,
+                 hotelDTO.Amenities, hotelDTO.Restrictions, true) );
                 return new HotelReturnDTO(addedHotel.HotelId, addedHotel.Name, addedHotel.Address, addedHotel.City, 
                      addedHotel.Rating, addedHotel.Amenities, addedHotel.Restrictions, addedHotel.IsAvailable);
             }
@@ -56,14 +64,16 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectAlreadyExistsException("Hotel");
             }
             
-        }
+        }       
+        #endregion
 
+        #region RemoveHotel
         public async Task<HotelReturnDTO> RemoveHotel(int hotelId)
         {
             try
             {
                 var hotel = await _hotelRepository.Delete(hotelId);
-                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City,   hotel.Rating, string.Join(",", hotel.Amenities), string.Join(",", hotel.Restrictions), hotel.IsAvailable);
+                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City,   hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
             }
             catch (ObjectNotAvailableException)
             {
@@ -71,7 +81,9 @@ namespace HotelBookingSystemAPI.Services
             }
             
         }
+        #endregion
 
+        #region UpdateHotelAttribute
         public async Task<HotelReturnDTO> UpdateHotelAttribute(UpdateHotelDTO updateHotelDTO)
         {
             try{
@@ -102,7 +114,9 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("Hotel");
             }
         }
+        #endregion
 
+        #region UpdateHotelAvailability
         public async Task<string> UpdateHotelAvailabilityService(UpdateHotelStatusDTO statusDTO)
         {
             try
@@ -118,6 +132,7 @@ namespace HotelBookingSystemAPI.Services
             }
 
         }
+        #endregion
 
     }
 }

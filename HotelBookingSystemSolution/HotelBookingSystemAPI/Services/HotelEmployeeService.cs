@@ -38,6 +38,7 @@ namespace HotelBookingSystemAPI.Services
         }
         #endregion
 
+        #region GetBookingsByDateAndMonth
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, string attribute, string attributeValue)
         {
             List<Booking> bookings = null;
@@ -55,7 +56,9 @@ namespace HotelBookingSystemAPI.Services
             _logger.LogInformation("Bookings retrieved");
             return await MapBookingDetailsForEmployee(bookings);
         }
+        #endregion
 
+        #region GetAllBookingDoneToday
         public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestDoneToday(int loggedUserWorksFor)
         {
                 //get all bookings for that hotel
@@ -64,7 +67,9 @@ namespace HotelBookingSystemAPI.Services
             return await MapBookingDetailsForEmployee(bookings);
             
         }
+        #endregion
 
+        #region TodayCheckIn
         public async Task<List<GuestDetailsForCheckInDTO>> GetAllCheckInForToday(int loggedUserWorksFor)
         {
             var guestDetails = new List<GuestDetailsForCheckInDTO>();
@@ -85,7 +90,9 @@ namespace HotelBookingSystemAPI.Services
             _logger.LogInformation("No bookings are available");
             throw new ObjectsNotAvailableException("Booking");
         }
+        #endregion
 
+        #region BookingDetailsMapper
         public async Task<List<BookingDetailsForEmployeeDTO>> MapBookingDetailsForEmployee(List<Booking> bookings)
         {
             var BookingRequests = new List<BookingDetailsForEmployeeDTO>();
@@ -103,6 +110,7 @@ namespace HotelBookingSystemAPI.Services
             return BookingRequests;
 
         }
+        #endregion
 
     }
 }

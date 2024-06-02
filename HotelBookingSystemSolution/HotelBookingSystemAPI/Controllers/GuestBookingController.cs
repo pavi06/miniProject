@@ -40,7 +40,7 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPost("GetHotelsByLocationAndDate")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotels(SearchHotelDTO searchHotelDTO)
+        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotels([FromBody]SearchHotelDTO searchHotelDTO)
         {
             searchHotel = searchHotelDTO;
             try
@@ -92,7 +92,7 @@ namespace HotelBookingSystemAPI.Controllers
 
 
         #region GetHotelsByCertainFeatures
-        [HttpPost("GetHotelsByFeatures")]
+        [HttpGet("GetHotelsByFeatures")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<HotelReturnDTO>>> GetHotelsByFeature(List<string> features)
@@ -122,7 +122,7 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPost("GetRoomsByHotel")]
         [ProducesResponseType(typeof(List<AvailableRoomTypesDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<AvailableRoomTypesDTO>>> GetRoomsForHotel(SearchRoomsDTO searchRoomDTO)
+        public async Task<ActionResult<List<AvailableRoomTypesDTO>>> GetRoomsForHotel([FromBody]SearchRoomsDTO searchRoomDTO)
         {
             searchRoom = searchRoomDTO;
             try
@@ -152,7 +152,7 @@ namespace HotelBookingSystemAPI.Controllers
 
 
         #region GetDetailsOfRoomType
-        [HttpPost("GetDetailsOfRoomType")]
+        [HttpGet("GetDetailsOfRoomType")]
         [ProducesResponseType(typeof(RoomTypeDescriptionDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<RoomTypeDescriptionDTO>> GetDetailsOfRoom(string roomType)

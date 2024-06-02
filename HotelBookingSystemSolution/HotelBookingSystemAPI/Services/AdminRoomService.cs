@@ -14,52 +14,71 @@ namespace HotelBookingSystemAPI.Services
         private readonly IRepository<int, Room> _roomRepository;
         private readonly IRepository<int, RoomType> _roomTypeRepository;
 
-        public AdminRoomService(IRepository<int,Room> roomRepository, IRepository<int,RoomType> roomTypeRepository) { 
+        public AdminRoomService(IRepository<int, Room> roomRepository, IRepository<int, RoomType> roomTypeRepository)
+        {
             _roomRepository = roomRepository;
             _roomTypeRepository = roomTypeRepository;
         }
 
+        #region AddRoom
         public async Task<ReturnRoomDTO> RegisterRoomForHotel(AddRoomDTO roomDTO)
         {
-            var room = new Room(roomDTO.TypeId,roomDTO.HotelId,roomDTO.Images);
-            var addedRoom = await _roomRepository.Add(room);
-            if(addedRoom != null)
+            var addedRoom = await _roomRepository.Add(new Room(roomDTO.TypeId, roomDTO.HotelId, roomDTO.Images));
+            if (addedRoom != null)
             {
                 return new ReturnRoomDTO(addedRoom.RoomId, addedRoom.TypeId, addedRoom.HotelId, addedRoom.Images, addedRoom.IsAvailable);
             }
             throw new ObjectAlreadyExistsException("Room");
         }
+        #endregion
 
+        #region AddRoomType
         public async Task<RoomTypeReturnDTO> RegisterRoomTypeForHotel(RoomTypeDTO roomTypeDTO)
         {
             try
             {
-                var roomType = new RoomType(roomTypeDTO.Type,roomTypeDTO.Occupancy,roomTypeDTO.Images,roomTypeDTO.Amount, roomTypeDTO.CotsAvailable, 
-                    roomTypeDTO.Amenities, roomTypeDTO.Discount, roomTypeDTO.HotelId);
+                var addedRoomType = await _roomTypeRepository.Add(new RoomType(roomTypeDTO.Type, roomTypeDTO.Occupancy, roomTypeDTO.Images, roomTypeDTO.Amount, roomTypeDTO.CotsAvailable,
+                    roomTypeDTO.Amenities, roomTypeDTO.Discount, roomTypeDTO.HotelId));
 
-                var addedRoomType = await _roomTypeRepository.Add(roomType);
-
-                return new RoomTypeReturnDTO(addedRoomType.RoomTypeId, addedRoomType.Type,addedRoomType.Occupancy, addedRoomType.Images,addedRoomType.Amount,  addedRoomType.CotsAvailable, addedRoomType.Amenities,
-                    addedRoomType.Discount,addedRoomType.HotelId);
+                return new RoomTypeReturnDTO(addedRoomType.RoomTypeId, addedRoomType.Type, addedRoomType.Occupancy, addedRoomType.Images, addedRoomType.Amount, addedRoomType.CotsAvailable, addedRoomType.Amenities,
+                    addedRoomType.Discount, addedRoomType.HotelId);
             }
             catch (ObjectAlreadyExistsException)
             {
                 throw new ObjectAlreadyExistsException("RoomType");
             }
-            
-        }
 
-        public async Task<bool> UpdateRoomImages(int roomId, string imageUrls)
+        }
+        #endregion
+
+        #region UpdateRoomImages
+        public async Task<string> UpdateRoomImages(string type, int id, string imageUrls)
         {
-            var room = await _roomRepository.Get(roomId);
-            room.Images = imageUrls;
-            if(await _roomRepository.Update(room) != null)
+            if (type.ToLower() == "room")
             {
-                return true;
+                var room = await _roomRepository.Get(id);
+                room.Images = imageUrls;
+                if (await _roomRepository.Update(room) != null)
+                {
+                    return "Images updated successfully";
+                }
+                return "Images not updated! Try again later";
             }
-            return false;
+            else if (type.ToLower() == "roomType")
+            {
+                var roomType = await _roomTypeRepository.Get(id);
+                roomType.Images = imageUrls;
+                if (await _roomTypeRepository.Update(roomType) != null)
+                {
+                    return "Images updated successfully";
+                }
+                return "Images not updated! Try again later";
+            }
+            throw new Exception("Invalid attribute value");
         }
+        #endregion
 
+        #region UpdateRoomStatus
         public async Task<ReturnRoomDTO> UpdateRoomStatusForHotel(int roomId)
         {
             try
@@ -72,13 +91,15 @@ namespace HotelBookingSystemAPI.Services
                 var updatedRoom = await _roomRepository.Update(room);
                 return new ReturnRoomDTO(updatedRoom.RoomId, updatedRoom.TypeId, updatedRoom.HotelId, updatedRoom.Images, updatedRoom.IsAvailable);
             }
-            catch(ObjectNotAvailableException )
+            catch (ObjectNotAvailableException)
             {
                 throw new ObjectNotAvailableException("Room");
-            }            
-            
-        }
+            }
 
+        }
+        #endregion
+
+        #region UpdateRoomTypeByAttribute
         public async Task<RoomTypeReturnDTO> UpdateRoomTypeByAttribute(UpdateRoomTypeDTO updateDTO)
         {
             try
@@ -106,8 +127,9 @@ namespace HotelBookingSystemAPI.Services
             {
                 throw new ObjectNotAvailableException("RoomType");
             }
-            
-        }
 
+        }
+        #endregion
     }
+
 }

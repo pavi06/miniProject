@@ -96,7 +96,6 @@ namespace HotelBookingSystemAPI.Services
 
         #endregion
 
-
         #region Register
         public async Task<GuestReturnDTO> Register(GuestRegisterDTO guestDTO)
         {
@@ -147,7 +146,6 @@ namespace HotelBookingSystemAPI.Services
         }
         #endregion 
 
-
         #region UserActivation
         public async Task<UserActivationDTO> GetUserForActivation(UserActivationDTO user)
         {
@@ -175,7 +173,6 @@ namespace HotelBookingSystemAPI.Services
 
         }
         #endregion
-
 
         #region EmployeeRegister
         public async Task<EmployeeRegisterReturnDTO> RegisterEmployee(RegisterEmployeeDTO empDTO)
@@ -248,5 +245,6 @@ namespace HotelBookingSystemAPI.Services
             return returnDTO;
         }
         #endregion
+
     }
 }

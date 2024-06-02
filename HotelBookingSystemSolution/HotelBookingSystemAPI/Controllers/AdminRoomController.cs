@@ -130,5 +130,31 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+        #region UpdateRoomImages
+        [HttpPut("UpdateRoomImages")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<string>> UpdateRoomImages(string type, int roomId, string images)
+        {
+            try
+            {
+                var result = await _roomService.UpdateRoomImages(type, roomId, images);
+                _logger.LogInformation("successfully updated");
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
     }
 }

@@ -29,11 +29,13 @@ namespace HotelBookingSystemAPI.Services
             _bookingRepository = bookingRepository;
         }
 
+        #region GetAvailableRoomTypes
         public async Task<int> NoOfRoomsAvailableInThatType(List<Room> rooms, DateTime checkinDate, DateTime checkoutDate)
         {
             int count = 0;
             foreach (Room room in rooms)
             {
+                //Date overlap check
                 if (!room.roomsBooked.Any(rb => (checkinDate.Date < rb.CheckOutDate.Date && checkoutDate.Date>rb.CheckInDate.Date))){
                     count++;
                 }
@@ -60,18 +62,20 @@ namespace HotelBookingSystemAPI.Services
             }
             
         }
+        #endregion
 
+        #region GetHotelsByLocation
         public async Task<List<HotelReturnDTO>> GetHotelsByLocationAndDate(SearchHotelDTO hotelDTO)
         {
 
             var hotelsAvailable = _hotelRepository.Get().Result.Where(h => h.City.ToLower() == hotelDTO.Location.ToLower());
             if (hotelsAvailable.Count() > 0)
             {
-                List<HotelReturnDTO> hotels = hotelsAvailable.Select(hotel =>
+                List<HotelReturnDTO> hotels = hotelsAvailable.Select( hotel =>
                 {
                     var hotelAvailability = _hotelAvailability.Get(hotel.HotelId, hotelDTO.Date).Result;
-                    hotel.IsAvailable = hotelAvailability == null || hotelAvailability.RoomsAvailableCount > 0;
-                    return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
+                    var isAvailable = hotelAvailability == null || hotelAvailability.RoomsAvailableCount > 0;
+                    return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, isAvailable);
 
                 }).ToList();
                 return hotels;
@@ -84,13 +88,17 @@ namespace HotelBookingSystemAPI.Services
             var hotels = await GetHotelsByLocationAndDate(hotelDTO);
             return hotels.OrderByDescending(h => h.Rating).ToList();
         }
+        #endregion
 
+        #region GetHotelsByFeature
         public async Task<List<HotelReturnDTO>> GetHotelsByFeatures(List<string> features,SearchHotelDTO hotelDTO)
         {
             var hotels = await GetHotelsByLocationAndDate(hotelDTO);
             return  hotels.Where(hotel => features.All(feature => hotel.Amenities.Contains(feature))).ToList();
         }
+        #endregion
 
+        #region DescriptionOfRoomType
         public async Task<RoomTypeDescriptionDTO> GetDetailedDescriptionOfRoomType(int hotelId, string roomType)
         {
             var roomTypeRetrieved = _roomTypeRepository.Get().Result.FirstOrDefault(rt => rt.Type == roomType && rt.HotelId == hotelId);
@@ -98,7 +106,9 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("RoomType");
             return new RoomTypeDescriptionDTO(roomType, roomTypeRetrieved.Images, roomTypeRetrieved.Occupancy, roomTypeRetrieved.CotsAvailable, roomTypeRetrieved.Amenities);
         }
+        #endregion
 
+        #region GetRecommendedHotels
         public async Task<List<HotelRecommendationDTO>> HotelRecommendations(int loggedUser)
         {
             var booking = _bookingRepository.Get().Result.Where(b=>b.GuestId == loggedUser).ToList();
@@ -113,9 +123,10 @@ namespace HotelBookingSystemAPI.Services
 
             }
             //for first time user , the rooms with discount is recommended
-            var roomsForRecommForFirstTimeUser = _roomTypeRepository.Get().Result.Where(r => r.Discount >= 5).ToList();
+            var roomsForRecommForFirstTimeUser = _roomTypeRepository.Get().Result.Where(r => r.Discount >= 3.5).ToList();
             List<HotelRecommendationDTO> roomsRecommended = roomsForRecommForFirstTimeUser.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
             return roomsRecommended;
         }
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace HotelBookingSystemAPI.Services
             _hotelRepository = hotelRepository;
         }
 
+        #region RemoveRatingProvided
         public async Task<string> DeleteRatingProvided(int rateId)
         {
             try
@@ -37,7 +38,9 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("Rating");
             }
         }
+        #endregion
 
+        #region ProvideRating
         public async Task<RatingReturnDTO> ProvideRating(AddRatingDTO ratingDTO, int loggedUser)
         {
             try
@@ -57,7 +60,9 @@ namespace HotelBookingSystemAPI.Services
             }
 
         }
+        #endregion
 
+        #region UpdatingOverAllRating
         [ExcludeFromCodeCoverage]
         public async Task UpdateOverAllRating(Rating rating, bool val)
         {
@@ -78,6 +83,7 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("Hotel");
             }
         }
-            
+        #endregion
+
     }
 }

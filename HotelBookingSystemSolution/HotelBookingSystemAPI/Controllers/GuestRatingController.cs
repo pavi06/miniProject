@@ -47,7 +47,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        #region GetAllBookings
+        #region.RemoveBooking
         [HttpDelete("RemoveMyRatings")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

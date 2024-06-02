@@ -23,17 +23,19 @@ namespace HotelBookingSystemAPI.Services
             _logger = logger;
         }
 
-        //generate refresh token
+        #region RefreshTokenGeneration
         public RefreshToken GenerateRefreshToken()
         {
             var refreshToken = new RefreshToken()
             {
                 RfrshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                ExpiresOn = DateTime.Now.AddMinutes(5)
+                ExpiresOn = DateTime.Now.AddMinutes(60)
             };
             return refreshToken;
         }
+        #endregion
 
+        #region AccessTokenGeneration
         public string GenerateToken(Guest guest)
         {
             string token = string.Empty;
@@ -43,12 +45,14 @@ namespace HotelBookingSystemAPI.Services
                 new Claim("Role",guest.Role)
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
-            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(2), signingCredentials: credentials);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(30), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
             _logger.LogInformation("Token generated successfully");
             return token;
         }
+        #endregion
 
+        #region AccessTokenGenerationForEmployee
         public string GenerateTokenForEmployee(HotelEmployee emp)
         {
             string token = string.Empty;
@@ -63,7 +67,9 @@ namespace HotelBookingSystemAPI.Services
             _logger.LogInformation("Token generated successfully");
             return token;
         }
+        #endregion
 
+        #region TokenPrincipal
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters
@@ -83,5 +89,6 @@ namespace HotelBookingSystemAPI.Services
                 throw new SecurityTokenException("Invalid token");
             return principal;
         }
+        #endregion
     }
 }

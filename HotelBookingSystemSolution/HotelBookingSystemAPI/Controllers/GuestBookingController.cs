@@ -28,6 +28,7 @@ namespace HotelBookingSystemAPI.Controllers
         private readonly ILogger<GuestBookingController> _logger;
         protected static SearchRoomsDTO searchRoom { get; set; }
         protected static SearchHotelDTO searchHotel { get; set; }
+        protected static List<AvailableRoomTypesDTO> roomsAvailable { get; set; }
 
         public GuestBookingController(IGuestSearchService guestService,IGuestBookingService bookingService, ILogger<GuestBookingController> logger)
         {
@@ -132,9 +133,9 @@ namespace HotelBookingSystemAPI.Controllers
                 {
                     return BadRequest(new ErrorModel(404, "Cannot book for more than a week"));
                 }
-                List<AvailableRoomTypesDTO> result = await _guestSearchService.GetAvailableRoomTypesByHotel(searchRoomDTO);
+                roomsAvailable = await _guestSearchService.GetAvailableRoomTypesByHotel(searchRoomDTO);
                 _logger.LogInformation("Available roomsTypes displayed successfully!");
-                return Ok(result);
+                return Ok(roomsAvailable);
             }
             catch (ObjectNotAvailableException e)
             {
@@ -185,6 +186,14 @@ namespace HotelBookingSystemAPI.Controllers
         {
             try
             {
+                foreach(var book in bookRooms)
+                {
+                    if (!roomsAvailable.Any(r=>r.RoomType.ToLower() == book.RoomType.ToLower() && book.RoomsNeeded <= r.NoOfRoomsAvailable))
+                    {
+                        _logger.LogError("Invalid input!");
+                        return BadRequest(new ErrorModel(400,"Invalid input!"));
+                    }
+                }
                 //Retrieved current user 
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
                 BookingReturnDTO result = await _bookingService.BookRooms(bookRooms, loggedUser, searchRoom);

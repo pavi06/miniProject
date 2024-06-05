@@ -24,14 +24,14 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             repository = new UserRepository(context);
-            //User user = new User()
-            //{
-            //    GuestId = 1,
-            //    Password = new byte[] { },
-            //    PasswordHashKey = new byte[] { },
-            //    Status = "Active"
-            //};
-            //await repository.Add(user);
+            User user = new User()
+            {
+                GuestId = 1,
+                Password = new byte[] { },
+                PasswordHashKey = new byte[] { },
+                Status = "Active"
+            };
+            await repository.Add(user);
 
         }
 

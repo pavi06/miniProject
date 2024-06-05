@@ -24,34 +24,34 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             roomTypeRepository = new RoomTypeRepository(context);
-            RoomType roomType = new RoomType()
-            {
-                RoomTypeId = 1,
-                Type = "Standard",
-                Occupancy = 4,
-                Images = "jhghfgh",
-                Amount = 3000,
-                CotsAvailable = 2,
-                Amenities = "Wifi, Parking",
-                Discount = 0,
-                HotelId = 1
-            };
-            await roomTypeRepository.Add(roomType);
+            //RoomType roomType = new RoomType()
+            //{
+            //    RoomTypeId = 1,
+            //    Type = "Standard",
+            //    Occupancy = 4,
+            //    Images = "jhghfgh",
+            //    Amount = 3000,
+            //    CotsAvailable = 2,
+            //    Amenities = "Wifi, Parking",
+            //    Discount = 0,
+            //    HotelId = 1
+            //};
+            //await roomTypeRepository.Add(roomType);
 
-            Hotel hotel = new Hotel()
-            {
-                HotelId = 1,
-                Name = "ABC Residency",
-                Address = "No 3, Nehru street, chennai",
-                City = "Chennai",
-                TotalNoOfRooms = 5,
-                IsAvailable = true,
-                Rating = 4.0,
-                Amenities = "Wifi, Parking",
-                Restrictions = "No Pets"
-            };
-            IRepository<int, Hotel> hotelRepo = new HotelRepository(context);
-            await hotelRepo.Add(hotel);
+            //Hotel hotel = new Hotel()
+            //{
+            //    HotelId = 1,
+            //    Name = "ABC Residency",
+            //    Address = "No 3, Nehru street, chennai",
+            //    City = "Chennai",
+            //    TotalNoOfRooms = 5,
+            //    IsAvailable = true,
+            //    Rating = 4.0,
+            //    Amenities = "Wifi, Parking",
+            //    Restrictions = "No Pets"
+            //};
+            //IRepository<int, Hotel> hotelRepo = new HotelRepository(context);
+            //await hotelRepo.Add(hotel);
 
         }
 

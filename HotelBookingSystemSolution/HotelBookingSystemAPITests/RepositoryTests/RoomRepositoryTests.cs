@@ -24,12 +24,12 @@ namespace HotelBookingSystemAPITests.RepositoryTests
                                                         .UseInMemoryDatabase("dummyDB");
             context = new HotelBookingContext(optionsBuilder.Options);
             repository = new RoomRepository(context);
-            RoomType type = new RoomType("standard", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
-            Room room = new Room() { RoomId = 5, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
-            await repository.Add(room);
-            type = new RoomType("deluxe", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
-            room = new Room() { RoomId = 10, TypeId = 2, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
-            await repository.Add(room);
+            //RoomType type = new RoomType("standard", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
+            //Room room = new Room() { RoomId = 5, TypeId = 1, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
+            //await repository.Add(room);
+            //type = new RoomType("deluxe", 4, "hjgfhhg", 2500, 2, "Wif,TV", 3, 1);
+            //room = new Room() { RoomId = 10, TypeId = 2, HotelId = 1, Images = "dfkhkgjjghff", IsAvailable = true, RoomType = type, roomsBooked = new List<BookedRooms>(), Hotel = new Hotel("abc", "No 3, Gandhi street, Chennai", "Chennai", 2, 1.5, "Wifi, Tv", "No pets", true) };
+            //await repository.Add(room);
 
         }
 

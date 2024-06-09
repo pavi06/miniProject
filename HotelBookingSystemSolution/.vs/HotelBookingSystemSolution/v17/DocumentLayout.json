@@ -3,16 +3,84 @@
   "WorkspaceRootPath": "C:\\MiniProject\\HotelBookingSystemSolution\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\roomdtos\\searchroomsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\roomdtos\\searchroomsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\customvalidation\\customcheckoutdatevalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\customvalidation\\customcheckoutdatevalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\customvalidation\\customdatevalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\customvalidation\\customdatevalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\controllers\\guestbookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\controllers\\guestbookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\hoteldtos\\hotelrecommendationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\hoteldtos\\hotelrecommendationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\hoteldtos\\searchhoteldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\hoteldtos\\searchhoteldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\bookingdtos\\bookingconfirmationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\bookingdtos\\bookingconfirmationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\bookingdtos\\bookdetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\bookingdtos\\bookdetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\interfaces\\irepositoryforcompositekey.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\interfaces\\irepositoryforcompositekey.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\customexceptions\\objectalreadyexistsexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\customexceptions\\objectalreadyexistsexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\services\\guestbookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\services\\guestbookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\bookingdtos\\bookdetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\bookingdtos\\bookdetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\ratingdtos\\addratingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\ratingdtos\\addratingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\hoteldtos\\updatehoteldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\hoteldtos\\updatehoteldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\employeedtos\\registeremployeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\employeedtos\\registeremployeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\hoteldtos\\hotelregisterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\hoteldtos\\hotelregisterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\roomdtos\\addroomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\roomdtos\\addroomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\bookingdtos\\cancelroomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\bookingdtos\\cancelroomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\services\\guestsearchservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\services\\guestsearchservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\controllers\\adminhotelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\controllers\\adminhotelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\services\\adminhotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\services\\adminhotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,43 +90,253 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CustomCheckOutDateValidation.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomValidation\\CustomCheckOutDateValidation.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\CustomValidation\\CustomCheckOutDateValidation.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomValidation\\CustomCheckOutDateValidation.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\CustomValidation\\CustomCheckOutDateValidation.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAQwCAAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-09T14:15:22.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SearchRoomsDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\SearchRoomsDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\SearchRoomsDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\SearchRoomsDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\SearchRoomsDTO.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-09T14:12:17.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HotelRecommendationDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRecommendationDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRecommendationDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRecommendationDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRecommendationDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-09T14:11:31.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "CustomDateValidation.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomValidation\\CustomDateValidation.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\CustomValidation\\CustomDateValidation.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomValidation\\CustomDateValidation.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\CustomValidation\\CustomDateValidation.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-09T14:09:59.299Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IRepositoryForCompositeKey.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Interfaces\\IRepositoryForCompositeKey.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Interfaces\\IRepositoryForCompositeKey.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Interfaces\\IRepositoryForCompositeKey.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Interfaces\\IRepositoryForCompositeKey.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:08:51.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ObjectAlreadyExistsException.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomExceptions\\ObjectAlreadyExistsException.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\CustomExceptions\\ObjectAlreadyExistsException.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomExceptions\\ObjectAlreadyExistsException.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\CustomExceptions\\ObjectAlreadyExistsException.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:07:41.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AddRatingDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\RatingDTOs\\AddRatingDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\RatingDTOs\\AddRatingDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\RatingDTOs\\AddRatingDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\RatingDTOs\\AddRatingDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:05:38.817Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SearchHotelDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\SearchHotelDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\SearchHotelDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\SearchHotelDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\SearchHotelDTO.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAwAAABbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:05:08.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UpdateHotelDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\UpdateHotelDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\UpdateHotelDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\UpdateHotelDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\UpdateHotelDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:05:00.205Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RegisterEmployeeDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\EmployeeDTOs\\RegisterEmployeeDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\EmployeeDTOs\\RegisterEmployeeDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\EmployeeDTOs\\RegisterEmployeeDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\EmployeeDTOs\\RegisterEmployeeDTO.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:04:41.382Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "HotelRegisterDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRegisterDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRegisterDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRegisterDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\HotelRegisterDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:04:15.79Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AddRoomDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\AddRoomDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\AddRoomDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\AddRoomDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\RoomDTOs\\AddRoomDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:04:03.032Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CancelRoomDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\CancelRoomDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\CancelRoomDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\CancelRoomDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\CancelRoomDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:03:50.253Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BookingConfirmationDTO.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookingConfirmationDTO.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookingConfirmationDTO.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookingConfirmationDTO.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookingConfirmationDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:03:44.288Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GuestSearchService.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "ViewState": "AQIAAFsAAAAAAAAAAAAgwIQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:02:05.546Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "AdminHotelController.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:00:51.93Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AdminHotelService.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:00:40.49Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "BookDetailsDTO.cs",
               "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookDetailsDTO.cs",
               "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookDetailsDTO.cs",
               "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookDetailsDTO.cs",
               "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\BookingDTOs\\BookDetailsDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T15:19:19.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
               "Title": "GuestBookingService.cs",
               "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
               "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
               "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
               "RelativeToolTip": "HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
-              "ViewState": "AQIAAKYAAAAAAAAAAADwvzYAAAApAAAA",
+              "ViewState": "AQIAAHEAAAAAAAAAAAAswIIAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T15:08:10.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-05T15:08:10.824Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "GuestBookingController.cs",
               "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
               "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
               "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
               "RelativeToolTip": "HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAMMAAAARAAAA",
+              "ViewState": "AQIAAHcAAAAAAAAAAAAkwNMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T15:07:56.755Z",
               "EditorCaption": ""

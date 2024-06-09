@@ -1244,3 +1244,1054 @@ LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
 LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
 ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
 INFO  08:55:46 Booking confirmation Description provided
+INFO  09:38:17 Now listening on: http://localhost:5058
+INFO  09:38:18 Application started. Press Ctrl+C to shut down.
+INFO  09:38:18 Hosting environment: Development
+INFO  09:38:18 Content root path: C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\
+INFO  09:44:26 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  09:44:27 Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+INFO  09:44:27 Token generated successfully
+INFO  09:44:27 Executed DbCommand (63ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  09:44:28 Executed DbCommand (13ms) [Parameters=[@p12='?' (DbType = Int32), @p0='?' (Size = 4000), @p1='?' (DbType = DateTime2), @p2='?' (Size = 450), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 8000) (DbType = Binary), @p7='?' (Size = 8000) (DbType = Binary), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Employees] SET [Address] = @p0, [CreatedOn] = @p1, [Email] = @p2, [ExpiresOn] = @p3, [HotelId] = @p4, [Name] = @p5, [Password] = @p6, [PasswordHashKey] = @p7, [PhoneNumber] = @p8, [RefreshToken] = @p9, [Role] = @p10, [Status] = @p11
+WHERE [EmpId] = @p12;
+SELECT @@ROWCOUNT;
+INFO  09:44:28 User activated
+INFO  09:44:28 Empoyee logged in successfully
+INFO  10:01:45 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:01:45 Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Guests] AS [g]
+LEFT JOIN [Bookings] AS [b] ON [g].[GuestId] = [b].[GuestId]
+ORDER BY [g].[GuestId]
+INFO  10:01:45 Executed DbCommand (7ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:01:45 Token generated successfully
+INFO  10:01:45 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:01:45 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:01:45 Executed DbCommand (3ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 8000) (DbType = Binary), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedOn] = @p0, [ExpiresOn] = @p1, [Password] = @p2, [PasswordHashKey] = @p3, [RefreshToken] = @p4, [Status] = @p5
+WHERE [GuestId] = @p6;
+SELECT @@ROWCOUNT;
+INFO  10:01:45 User logged in successfully
+INFO  10:01:45 Login successfull
+INFO  10:03:17 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+WARN  10:03:17 Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+INFO  10:03:17 Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Hotels] AS [h]
+LEFT JOIN [Rooms] AS [r] ON [h].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [h].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [h].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [h].[HotelId] = [b].[HotelId]
+ORDER BY [h].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:03:17 Executed DbCommand (4ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:03:17 Executed DbCommand (2ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:03:17 Successfully retrieved hotels
+INFO  10:04:14 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:04:14 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Hotels] AS [h]
+LEFT JOIN [Rooms] AS [r] ON [h].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [h].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [h].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [h].[HotelId] = [b].[HotelId]
+ORDER BY [h].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:04:14 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:04:14 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:04:14 Successfully retrieved hotels by its features
+INFO  10:04:23 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:04:23 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Hotels] AS [h]
+LEFT JOIN [Rooms] AS [r] ON [h].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [h].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [h].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [h].[HotelId] = [b].[HotelId]
+ORDER BY [h].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:04:23 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:04:23 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:04:23 Hotels retrieved successfully based on rating
+INFO  10:05:05 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+WARN  10:05:05 Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+INFO  10:05:05 Executed DbCommand (9ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:05:05 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:05:05 Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:05:05 Available roomsTypes displayed successfully!
+INFO  10:06:06 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:06:06 Executed DbCommand (2ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:06:06 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:06:06 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:06:06 Available roomsTypes displayed successfully!
+INFO  10:06:34 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:06:34 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:06:34 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:06:34 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:06:34 Available roomsTypes displayed successfully!
+INFO  10:06:47 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:06:47 Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomTypeId], [r].[Amenities], [r].[Amount], [r].[CotsAvailable], [r].[Discount], [r].[HotelId], [r].[Images], [r].[Occupancy], [r].[Type], [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+FROM [RoomTypes] AS [r]
+INNER JOIN [Hotels] AS [h] ON [r].[HotelId] = [h].[HotelId]
+INFO  10:06:47 Description provided
+INFO  10:07:04 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:07:04 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomTypeId], [r].[Amenities], [r].[Amount], [r].[CotsAvailable], [r].[Discount], [r].[HotelId], [r].[Images], [r].[Occupancy], [r].[Type], [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+FROM [RoomTypes] AS [r]
+INNER JOIN [Hotels] AS [h] ON [r].[HotelId] = [h].[HotelId]
+INFO  10:07:04 Executed DbCommand (6ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:07:04 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:07:04 Booking confirmation Description provided
+INFO  10:07:42 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:07:42 Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = Double), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Payments] ([AmountPaid], [BookId], [PaymentDate], [PaymentMode], [PaymentStatus])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [PaymentId]
+FROM [Payments]
+WHERE @@ROWCOUNT = 1 AND [PaymentId] = scope_identity();
+INFO  10:07:43 Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = Double), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Double), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Double)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Bookings] ([AdvancePayment], [BookingStatus], [Date], [Discount], [GuestId], [HotelId], [NoOfRooms], [PaymentId], [TotalAmount])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+SELECT [BookId]
+FROM [Bookings]
+WHERE @@ROWCOUNT = 1 AND [BookId] = scope_identity();
+INFO  10:07:43 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [p].[PaymentId], [p].[AmountPaid], [p].[BookId], [p].[PaymentDate], [p].[PaymentMode], [p].[PaymentStatus]
+FROM [Payments] AS [p]
+WHERE [p].[PaymentId] = @__key_0
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [p].[PaymentId], [p].[AmountPaid], [p].[BookId], [p].[PaymentDate], [p].[PaymentMode], [p].[PaymentStatus]
+FROM [Payments] AS [p]
+WHERE [p].[PaymentId] = @__key_0
+INFO  10:07:43 Executed DbCommand (3ms) [Parameters=[@p5='?' (DbType = Int32), @p0='?' (DbType = Double), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Payments] SET [AmountPaid] = @p0, [BookId] = @p1, [PaymentDate] = @p2, [PaymentMode] = @p3, [PaymentStatus] = @p4
+WHERE [PaymentId] = @p5;
+SELECT @@ROWCOUNT;
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:07:43 Executed DbCommand (2ms) [Parameters=[@p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [HotelAvailabilityByDates] SET [RoomsAvailableCount] = @p0
+WHERE [Date] = @p1 AND [HotelId] = @p2;
+SELECT @@ROWCOUNT;
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[@p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [HotelAvailabilityByDates] SET [RoomsAvailableCount] = @p0
+WHERE [Date] = @p1 AND [HotelId] = @p2;
+SELECT @@ROWCOUNT;
+INFO  10:07:43 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:07:43 Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [BookedRooms] ([BookingId], [RoomId], [CheckInDate], [CheckOutDate])
+VALUES (@p0, @p1, @p2, @p3);
+INFO  10:07:43 Payment done and booking confirmed!
+INFO  10:09:39 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:09:39 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[BookId], [t].[AdvancePayment], [t].[BookingStatus], [t].[Date], [t].[Discount], [t].[GuestId], [t].[HotelId], [t].[NoOfRooms], [t].[PaymentId], [t].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+    FROM [Bookings] AS [b]
+    WHERE [b].[BookId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b0] ON [t].[BookId] = [b0].[BookingId]
+ORDER BY [t].[BookId], [b0].[BookingId]
+INFO  10:09:39 Executed DbCommand (5ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [b0].[BookId], [b0].[AdvancePayment], [b0].[BookingStatus], [b0].[Date], [b0].[Discount], [b0].[GuestId], [b0].[HotelId], [b0].[NoOfRooms], [b0].[PaymentId], [b0].[TotalAmount]
+FROM [BookedRooms] AS [b]
+INNER JOIN [Rooms] AS [r] ON [b].[RoomId] = [r].[RoomId]
+INNER JOIN [Bookings] AS [b0] ON [b].[BookingId] = [b0].[BookId]
+WHERE ([b].[RoomId] = @__key1_0) AND ([b].[BookingId] = @__key2_1)
+INFO  10:09:39 Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DELETE FROM [BookedRooms]
+WHERE [BookingId] = @p0 AND [RoomId] = @p1;
+SELECT @@ROWCOUNT;
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [HotelAvailabilityByDates] SET [RoomsAvailableCount] = @p0
+WHERE [Date] = @p1 AND [HotelId] = @p2;
+SELECT @@ROWCOUNT;
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [HotelAvailabilityByDates] SET [RoomsAvailableCount] = @p0
+WHERE [Date] = @p1 AND [HotelId] = @p2;
+SELECT @@ROWCOUNT;
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[BookId], [t].[AdvancePayment], [t].[BookingStatus], [t].[Date], [t].[Discount], [t].[GuestId], [t].[HotelId], [t].[NoOfRooms], [t].[PaymentId], [t].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+    FROM [Bookings] AS [b]
+    WHERE [b].[BookId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b0] ON [t].[BookId] = [b0].[BookingId]
+ORDER BY [t].[BookId], [b0].[BookingId]
+INFO  10:09:39 Executed DbCommand (4ms) [Parameters=[@p9='?' (DbType = Int32), @p0='?' (DbType = Double), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Double), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Double)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Bookings] SET [AdvancePayment] = @p0, [BookingStatus] = @p1, [Date] = @p2, [Discount] = @p3, [GuestId] = @p4, [HotelId] = @p5, [NoOfRooms] = @p6, [PaymentId] = @p7, [TotalAmount] = @p8
+WHERE [BookId] = @p9;
+SELECT @@ROWCOUNT;
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[BookId], [t].[AdvancePayment], [t].[BookingStatus], [t].[Date], [t].[Discount], [t].[GuestId], [t].[HotelId], [t].[NoOfRooms], [t].[PaymentId], [t].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+    FROM [Bookings] AS [b]
+    WHERE [b].[BookId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b0] ON [t].[BookId] = [b0].[BookingId]
+ORDER BY [t].[BookId], [b0].[BookingId]
+INFO  10:09:39 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [p].[PaymentId], [p].[AmountPaid], [p].[BookId], [p].[PaymentDate], [p].[PaymentMode], [p].[PaymentStatus]
+FROM [Payments] AS [p]
+WHERE [p].[PaymentId] = @__key_0
+INFO  10:09:39 Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Double)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Refunds] ([BookId], [Date], [GuestId], [RefundAmount])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [RefundId]
+FROM [Refunds]
+WHERE @@ROWCOUNT = 1 AND [RefundId] = scope_identity();
+INFO  10:09:39 Booking Cancelled successfully
+INFO  10:14:03 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:14:03 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:14:03 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:14:03 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:14:03 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:14:03 User Bookings retrieved!
+INFO  10:15:16 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:15:16 Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM [Bookings] AS [b]
+LEFT JOIN [BookedRooms] AS [b0] ON [b].[BookId] = [b0].[BookingId]
+ORDER BY [b].[BookId], [b0].[BookingId]
+INFO  10:15:16 Executed DbCommand (8ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[RoomId], [t].[HotelId], [t].[Images], [t].[IsAvailable], [t].[TypeId], [t].[RoomTypeId], [t].[Amenities], [t].[Amount], [t].[CotsAvailable], [t].[Discount], [t].[HotelId0], [t].[Images0], [t].[Occupancy], [t].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId] AS [HotelId0], [r0].[Images] AS [Images0], [r0].[Occupancy], [r0].[Type]
+    FROM [Rooms] AS [r]
+    INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+    WHERE [r].[RoomId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b] ON [t].[RoomId] = [b].[RoomId]
+ORDER BY [t].[RoomId], [t].[RoomTypeId], [b].[BookingId]
+INFO  10:15:16 Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomTypeId], [r].[Amenities], [r].[Amount], [r].[CotsAvailable], [r].[Discount], [r].[HotelId], [r].[Images], [r].[Occupancy], [r].[Type], [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+FROM [RoomTypes] AS [r]
+INNER JOIN [Hotels] AS [h] ON [r].[HotelId] = [h].[HotelId]
+INFO  10:16:18 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:16:18 Executed DbCommand (11ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:16:18 Executed DbCommand (5ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Double)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Ratings] ([Comments], [Date], [GuestId], [HotelId], [ReviewRating])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [RatingId]
+FROM [Ratings]
+WHERE @@ROWCOUNT = 1 AND [RatingId] = scope_identity();
+INFO  10:16:18 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:16:18 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RatingId], [r].[Comments], [r].[Date], [r].[GuestId], [r].[HotelId], [r].[ReviewRating]
+FROM [Ratings] AS [r]
+INFO  10:16:18 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:16:18 Executed DbCommand (4ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = Double), @p6='?' (Size = 4000), @p7='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Hotels] SET [Address] = @p0, [Amenities] = @p1, [City] = @p2, [IsAvailable] = @p3, [Name] = @p4, [Rating] = @p5, [Restrictions] = @p6, [TotalNoOfRooms] = @p7
+WHERE [HotelId] = @p8;
+SELECT @@ROWCOUNT;
+INFO  10:16:18 Rating provided successfully
+INFO  10:17:55 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:17:55 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomTypeId], [r].[Amenities], [r].[Amount], [r].[CotsAvailable], [r].[Discount], [r].[HotelId], [r].[Images], [r].[Occupancy], [r].[Type], [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+FROM [RoomTypes] AS [r]
+INNER JOIN [Hotels] AS [h] ON [r].[HotelId] = [h].[HotelId]
+INFO  10:17:55 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:17:55 Executed DbCommand (7ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:17:55 Booking confirmation Description provided
+INFO  10:18:12 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:18:12 Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Hotels] AS [h]
+LEFT JOIN [Rooms] AS [r] ON [h].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [h].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [h].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [h].[HotelId] = [b].[HotelId]
+ORDER BY [h].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:18:12 Executed DbCommand (9ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:18:12 Successfully retrieved hotels
+INFO  10:18:26 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:18:26 Executed DbCommand (10ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:18:26 Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:18:26 Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:18:26 Available roomsTypes displayed successfully!
+INFO  10:18:37 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:18:37 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomTypeId], [r].[Amenities], [r].[Amount], [r].[CotsAvailable], [r].[Discount], [r].[HotelId], [r].[Images], [r].[Occupancy], [r].[Type], [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+FROM [RoomTypes] AS [r]
+INNER JOIN [Hotels] AS [h] ON [r].[HotelId] = [h].[HotelId]
+INFO  10:18:37 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:18:37 Executed DbCommand (6ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:18:37 Booking confirmation Description provided
+INFO  10:18:52 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:18:52 Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Double), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Payments] ([AmountPaid], [BookId], [PaymentDate], [PaymentMode], [PaymentStatus])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [PaymentId]
+FROM [Payments]
+WHERE @@ROWCOUNT = 1 AND [PaymentId] = scope_identity();
+INFO  10:18:52 Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Double), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Double), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Double)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Bookings] ([AdvancePayment], [BookingStatus], [Date], [Discount], [GuestId], [HotelId], [NoOfRooms], [PaymentId], [TotalAmount])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+SELECT [BookId]
+FROM [Bookings]
+WHERE @@ROWCOUNT = 1 AND [BookId] = scope_identity();
+INFO  10:18:52 Executed DbCommand (2ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [p].[PaymentId], [p].[AmountPaid], [p].[BookId], [p].[PaymentDate], [p].[PaymentMode], [p].[PaymentStatus]
+FROM [Payments] AS [p]
+WHERE [p].[PaymentId] = @__key_0
+INFO  10:18:52 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [p].[PaymentId], [p].[AmountPaid], [p].[BookId], [p].[PaymentDate], [p].[PaymentMode], [p].[PaymentStatus]
+FROM [Payments] AS [p]
+WHERE [p].[PaymentId] = @__key_0
+INFO  10:18:52 Executed DbCommand (3ms) [Parameters=[@p5='?' (DbType = Int32), @p0='?' (DbType = Double), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Payments] SET [AmountPaid] = @p0, [BookId] = @p1, [PaymentDate] = @p2, [PaymentMode] = @p3, [PaymentStatus] = @p4
+WHERE [PaymentId] = @p5;
+SELECT @@ROWCOUNT;
+INFO  10:18:52 Executed DbCommand (1ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  10:18:52 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:18:52 Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:18:52 Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [HotelAvailabilityByDates] ([Date], [HotelId], [RoomsAvailableCount])
+VALUES (@p0, @p1, @p2);
+INFO  10:18:52 Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM [Rooms] AS [r]
+INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+LEFT JOIN [BookedRooms] AS [b] ON [r].[RoomId] = [b].[RoomId]
+ORDER BY [r].[RoomId], [r0].[RoomTypeId], [b].[BookingId]
+INFO  10:18:52 Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [BookedRooms] ([BookingId], [RoomId], [CheckInDate], [CheckOutDate])
+VALUES (@p0, @p1, @p2, @p3);
+INFO  10:18:52 Payment done and booking confirmed!
+INFO  10:19:12 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:19:12 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[BookId], [t].[AdvancePayment], [t].[BookingStatus], [t].[Date], [t].[Discount], [t].[GuestId], [t].[HotelId], [t].[NoOfRooms], [t].[PaymentId], [t].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+    FROM [Bookings] AS [b]
+    WHERE [b].[BookId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b0] ON [t].[BookId] = [b0].[BookingId]
+ORDER BY [t].[BookId], [b0].[BookingId]
+INFO  10:19:12 Booking Cancelled successfully
+INFO  10:19:46 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:19:46 Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+INFO  10:19:46 Token generated successfully
+INFO  10:19:46 Executed DbCommand (2ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  10:19:46 Executed DbCommand (5ms) [Parameters=[@p12='?' (DbType = Int32), @p0='?' (Size = 4000), @p1='?' (DbType = DateTime2), @p2='?' (Size = 450), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 8000) (DbType = Binary), @p7='?' (Size = 8000) (DbType = Binary), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Employees] SET [Address] = @p0, [CreatedOn] = @p1, [Email] = @p2, [ExpiresOn] = @p3, [HotelId] = @p4, [Name] = @p5, [Password] = @p6, [PasswordHashKey] = @p7, [PhoneNumber] = @p8, [RefreshToken] = @p9, [Role] = @p10, [Status] = @p11
+WHERE [EmpId] = @p12;
+SELECT @@ROWCOUNT;
+INFO  10:19:46 User activated
+INFO  10:19:46 Empoyee logged in successfully
+INFO  10:20:19 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:20:19 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  10:20:19 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM [Bookings] AS [b]
+LEFT JOIN [BookedRooms] AS [b0] ON [b].[BookId] = [b0].[BookingId]
+ORDER BY [b].[BookId], [b0].[BookingId]
+INFO  10:20:19 Bookings retrieved
+INFO  10:20:19 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:20:19 Bookings retrieved
+INFO  10:20:19 Bookings retrieved successfully
+INFO  10:21:10 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:21:10 Executed DbCommand (4ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  10:21:10 Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM [Bookings] AS [b]
+LEFT JOIN [BookedRooms] AS [b0] ON [b].[BookId] = [b0].[BookingId]
+ORDER BY [b].[BookId], [b0].[BookingId]
+INFO  10:21:10 No bookings are available
+ERROR 10:21:11 No Booking are available!
+INFO  10:22:52 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:22:52 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  10:22:52 Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM [Bookings] AS [b]
+LEFT JOIN [BookedRooms] AS [b0] ON [b].[BookId] = [b0].[BookingId]
+ORDER BY [b].[BookId], [b0].[BookingId]
+INFO  10:22:52 Bookings retrieved
+INFO  10:22:52 Executed DbCommand (5ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:22:52 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:22:52 Executed DbCommand (2ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:22:52 Bookings retrieved
+INFO  10:22:52 Bookings Retrieved successfully
+INFO  10:23:40 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:23:40 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  10:23:40 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM [Bookings] AS [b]
+LEFT JOIN [BookedRooms] AS [b0] ON [b].[BookId] = [b0].[BookingId]
+ORDER BY [b].[BookId], [b0].[BookingId]
+INFO  10:23:40 Bookings retrieved
+INFO  10:23:40 Executed DbCommand (6ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:40 Bookings retrieved
+INFO  10:23:40 Bookings Retrieved successfully
+INFO  10:23:58 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:23:58 Executed DbCommand (4ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [e].[EmpId], [e].[Address], [e].[CreatedOn], [e].[Email], [e].[ExpiresOn], [e].[HotelId], [e].[Name], [e].[Password], [e].[PasswordHashKey], [e].[PhoneNumber], [e].[RefreshToken], [e].[Role], [e].[Status]
+FROM [Employees] AS [e]
+WHERE [e].[EmpId] = @__key_0
+INFO  10:23:58 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount], [b0].[BookingId], [b0].[RoomId], [b0].[CheckInDate], [b0].[CheckOutDate]
+FROM [Bookings] AS [b]
+LEFT JOIN [BookedRooms] AS [b0] ON [b].[BookId] = [b0].[BookingId]
+ORDER BY [b].[BookId], [b0].[BookingId]
+INFO  10:23:58 Executed DbCommand (6ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:58 Executed DbCommand (7ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[RoomId], [t].[HotelId], [t].[Images], [t].[IsAvailable], [t].[TypeId], [t].[RoomTypeId], [t].[Amenities], [t].[Amount], [t].[CotsAvailable], [t].[Discount], [t].[HotelId0], [t].[Images0], [t].[Occupancy], [t].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId] AS [HotelId0], [r0].[Images] AS [Images0], [r0].[Occupancy], [r0].[Type]
+    FROM [Rooms] AS [r]
+    INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+    WHERE [r].[RoomId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b] ON [t].[RoomId] = [b].[RoomId]
+ORDER BY [t].[RoomId], [t].[RoomTypeId], [b].[BookingId]
+INFO  10:23:58 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:58 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[RoomId], [t].[HotelId], [t].[Images], [t].[IsAvailable], [t].[TypeId], [t].[RoomTypeId], [t].[Amenities], [t].[Amount], [t].[CotsAvailable], [t].[Discount], [t].[HotelId0], [t].[Images0], [t].[Occupancy], [t].[Type], [b].[BookingId], [b].[RoomId], [b].[CheckInDate], [b].[CheckOutDate]
+FROM (
+    SELECT TOP(2) [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId] AS [HotelId0], [r0].[Images] AS [Images0], [r0].[Occupancy], [r0].[Type]
+    FROM [Rooms] AS [r]
+    INNER JOIN [RoomTypes] AS [r0] ON [r].[TypeId] = [r0].[RoomTypeId]
+    WHERE [r].[RoomId] = @__key_0
+) AS [t]
+LEFT JOIN [BookedRooms] AS [b] ON [t].[RoomId] = [b].[RoomId]
+ORDER BY [t].[RoomId], [t].[RoomTypeId], [b].[BookingId]
+INFO  10:23:58 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:58 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:58 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:58 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[GuestId], [t].[Address], [t].[Email], [t].[Name], [t].[PhoneNumber], [t].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role]
+    FROM [Guests] AS [g]
+    WHERE [g].[GuestId] = @__key_0
+) AS [t]
+LEFT JOIN [Bookings] AS [b] ON [t].[GuestId] = [b].[GuestId]
+ORDER BY [t].[GuestId]
+INFO  10:23:58 Bookings retrieved
+INFO  10:23:58 Bookings retrieved
+INFO  10:23:58 Successfully retrieved bookings
+INFO  10:25:12 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:25:12 Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Guests] AS [g]
+LEFT JOIN [Bookings] AS [b] ON [g].[GuestId] = [b].[GuestId]
+ORDER BY [g].[GuestId]
+INFO  10:25:12 Executed DbCommand (4ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:25:12 Token generated successfully
+INFO  10:25:12 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:25:12 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:25:12 Executed DbCommand (3ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 8000) (DbType = Binary), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedOn] = @p0, [ExpiresOn] = @p1, [Password] = @p2, [PasswordHashKey] = @p3, [RefreshToken] = @p4, [Status] = @p5
+WHERE [GuestId] = @p6;
+SELECT @@ROWCOUNT;
+INFO  10:25:12 User logged in successfully
+INFO  10:25:12 Login successfull
+INFO  10:26:12 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:26:12 Executed DbCommand (8ms) [Parameters=[@__item_Name_0='?' (Size = 4000), @__item_Address_1='?' (Size = 4000), @__item_City_2='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Hotels] AS [h]
+        WHERE (([h].[Name] = @__item_Name_0) AND ([h].[Address] = @__item_Address_1)) AND ([h].[City] = @__item_City_2)) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+INFO  10:26:12 Executed DbCommand (8ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = Double), @p6='?' (Size = 4000), @p7='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Hotels] ([Address], [Amenities], [City], [IsAvailable], [Name], [Rating], [Restrictions], [TotalNoOfRooms])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);
+SELECT [HotelId]
+FROM [Hotels]
+WHERE @@ROWCOUNT = 1 AND [HotelId] = scope_identity();
+INFO  10:26:12 Hotel Added successfully
+INFO  10:27:54 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:27:54 Executed DbCommand (13ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:27:54 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:27:54 Executed DbCommand (7ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = Double), @p6='?' (Size = 4000), @p7='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Hotels] SET [Address] = @p0, [Amenities] = @p1, [City] = @p2, [IsAvailable] = @p3, [Name] = @p4, [Rating] = @p5, [Restrictions] = @p6, [TotalNoOfRooms] = @p7
+WHERE [HotelId] = @p8;
+SELECT @@ROWCOUNT;
+INFO  10:27:54 Hotel satatus updated
+INFO  10:29:41 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:29:41 Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Guests] AS [g]
+LEFT JOIN [Bookings] AS [b] ON [g].[GuestId] = [b].[GuestId]
+ORDER BY [g].[GuestId]
+INFO  10:29:41 Executed DbCommand (4ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:29:41 Token generated successfully
+INFO  10:29:41 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:29:41 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:29:41 Executed DbCommand (3ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 8000) (DbType = Binary), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedOn] = @p0, [ExpiresOn] = @p1, [Password] = @p2, [PasswordHashKey] = @p3, [RefreshToken] = @p4, [Status] = @p5
+WHERE [GuestId] = @p6;
+SELECT @@ROWCOUNT;
+INFO  10:29:41 User logged in successfully
+INFO  10:29:41 Login successfull
+INFO  10:46:32 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:46:32 Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Guests] AS [g]
+LEFT JOIN [Bookings] AS [b] ON [g].[GuestId] = [b].[GuestId]
+ORDER BY [g].[GuestId]
+INFO  10:46:32 Executed DbCommand (2ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:46:32 Token generated successfully
+INFO  10:46:32 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:46:32 Executed DbCommand (1ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  10:46:32 Executed DbCommand (2ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 8000) (DbType = Binary), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedOn] = @p0, [ExpiresOn] = @p1, [Password] = @p2, [PasswordHashKey] = @p3, [RefreshToken] = @p4, [Status] = @p5
+WHERE [GuestId] = @p6;
+SELECT @@ROWCOUNT;
+INFO  10:46:32 User logged in successfully
+INFO  10:46:32 Login successfull
+INFO  10:47:17 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  10:47:17 Executed DbCommand (13ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:47:17 Executed DbCommand (2ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[HotelId], [t].[Address], [t].[Amenities], [t].[City], [t].[IsAvailable], [t].[Name], [t].[Rating], [t].[Restrictions], [t].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM (
+    SELECT TOP(2) [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms]
+    FROM [Hotels] AS [h]
+    WHERE [h].[HotelId] = @__key_0
+) AS [t]
+LEFT JOIN [Rooms] AS [r] ON [t].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [t].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [t].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [t].[HotelId] = [b].[HotelId]
+ORDER BY [t].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  10:47:17 Executed DbCommand (9ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = Double), @p6='?' (Size = 4000), @p7='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Hotels] SET [Address] = @p0, [Amenities] = @p1, [City] = @p2, [IsAvailable] = @p3, [Name] = @p4, [Rating] = @p5, [Restrictions] = @p6, [TotalNoOfRooms] = @p7
+WHERE [HotelId] = @p8;
+SELECT @@ROWCOUNT;
+INFO  10:47:17 Successfully updated
+INFO  07:55:54 Now listening on: http://localhost:5058
+INFO  07:55:54 Application started. Press Ctrl+C to shut down.
+INFO  07:55:54 Hosting environment: Development
+INFO  07:55:54 Content root path: C:\MiniProject\HotelBookingSystemSolution\HotelBookingSystemAPI\
+INFO  07:56:33 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+INFO  07:56:35 Executed DbCommand (147ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [g].[GuestId], [g].[Address], [g].[Email], [g].[Name], [g].[PhoneNumber], [g].[Role], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Guests] AS [g]
+LEFT JOIN [Bookings] AS [b] ON [g].[GuestId] = [b].[GuestId]
+ORDER BY [g].[GuestId]
+INFO  07:56:36 Executed DbCommand (93ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  07:56:36 Token generated successfully
+INFO  07:56:36 Executed DbCommand (5ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  07:56:36 Executed DbCommand (3ms) [Parameters=[@__key_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [u].[GuestId], [u].[CreatedOn], [u].[ExpiresOn], [u].[Password], [u].[PasswordHashKey], [u].[RefreshToken], [u].[Status]
+FROM [Users] AS [u]
+WHERE [u].[GuestId] = @__key_0
+INFO  07:56:37 Executed DbCommand (9ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 8000) (DbType = Binary), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedOn] = @p0, [ExpiresOn] = @p1, [Password] = @p2, [PasswordHashKey] = @p3, [RefreshToken] = @p4, [Status] = @p5
+WHERE [GuestId] = @p6;
+SELECT @@ROWCOUNT;
+INFO  07:56:37 User logged in successfully
+INFO  07:56:37 Login successfull
+INFO  07:57:29 Entity Framework Core 6.0.30 initialized 'HotelBookingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.30' with options: None
+WARN  07:57:29 Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+INFO  07:57:30 Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [h].[HotelId], [h].[Address], [h].[Amenities], [h].[City], [h].[IsAvailable], [h].[Name], [h].[Rating], [h].[Restrictions], [h].[TotalNoOfRooms], [r].[RoomId], [r].[HotelId], [r].[Images], [r].[IsAvailable], [r].[TypeId], [r0].[RoomTypeId], [r0].[Amenities], [r0].[Amount], [r0].[CotsAvailable], [r0].[Discount], [r0].[HotelId], [r0].[Images], [r0].[Occupancy], [r0].[Type], [r1].[RatingId], [r1].[Comments], [r1].[Date], [r1].[GuestId], [r1].[HotelId], [r1].[ReviewRating], [b].[BookId], [b].[AdvancePayment], [b].[BookingStatus], [b].[Date], [b].[Discount], [b].[GuestId], [b].[HotelId], [b].[NoOfRooms], [b].[PaymentId], [b].[TotalAmount]
+FROM [Hotels] AS [h]
+LEFT JOIN [Rooms] AS [r] ON [h].[HotelId] = [r].[HotelId]
+LEFT JOIN [RoomTypes] AS [r0] ON [h].[HotelId] = [r0].[HotelId]
+LEFT JOIN [Ratings] AS [r1] ON [h].[HotelId] = [r1].[HotelId]
+LEFT JOIN [Bookings] AS [b] ON [h].[HotelId] = [b].[HotelId]
+ORDER BY [h].[HotelId], [r].[RoomId], [r0].[RoomTypeId], [r1].[RatingId]
+INFO  07:57:30 Executed DbCommand (6ms) [Parameters=[@__key1_0='?' (DbType = Int32), @__key2_1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(2) [h].[HotelId], [h].[Date], [h].[RoomsAvailableCount]
+FROM [HotelAvailabilityByDates] AS [h]
+WHERE ([h].[HotelId] = @__key1_0) AND ([h].[Date] = @__key2_1)
+INFO  07:57:30 Successfully retrieved hotels

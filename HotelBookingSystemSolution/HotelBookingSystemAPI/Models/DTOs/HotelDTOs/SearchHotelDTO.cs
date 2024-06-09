@@ -10,7 +10,7 @@ namespace HotelBookingSystemAPI.Models.DTOs.HotelDTOs
 
 
         [Required(ErrorMessage="Date should be provided")]
-        [CustomDateValidation(ErrorMessage = "Date is out of Range")]
+        [CustomDateValidation(ErrorMessage = "Date should be greater than or equal to today")]
         public DateTime Date { get; set; }
     }
 }

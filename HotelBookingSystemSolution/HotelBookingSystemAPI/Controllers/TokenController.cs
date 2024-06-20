@@ -2,6 +2,7 @@
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ namespace HotelBookingSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCors")]
     public class TokenController : ControllerBase
     {
         private readonly HotelBookingContext _context;

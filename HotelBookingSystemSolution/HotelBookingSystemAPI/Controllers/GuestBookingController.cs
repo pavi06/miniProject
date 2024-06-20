@@ -14,6 +14,7 @@ using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.PaymentDTOs;
 using HotelBookingSystemAPI.Services;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Cors;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -21,6 +22,7 @@ namespace HotelBookingSystemAPI.Controllers
     [Authorize(Roles = "Admin,User")]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCors")]
     public class GuestBookingController : ControllerBase
     {
         private readonly IGuestSearchService _guestSearchService;
@@ -37,6 +39,8 @@ namespace HotelBookingSystemAPI.Controllers
             _logger = logger;
         }
 
+
+        [AllowAnonymous]
         #region GetHotelsByLocationAndDate
         [HttpPost("GetHotelsByLocationAndDate")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
@@ -65,6 +69,7 @@ namespace HotelBookingSystemAPI.Controllers
         #endregion
 
 
+        [AllowAnonymous]
         #region GetHotelsByRating
         [HttpGet("GetHotelsByRating")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
@@ -91,7 +96,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [AllowAnonymous]
         #region GetHotelsByCertainFeatures
         [HttpPost("GetHotelsByFeatures")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
@@ -118,7 +123,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [AllowAnonymous]
         #region GetAvailableRoomTypesInThatHotel
         [HttpPost("GetRoomsByHotel")]
         [ProducesResponseType(typeof(List<AvailableRoomTypesDTO>), StatusCodes.Status200OK)]
@@ -151,7 +156,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [AllowAnonymous]
         #region GetDetailsOfRoomType
         [HttpGet("GetDetailsOfRoomType")]
         [ProducesResponseType(typeof(RoomTypeDescriptionDTO), StatusCodes.Status200OK)]

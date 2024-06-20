@@ -2,6 +2,7 @@
 using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.GuestDTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
@@ -12,6 +13,8 @@ namespace HotelBookingSystemAPI.Controllers
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCors")]
+
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

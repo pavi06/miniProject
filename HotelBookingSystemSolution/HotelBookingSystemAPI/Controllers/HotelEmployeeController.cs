@@ -10,6 +10,7 @@ using HotelBookingSystemAPI.Models.DTOs.BookingDTOs;
 using System.Security.Claims;
 using HotelBookingSystemAPI.Models.DTOs.EmployeeDTOs;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Cors;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace HotelBookingSystemAPI.Controllers
     [Authorize(Roles = "HotelEmployee")]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCors")]
     public class HotelEmployeeController : ControllerBase
     {
         private readonly IHotelEmployeeService _employeeService;

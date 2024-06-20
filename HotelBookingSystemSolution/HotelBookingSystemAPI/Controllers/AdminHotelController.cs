@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Authorization;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Cors;
 
 namespace HotelBookingSystemAPI.Controllers
 {
     [ExcludeFromCodeCoverage]
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
+    [EnableCors("MyCors")]
     [ApiController]
     public class AdminHotelController : ControllerBase
     {
@@ -25,6 +27,32 @@ namespace HotelBookingSystemAPI.Controllers
             _hotelService = hotelService;
             _logger = logger;
         }
+
+        #region GetAllHotels
+        [HttpPost("GetAllHotels")]
+        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<HotelReturnDTO>>> GetAllHotels()
+        {
+            try
+            {
+                List<HotelReturnDTO> result = await _hotelService.GetAllHotels();
+                _logger.LogInformation("Successfully retrieved hotels");
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
 
         #region AddHotel
         [HttpPost("RegisterHotel")]

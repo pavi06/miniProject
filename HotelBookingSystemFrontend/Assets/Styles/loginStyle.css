@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+body{
+    overflow: hidden;
+    font-family: "EB Garamond";
+}
+
+.design{
+    width: 50%;
+    height: 100vh;
+    background-color: #FFA456;
+    border-bottom-right-radius: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+.formDiv{
+    width: 40%;
+    height: fit-content;
+    align-items: center;
+    position: absolute;
+    top: 18%;
+    right: 3%;
+}
+
+.label{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.leftDiv{
+    position: absolute;
+    top: 10%;
+    left: 3%;
+}
+
+#loginForm{
+    align-items: center;
+}
+
+.heading{
+    text-align: center; 
+    text-transform: uppercase; 
+    font-weight: bolder; 
+    margin-bottom: 5%;
+}

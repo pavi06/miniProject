@@ -1,0 +1,56 @@
+
+.ribbon{
+    position: absolute;
+    color: black;
+    width: 8rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    left: 11%;
+    margin-top: 10px;
+    background-color: #FFA456 ;
+    border-bottom-left-radius: 0px;
+}
+
+.ribbon::before{
+    content: '';
+    position: absolute;
+    top: 6.5vh;
+    left: 0px;
+    width: 1.5vw;
+    height: 3vh;
+    background-color: #e6a266;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    z-index: 2;
+}
+
+.ribbon::after{
+    content: '';
+    position: absolute;
+    top: 6.5vh;
+    left: 0px;
+    width: 1.5vw;
+    height: 1.5vh;
+    background-color: #FFA456;
+    z-index: 1;
+}
+
+.info{
+    font-size: 20px;
+}
+
+#discount.hide{
+    visibility: hidden;
+}
+#discount.reveal{
+    visibility: visible;
+}
+
+.backgroundDesign{
+    position: relative;
+    top: 20vh;
+    z-index: -1;
+}

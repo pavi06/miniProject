@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using System.Diagnostics.CodeAnalysis;
 using HotelBookingSystemAPI.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -14,6 +15,7 @@ namespace HotelBookingSystemAPI.Controllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCors")]
     public class AdminRoomController : ControllerBase
     {
 

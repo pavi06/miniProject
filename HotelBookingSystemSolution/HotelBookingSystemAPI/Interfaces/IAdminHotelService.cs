@@ -6,6 +6,7 @@ namespace HotelBookingSystemAPI.Interfaces
 {
     public interface IAdminHotelService
     {
+
         /// <summary>
         /// To add new hotel to the system
         /// </summary>

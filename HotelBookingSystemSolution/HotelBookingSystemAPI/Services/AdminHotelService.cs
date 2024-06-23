@@ -3,6 +3,7 @@ using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HotelBookingSystemAPI.Services
 {
@@ -28,8 +29,10 @@ namespace HotelBookingSystemAPI.Services
                     hotel.Restrictions,
                     hotel.IsAvailable))
                 .ToList();
-            if (hotels.Count()>=1)
+            if (hotels.Count() >= 1)
+            {
                 return hotels;
+            }
             throw new ObjectsNotAvailableException("hotels");
         }
         #endregion

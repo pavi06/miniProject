@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./Assets/Styles/registerStyle.css"/>
     <link rel="stylesheet" href="./Assets/Styles/commonStyles.css"/>
     <script src="./Assets/Scripts/registerScript.js"></script>
+    <script src="./Assets/Scripts/commonScript.js"></script>
 </head>
 <body>
     <div class="design"></div>
@@ -40,8 +41,8 @@
                   </div>
                   <div class="col-sm-8">
                     <input type="tel" required class="form-control" name="phoneNumber" id="phoneNumber" placeholder="eg. 9756453444" onblur="validatePhone()">
-                    <small class="text-success" id="phoneValid"></small>
-                    <small class="text-danger" id="phoneInvalid"></small>
+                    <small class="text-success" id="phoneNumberValid"></small>
+                    <small class="text-danger" id="phoneNumberInvalid"></small>
                   </div>
             </div>
             <div class="row mb-2" style="align-items: center;">
@@ -71,8 +72,8 @@
                   </div>
                   <div class="col-sm-8">
                     <input type="password" required class="form-control" name="confirmPassword" id="confirmPassword" placeholder="eg.XYZA$e67@a_v" onblur="validateConfirmPassword()">
-                    <small class="text-success" id="confPasswordValid"></small>
-                    <small class="text-danger" id="confPasswordInvalid"></small>
+                    <small class="text-success" id="confirmPasswordValid"></small>
+                    <small class="text-danger" id="confirmPasswordInvalid"></small>
                   </div>
             </div>
             <div class="col-10 m-3" style="text-align: center;justify-content: center;align-items: center;">

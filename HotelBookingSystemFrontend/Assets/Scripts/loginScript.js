@@ -1,40 +1,3 @@
-var functionAddValidEffects = (element, attributeName) => {
-    element.classList.remove("is-invalid");
-    element.classList.add("is-valid");
-    document.getElementById(`${attributeName}Valid`).innerHTML="valid input!";
-    document.getElementById(`${attributeName}Invalid`).innerHTML="";
-    return true;
-}
-
-var functionAddInValidEffects = (element, attributeName) => {
-    element.classList.remove("is-valid");
-    element.classList.add("is-invalid");
-    document.getElementById(`${attributeName}Valid`).innerHTML="";
-    document.getElementById(`${attributeName}Invalid`).innerHTML=`Please provide the valid ${attributeName}!`;
-    return true;
-}
-
-var validateEmail=()=>{
-    var element = document.loginForm.email;
-    if(element.value){
-        return functionAddValidEffects(element, 'email');
-    }
-    else{
-        return functionAddInValidEffects(element, 'email');
-    }
-}
-
-var validatePassword = () => {
-    var regexExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$&*_])(?=.*[0-9]).{6,}$/;
-    var element = document.loginForm.password;
-    if(element.value && element.value.match(regexExpression)){
-        return functionAddValidEffects(element, 'password');
-    }
-    else{
-        return functionAddInValidEffects(element, 'password');
-    }
-}
-
 var validateAndLogin = () => {
     var userData = {
         email: document.getElementById('email').value,
@@ -47,16 +10,31 @@ var validateAndLogin = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)
           })
-          .then(res => res.json())
+          .then(async (res) => {
+            resetFormValues('loginForm');
+            if (!res.ok) {
+                const errorResponse = await res.json();
+                console.log("Inside error!");
+                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+            }
+            return await res.json();
+          })
           .then( data => {
+                sessionStorage.setItem('loggedInUser',data);
+                console.log(sessionStorage.getItem('loggedInUser'));
                 console.log("login successfully");
-                alert(data);
+                alert(JSON.parse(data));
                 console.log(data);
-                // window.location.href = './index.html';
-        }).catch( error => alert(error)
+                //check and redirect to the page most recently viwed
+                checkAndRedirectUrlAfterRegistrationOrLogin();
+        }).catch( error => {
+            alert(error);
+            resetFormValues('loginForm');
+            }
         );
     }
     else{
         alert("login failed! Try again Later!!");
     }
+
 }

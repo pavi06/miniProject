@@ -29,7 +29,8 @@ namespace HotelBookingSystemAPI.Controllers
         }
 
         #region GetAllHotels
-        [HttpPost("GetAllHotels")]
+        [AllowAnonymous]
+        [HttpGet("GetAllHotels")]
         [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<HotelReturnDTO>>> GetAllHotels()

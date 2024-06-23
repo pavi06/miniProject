@@ -13,7 +13,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override Task<Guest> Add(Guest item)
         {
-            if (_context.Guests.Any(p => p.Email == item.Email))
+            if (_context.Guests.Any(p =>p.Name==item.Name || p.Email == item.Email))
             {
                 throw new ObjectAlreadyExistsException("User");
             }                

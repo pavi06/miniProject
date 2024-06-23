@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="./Assets/Styles/commonStyles.css">
     <link rel="stylesheet" href="./Assets/Styles/hotelsStyle.css"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./Assets/Scripts/filterScript.js"></script>
     <script src="./Assets/Scripts/hotelScript.js"></script>
+    <script src="./Assets/Scripts/commonScript.js"></script>
 </head>
 <body>
     <div>
@@ -33,27 +33,27 @@
                         <form class="filter-content">
                             <div class="form-check">
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Parking" id="facility">
+                                    <input class="form-check-input" type="checkbox" value="Parking" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Parking</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Wifi" id="facility">
+                                    <input class="form-check-input" type="checkbox" value="Wifi" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Wifi</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Laundary Service" id="facility">
+                                    <input class="form-check-input" type="checkbox" value="Laundary Service" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Laundary Service</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Spa" id="facility">
+                                    <input class="form-check-input" type="checkbox" value="Spa" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Spa</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Gym" id="facility">
+                                    <input class="form-check-input" type="checkbox" value="Gym" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Gym</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Restraurant" id="facility">
+                                    <input class="form-check-input" type="checkbox" value="Restraurant" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Restraurant</label>
                                 </div>                                
                             </div>
@@ -66,23 +66,23 @@
                         <form class="filter-content">
                             <div class="form-check">
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="5" id="ratings">
+                                    <input class="form-check-input" type="checkbox" value="5" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">5 Stars</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="4" id="ratings">
+                                    <input class="form-check-input" type="checkbox" value="4" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">4 Stars</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="3" id="ratings">
+                                    <input class="form-check-input" type="checkbox" value="3" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">3 Stars</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="2" id="ratings">
+                                    <input class="form-check-input" type="checkbox" value="2" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">2 Stars</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="1" id="ratings">
+                                    <input class="form-check-input" type="checkbox" value="1" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">1 Stars</label>
                                 </div>
                             </div>
@@ -95,23 +95,23 @@
                         <form class="filter-content">
                             <div class="form-check">
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="AirConditioning" id="roomFacility">
+                                    <input class="form-check-input" type="checkbox" value="AirConditioning" id="roomFacility" onchange="refreshCheckBoxValues('roomFacility')">
                                     <label class="form-check-label" for="roomFacility">Air conditioning</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Refrigerator" id="roomFacility">
+                                    <input class="form-check-input" type="checkbox" value="Refrigerator" id="roomFacility" onchange="refreshCheckBoxValues('roomFacility')">
                                     <label class="form-check-label" for="roomFacility">Refrigerator</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Kitchen" id="roomFacility">
+                                    <input class="form-check-input" type="checkbox" value="Kitchen" id="roomFacility" onchange="refreshCheckBoxValues('roomFacility')">
                                     <label class="form-check-label" for="roomFacility">Kitchen</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Cofee/Tea Maker" id="roomFacility">
+                                    <input class="form-check-input" type="checkbox" value="Cofee/Tea Maker" id="roomFacility" onchange="refreshCheckBoxValues('roomFacility')">
                                     <label class="form-check-label" for="roomFacility">Cofee/Tea Maker</label>
                                 </div>
                                <div class="mb-2">
-                                <input class="form-check-input" type="checkbox" value="Scenic View" id="roomFacility">
+                                <input class="form-check-input" type="checkbox" value="Scenic View" id="roomFacility" onchange="refreshCheckBoxValues('roomFacility')">
                                 <label class="form-check-label" for="roomFacility">Scenic View</label>
                                </div>
                             </div>
@@ -119,15 +119,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-4 p-3">
-                <form class="flex flex-row justify-between formMain">  
+            <div class="col-span-4 p-3" id="hotelsDisplay">
+                <form class="flex flex-row flex-wrap justify-between formMain" name="hotelForm">  
                         <div class="formElement">
                             <div class="flex flex-row justify-center text-center">
                                 <label for="location" class="form-label label">Location</label>
                                 <div class="flex flex-col">
                                     <input type="text" required class="form-control" style="margin-right: 5%;" name="location" id="location" placeholder="eg. Ooty" onblur="validateLocation()">
                                     <small class="text-success" id="locationValid"></small>
-                                    <small class="text-danger" id="locationInValid"></small>
+                                    <small class="text-danger" id="locationInvalid"></small>
                                 </div>
                             </div>
                             <div class="flex flex-row">
@@ -135,12 +135,12 @@
                                 <div class="flex flex-col">
                                     <input type="date" required class="form-control" name="checkInDate" id="checkInDate"  onblur="validateDate()">
                                     <small class="text-success" id="checkInDateValid"></small>
-                                    <small class="text-danger" id="checkInDateInValid"></small>
+                                    <small class="text-danger" id="checkInDateInvalid"></small>
                                 </div>
                             </div>
                         </div> 
                         <div class="formElement">
-                            <button type="submit" onsubmit="ValidateAndGet()" class="buttonSearch">Search Hotels</button>
+                            <button type="submit" onsubmit="validateAndGet()" class="buttonSearch">Search Hotels</button>
                         </div>                       
                 </form>
             </div>

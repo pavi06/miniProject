@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
 
 body{
-    overflow: hidden;
     font-family: "EB Garamond";
 }
 
@@ -45,4 +44,12 @@ body{
     text-transform: uppercase; 
     font-weight: bolder; 
     margin-bottom: 5%;
+}
+
+.frontendImage{
+    transition: transform 0.3s ease;
+}
+
+.frontendImage:hover{
+    transform: scaleX(1.3);
 }

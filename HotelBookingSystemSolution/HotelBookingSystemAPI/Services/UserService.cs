@@ -108,7 +108,7 @@ namespace HotelBookingSystemAPI.Services
                 guest = await _guestRepo.Add(guest);
                 user.GuestId = guest.GuestId;
                 user = await _userRepo.Add(user);
-                GuestReturnDTO addedGuest = new GuestReturnDTO(guest.Name, guest.Email,  guest.PhoneNumber, guest.Address, guest.Role);
+                GuestReturnDTO addedGuest = new GuestReturnDTO( guest.GuestId, guest.Name, guest.Email,  guest.PhoneNumber, guest.Address, guest.Role);
                 _logger.LogInformation("User registered successfuly");
                 return addedGuest;
             }

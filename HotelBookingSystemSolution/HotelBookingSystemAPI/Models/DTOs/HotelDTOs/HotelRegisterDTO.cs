@@ -14,5 +14,7 @@ namespace HotelBookingSystemAPI.Models.DTOs.InsertDTOs
         public int TotalNoOfRooms { get; set; }
         public string? Amenities { get; set; }
         public string? Restrictions { get; set; }
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Images should be given")]
+        //public string Images { get; set; }
     }
 }

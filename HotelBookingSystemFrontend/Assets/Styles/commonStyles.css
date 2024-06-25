@@ -411,3 +411,26 @@ input {
     opacity: 1;
     transform: translateY(0);
 }
+
+
+.label{
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.formDiv{
+  width: 40%;
+  height: fit-content;
+  align-items: center;
+  position: absolute;
+  top: 18%;
+  left: 3%;
+}
+
+.hint{
+  display: none;
+}
+
+input[type="password"]:focus + .hint{
+  display: block;
+}

@@ -1,29 +1,7 @@
-var validateName = () =>{
-    var element = document.registrationForm.name;
-    var regString = /[a-zA-Z]/g
-    if(element.value && element.value.match(regString)){
-        return functionAddValidEffects(element);
-    }
-    else{
-        return functionAddInValidEffects(element);
-    }
-}
-
 function validatePhone(){
     var element = document.registrationForm.phoneNumber;
     var regPhone =  /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
     if(element.value && element.value.match(regPhone)){
-        return functionAddValidEffects(element);
-    }
-    else{
-        return functionAddInValidEffects(element);
-    }
-}
-
-var validateAddress=()=>{
-    var element = document.registrationForm.address;
-    var addressRegex = /^[a-zA-Z0-9\s,'-]*$/;
-    if(element.value && element.value.match(addressRegex)){
         return functionAddValidEffects(element);
     }
     else{
@@ -72,9 +50,9 @@ var validateAndRegister = () => {
                     name: data.name,
                     role:data.role
                 }
-                //storing user in session storage
-                sessionStorage.setItem('registeredUser', registeredUser);
-                console.log(sessionStorage.getItem('registeredUser'));
+                //storing user in local storage
+                localStorage.setItem('registeredUser', registeredUser);
+                console.log(localStorage.getItem('registeredUser'));
                 console.log("registered successfully");
                 alert(data);
                 console.log(data);

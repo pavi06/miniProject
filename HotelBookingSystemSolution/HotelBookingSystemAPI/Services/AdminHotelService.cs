@@ -91,22 +91,32 @@ namespace HotelBookingSystemAPI.Services
         {
             try{
                 var hotel = await _hotelRepository.Get(updateHotelDTO.HotelId);
-                switch (updateHotelDTO.AttributeName.ToLower())
+                foreach(var pair in updateHotelDTO.AttributeValuesPair)
                 {
-                    case "amenities":
-                        hotel.Amenities = updateHotelDTO.AttributeValue;
-                        break;
-                    case "restrictions":
-                        hotel.Restrictions = updateHotelDTO.AttributeValue;
-                        break;
-                    case "totalnoofrooms":
-                        hotel.TotalNoOfRooms = Convert.ToInt32(updateHotelDTO.AttributeValue);
-                        break;
-                    case "name":
-                        hotel.Name = updateHotelDTO.AttributeValue;
-                        break;
-                    default:
-                        throw new Exception("No such attribute available!");
+                    Console.WriteLine(pair);
+                    switch (pair.Key.ToLower())
+                    {
+                        case "amenities":
+                            hotel.Amenities = pair.Value;
+                            break;
+                        case "restrictions":
+                            hotel.Restrictions = pair.Value;
+                            break;
+                        case "totalnoofrooms":
+                            hotel.TotalNoOfRooms = Convert.ToInt32(pair.Value);
+                            break;
+                        case "name":
+                            hotel.Name = pair.Value;
+                            break;
+                        case "address":
+                            hotel.Address = pair.Value;
+                            break;
+                        case "city":
+                            hotel.City = pair.Value;
+                            break;
+                        default:
+                            throw new Exception("No such attribute available!");
+                    }
                 }
                 var updatedHotel = await _hotelRepository.Update(hotel);
                 return new HotelReturnDTO(updatedHotel.HotelId, updatedHotel.Name, updatedHotel.Address, updatedHotel.City,

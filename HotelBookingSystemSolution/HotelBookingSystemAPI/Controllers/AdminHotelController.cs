@@ -110,7 +110,7 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPut("UpdateHotel")]
         [ProducesResponseType(typeof(HotelReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<HotelReturnDTO>> UpdateHotelByAttribute(UpdateHotelDTO updateHotelDTO)
+        public async Task<ActionResult<HotelReturnDTO>> UpdateHotelByAttribute([FromBody] UpdateHotelDTO updateHotelDTO)
         {
             try
             {

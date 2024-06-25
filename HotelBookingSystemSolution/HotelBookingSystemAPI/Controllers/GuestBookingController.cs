@@ -19,10 +19,9 @@ using Microsoft.AspNetCore.Cors;
 namespace HotelBookingSystemAPI.Controllers
 {
     [ExcludeFromCodeCoverage]
-    [Authorize(Roles = "Admin,User")]
+    [EnableCors("MyCors")]
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("MyCors")]
     public class GuestBookingController : ControllerBase
     {
         private readonly IGuestSearchService _guestSearchService;
@@ -182,7 +181,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [Authorize(Roles = "Admin,User")]
         #region RequestRoomsNeeded
         [HttpPost("BookRooms")]
         [ProducesResponseType(typeof(BookingReturnDTO), StatusCodes.Status200OK)]
@@ -214,7 +213,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [Authorize(Roles = "Admin,User")]
         #region MakePaymentAndConfirmBooking
         [HttpPost("MakePaymentAndConfirmBooking")]
         [ProducesResponseType(typeof(PaymentReturnDTO), StatusCodes.Status200OK)]
@@ -237,7 +236,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [Authorize(Roles = "Admin,User")]
         #region CancelBooking
         [HttpPut("CancelBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -261,6 +260,7 @@ namespace HotelBookingSystemAPI.Controllers
         #endregion
 
 
+        [Authorize(Roles = "Admin,User")]
         #region ModifyBooking
         [HttpPut("ModifyBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -288,7 +288,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-
+        [Authorize(Roles = "Admin,User")]
         #region GetMyBookings
         [HttpGet("GetMyBookings")]
         [ProducesResponseType(typeof(List<MyBookingDTO>), StatusCodes.Status200OK)]
@@ -316,6 +316,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+        [Authorize(Roles = "Admin,User")]
         #region GetRecommandedHotel
         [HttpGet("GetRecommandation")]
         [ProducesResponseType(typeof(List<HotelRecommendationDTO>), StatusCodes.Status200OK)]

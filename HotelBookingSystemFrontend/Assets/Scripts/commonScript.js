@@ -48,8 +48,30 @@ var validateEmail=()=>{
 
 var validatePassword = () => {
     var regexExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$&*_])(?=.*[0-9]).{6,}$/;
-    var element = document.registrationForm.password;
+    var element = document.getElementById('password');
     if(element.value && element.value.match(regexExpression)){
+        return functionAddValidEffects(element);
+    }
+    else{
+        return functionAddInValidEffects(element);
+    }
+}
+
+var validateAddress=(id)=>{
+    var element = document.getElementById(id);
+    var addressRegex = /^[a-zA-Z0-9\s,'-]*$/;
+    if(element.value && element.value.match(addressRegex)){
+        return functionAddValidEffects(element);
+    }
+    else{
+        return functionAddInValidEffects(element);
+    }
+}
+
+var validate = (id) =>{
+    var element = document.getElementById(`${id}`);
+    var regString = /[a-zA-Z]/g
+    if(element.value && element.value.match(regString)){
         return functionAddValidEffects(element);
     }
     else{
@@ -59,7 +81,7 @@ var validatePassword = () => {
 
 var resetFormValues = (formName) => {
     document.getElementById(formName).reset();
-    const formInputs = document.getElementById('registrationForm').querySelectorAll('input, textarea');
+    const formInputs = document.getElementById(formName).querySelectorAll('input, textarea');
     formInputs.forEach(input => {
     //removing the classlist added and empty small element
     input.classList.remove('is-valid', 'is-invalid');
@@ -69,15 +91,26 @@ var resetFormValues = (formName) => {
 }
 
 var checkAndRedirectUrlAfterRegistrationOrLogin = () => {
-    const redirectUrl = sessionStorage.getItem('redirectUrl');
+    const redirectUrl = localStorage.getItem('redirectUrl');
+    if(!localStorage.getItem('loggedInUser')){
+        alert("something went wrong......Login properly!");
+        window.location.href ="./login.html";
+        return;
+    }
+    const userRole = JSON.parse(localStorage.getItem('loggedInUser')).role;
     if (redirectUrl) {
         // Clear the stored URL
-        sessionStorage.removeItem('redirectUrl');                    
+        localStorage.removeItem('redirectUrl');                    
         // Redirect back to the original page
         window.location.href = redirectUrl;
     } else {
         //if no redirect url goes to the home page
-        window.location.href = './index.html';
+        if(userRole === 'Admin'){
+            window.location.href = './AdminIndex.html';
+        }
+        else{
+            window.location.href = './index.html';
+        }
     }
 }
 
@@ -113,14 +146,20 @@ var displayHotelsRetrieved = (data) => {
                             </div>
                             <p><a href="#">10 reviews</a></p>
                         </div>
-                        <button type="button" class="buttonStyle" style="width:80%; padding:5px"><span>Check Room Availability</span></button>
+                        <button type="button" class="buttonStyle" style="width:80%; padding:5px" id="availabilityBtn"><span>Check Room Availability</span></button>
                     </div>
                 </div>
             </div> 
         `;
     });
-    document.getElementById("hotelsDisplay").innerHTML += hotelsList;
+    console.log(document.getElementById("hotelsDisplay"));
+    document.getElementById("hotelsDisplay").innerHTML = hotelsList;
 }
+
+// var availabilityCheckBtn = document.getElementById('availabilityBtn');
+// availabilityCheckBtn.addEventListener("click", function(){
+    
+// })
 
 var refreshCheckBoxValues = (id)=>{
     // var checkedValues = [];
@@ -164,3 +203,23 @@ var fetchDataFromServer = (checkedValues) => {
             console.error(error);
     });
 }
+
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     window.addEventListener('scroll', revealOnScroll);
+// });
+
+// function revealOnScroll() {
+//     var sections = document.querySelectorAll('.sec');
+    
+//     sections.forEach(function(section) {
+//       var sectop = section.getBoundingClientRect().top;
+//       var windowHeight = window.innerHeight;
+      
+//       if (sectop < windowHeight/1.5) {
+//         section.classList.add('visible');
+//       } else {
+//         section.classList.remove('visible');
+//       }
+//     });
+// }

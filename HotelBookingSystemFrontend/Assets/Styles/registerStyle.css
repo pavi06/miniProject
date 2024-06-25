@@ -15,20 +15,6 @@ body{
     z-index: -1;
 }
 
-.label{
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.formDiv{
-    width: 40%;
-    height: fit-content;
-    align-items: center;
-    position: absolute;
-    top: 18%;
-    left: 3%;
-}
-
 #registrationForm{
     height: 80vh;
     align-items: center;
@@ -50,13 +36,6 @@ body{
     text-transform: uppercase; 
     font-weight: bolder; 
     margin-bottom: 5%;
-}
-.hint{
-    display: none;
-}
-
-input[type="password"]:focus + .hint{
-    display: block;
 }
 
 .frontendImage{

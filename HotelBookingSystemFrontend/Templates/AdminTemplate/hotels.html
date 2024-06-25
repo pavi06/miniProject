@@ -97,5 +97,40 @@
         </div>
         </div>
     </div>
+    <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <form id="AddRoomForm" name="AddRoomForm" class="w-75 mr-auto ml-auto">
+              <div class="row mb-2" style="align-items: center;">
+                  <div class="col-sm-4">
+                    <label for="typeId" class="form-label label">Type</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <select id="roomTypesSelect">   
+                    </select>
+                  </div>
+              </div>                   
+              <div class="row mb-2" style="align-items: center;">
+                  <div class="col-sm-4">
+                    <label for="roomImages" class="form-label label">Room Images</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" required class="form-control" name="roomImages" id="roomImages" placeholder="eg. hgfghj, fghj" onblur="validateRoomImages()">
+                    <small class="text-success" id="roomImagesValid"></small>
+                    <small class="text-danger" id="roomImagesInvalid"></small>
+                  </div>
+              </div>                    
+              <div class="col-10 m-3 mt-5" style="text-align: center;justify-content: center;align-items: center;">
+                  <button type="button" class="buttonStyle"  onclick="AddRoom()"><span>Add Room</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 </html>

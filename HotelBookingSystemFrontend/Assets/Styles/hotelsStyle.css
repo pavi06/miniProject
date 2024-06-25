@@ -18,16 +18,6 @@
 
 }
 
-.cardDesign{
-    border-radius: 10px;
-    box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
-}
-
-.cardDesign.hover{
-    width: 80%;
-    z-index: 3;
-}
-
 .review{
     font-weight: bolder;
     font-size: 20px;

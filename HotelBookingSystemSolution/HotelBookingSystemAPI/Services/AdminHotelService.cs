@@ -16,10 +16,10 @@ namespace HotelBookingSystemAPI.Services
         }
 
         #region GetAllHotels
-        public async Task<List<HotelReturnDTO>> GetAllHotels()
+        public async Task<List<AdminHotelReturnDTO>> GetAllHotels()
         {
-            List<HotelReturnDTO> hotels = (await _hotelRepository.Get())
-                .Select(hotel => new HotelReturnDTO(
+            List<AdminHotelReturnDTO> hotels = (await _hotelRepository.Get())
+                .Select(hotel => new AdminHotelReturnDTO(
                     hotel.HotelId,
                     hotel.Name,
                     hotel.Address,
@@ -27,7 +27,10 @@ namespace HotelBookingSystemAPI.Services
                     hotel.Rating,
                     hotel.Amenities,
                     hotel.Restrictions,
-                    hotel.IsAvailable))
+                    hotel.IsAvailable,
+                    hotel.TotalNoOfRooms,
+                    hotel.RoomTypes,
+                    hotel.Ratings))
                 .ToList();
             if (hotels.Count() >= 1)
             {

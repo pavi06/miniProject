@@ -59,7 +59,8 @@ namespace HotelBookingSystemAPI.Services
             var claims = new List<Claim>(){
                 new Claim("UserId", emp.EmpId.ToString()),
                 new Claim("Email", emp.Email),
-                new Claim("Role",emp.Role)
+                new Claim("Role",emp.Role),
+                new Claim("HotelId",emp.HotelId.ToString())
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
             var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: credentials);

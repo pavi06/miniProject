@@ -20,7 +20,7 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<HotelReturnDTO> UpdateHotelAttribute(UpdateHotelDTO updateHotelDTO);
 
         //to get all hotels available
-        public Task<List<HotelReturnDTO>> GetAllHotels();
+        public Task<List<AdminHotelReturnDTO>> GetAllHotels();
 
         //search hotel by id
         public Task<HotelReturnDTO> GetHotelById(int hotelId);

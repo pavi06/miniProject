@@ -20,7 +20,7 @@ namespace HotelBookingSystemAPI.Interfaces
         /// </summary>
         /// <param name="loggedUserWorksFor">id of the hotel for which the employee works for</param>
         /// <returns>returns list of bookings after mapping it with dto</returns>
-        public Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, string attribute, string attributeValue);
+        public Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, FilterBookingDTO filterBookingDTO);
 
         /// <summary>
         /// Get those guest details who are checkin today

@@ -31,13 +31,13 @@ namespace HotelBookingSystemAPI.Controllers
         #region GetAllHotels
         [AllowAnonymous]
         [HttpGet("GetAllHotels")]
-        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<HotelReturnDTO>>> GetAllHotels()
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetAllHotels()
         {
             try
             {
-                List<HotelReturnDTO> result = await _hotelService.GetAllHotels();
+                List<AdminHotelReturnDTO> result = await _hotelService.GetAllHotels();
                 _logger.LogInformation("Successfully retrieved hotels");
                 return Ok(result);
             }

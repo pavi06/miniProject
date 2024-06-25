@@ -39,16 +39,16 @@ namespace HotelBookingSystemAPI.Services
         #endregion
 
         #region GetBookingsByDateAndMonth
-        public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, string attribute, string attributeValue)
+        public async Task<List<BookingDetailsForEmployeeDTO>> GetAllBookingRequestByFilteration(int loggedUserWorksFor, FilterBookingDTO filterBookingDTO)
         {
             List<Booking> bookings = null;
-            switch (attribute.ToLower())
+            switch (filterBookingDTO.Attribute.ToLower())
             {
                 case "month":
-                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Month == Convert.ToInt32(attributeValue)).ToList();
+                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Month == Convert.ToInt32(filterBookingDTO.AttributeValue) && b.Date.Year == new DateTime().Year).ToList();
                     break;
                 case "date":
-                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == Convert.ToDateTime(attributeValue).Date).ToList();
+                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == Convert.ToDateTime(filterBookingDTO.AttributeValue).Date && b.Date.Year == new DateTime().Year).ToList();
                     break;
                 default:
                     throw new Exception("Invalid Attribute value");

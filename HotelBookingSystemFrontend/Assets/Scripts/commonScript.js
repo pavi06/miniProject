@@ -37,7 +37,7 @@ var functionAddInValidEffects = (element) => {
 
 // [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}
 var validateEmail=()=>{
-    var element = document.loginForm.email;
+    var element = document.getElementById('email');
     if(element.value){
         return functionAddValidEffects(element, 'email');
     }
@@ -203,8 +203,6 @@ var fetchDataFromServer = (checkedValues) => {
             console.error(error);
     });
 }
-
-
 // document.addEventListener("DOMContentLoaded", function() {
 //     window.addEventListener('scroll', revealOnScroll);
 // });

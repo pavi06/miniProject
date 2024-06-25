@@ -48,9 +48,3 @@
 #discount.reveal{
     visibility: visible;
 }
-
-.backgroundDesign{
-    position: relative;
-    top: 20vh;
-    z-index: -1;
-}

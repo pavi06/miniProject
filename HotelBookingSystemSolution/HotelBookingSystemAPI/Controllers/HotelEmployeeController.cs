@@ -114,15 +114,15 @@ namespace HotelBookingSystemAPI.Controllers
         #endregion
 
         #region GetFilteredBookings
-        [HttpGet("GetAllBookingRequestByFiltering")]
+        [HttpPost("GetAllBookingRequestByFiltering")]
         [ProducesResponseType(typeof(List<BookingDetailsForEmployeeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<BookingDetailsForEmployeeDTO>>> GetAllBookingsByAttribute(string attribute, string attributeValue)
+        public async Task<ActionResult<List<BookingDetailsForEmployeeDTO>>> GetAllBookingsByAttribute([FromBody] FilterBookingDTO filterBookingDTO)
         {
             try
             {
                 var loggedUserWorksFor = _employeeRepository.Get(Convert.ToInt32(User.FindFirstValue("UserId"))).Result.HotelId;
-                var result = await _employeeService.GetAllBookingRequestByFilteration(loggedUserWorksFor, attribute,attributeValue );
+                var result = await _employeeService.GetAllBookingRequestByFilteration(loggedUserWorksFor, filterBookingDTO);
                 _logger.LogInformation("Bookings Retrieved successfully");
                 return Ok(result);
             }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee HomePage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../Assets/Styles/commonStyles.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../Assets/Scripts/employeeIndexScript.js"></script>
+    <style>
+        .hideDiv{
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <section>
+        <div class="backgroundDesign align-middle m-auto">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#FFBA80" fill-opacity="1" d="M0,160L80,133.3C160,107,320,53,480,58.7C640,64,800,128,960,138.7C1120,149,1280,107,1360,85.3L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: 0px;" viewBox="0 0 1440 320"><path fill="#FFBA80" fill-opacity="1" d="M0,288L80,245.3C160,203,320,117,480,122.7C640,128,800,224,960,256C1120,288,1280,256,1360,240L1440,224L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>
+            </div>
+        </div>
+        <div class="flex flex-column" style="z-index: 5;">
+            <nav class="flex justify-between p-4">
+                <div>LOGO HERE</div>
+                <ul class=" flex justify-end">
+                    <li class="px-3 uppercase" id="bookingsLi"><a href="#">Bookings</a></li>
+                    <li class="px-3 uppercase"><a href="#"><button id="checkInBtn" onclick="GetCheckIns()">Get CheckIn</button></a></li>
+                    <li class="px-3 uppercase"><a href="../EmployeeTemplate/login.html"><button id="logInBtn">LogIn</button></a></li>
+                    <li class="px-3 uppercase"><a><button id="logOutBtn" onclick="logout()">LogOut</button></a></li>
+                </ul>
+            </nav>
+            <div id="loginInfo"><p class="text-center">Login to see details</p></div>
+            <div id="filter" class="mt-3 hideDiv">
+                <div class="flex flex-row justify-between m-2">
+                    <button class="buttonStyle" onclick="fetchBookings('Today')" id="todayBookingsBtn"><span>Get Today Bookings</span></button>
+                    <form class="d-flex flex-row" id="filterForm" class="filterForm">
+                        <select id="filterBy" class="form-select" style="width: auto;">
+                            <option selected>Choose</option>
+                            <option>Date</option>
+                            <option>Month</option>
+                        </select>
+                        <input type="text" required class="form-control" id="filterValue"/>
+                        <button class="buttonStyle ml-3 mr-5" type="button" id="searchBtn" onclick="filterBookings()" style="padding: 5px; width: fit-content;"><span>Filter Bookings</span></button>
+                    </form>
+                </div>
+            </div>
+            <div id="bookingsCount" class="hideDiv text-base float-end mr-5 uppercase mt-3 fw-bold">Total No of Bookings: <span id="displayCount" class="text-2xl px-3"></span></div>
+            <!-- provide revenue details -->
+            <div id="displayAllBookings" class="mt-10 pt-5">
+    
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -64,7 +64,7 @@ namespace HotelBookingSystemAPI.Services
                     discountPercent += roomType.Discount;
                     finalAmount += (roomType.Amount - (roomType.Amount * (roomType.Discount / 100))) * roomtype.RoomsNeeded;
                 }
-                if (_guestRepository.Get(loggedUserId).Result.bookings.Count() > 3)
+                if (_guestRepository.Get(loggedUserId).Result.Bookings.Count() > 3)
                 {
                     finalAmount = finalAmount - (finalAmount * 0.05);
                     discountPercent += 5;
@@ -252,17 +252,28 @@ namespace HotelBookingSystemAPI.Services
         {
             try
             {
-                var bookings = _guestRepository.Get(loggedUser).Result.bookings;
+                var bookings = _guestRepository.Get(loggedUser).Result.Bookings;
+                Console.WriteLine(bookings);
                 //mapping each booking to dto
-                List<MyBookingDTO> myBookings = bookings.Select(b => new MyBookingDTO
+                List<MyBookingDTO> myBookings = bookings.Select(b =>
                 {
-                    HotelId = b.HotelId,
-                    HotelName = _hotelRepository.Get(b.HotelId).Result.Name,
-                    NoOfRoomsBooked = b.NoOfRooms,
-                    BookedDate = b.Date.Date,
-                    TotalAmount = Math.Round(b.TotalAmount, 2),
-                    DiscountPercent = Math.Round(b.Discount, 2),
-                    FinalAmount = Math.Round(b.TotalAmount - ((b.Discount / 100) * b.HotelId), 2)
+                    var hotel = _hotelRepository.Get(b.HotelId).Result;
+                    var bookedRoom = _bookingRepository.Get(b.BookId).Result.RoomsBooked;
+
+                    return new MyBookingDTO
+                    {
+                        BookId = b.BookId,
+                        HotelId = b.HotelId,
+                        HotelName = hotel.Name,
+                        HotelLocation = hotel.Address,
+                        NoOfRoomsBooked = b.NoOfRooms,
+                        CheckInDate = bookedRoom.Count > 0 ? bookedRoom[0].CheckInDate.Date : DateTime.MinValue,
+                        CheckOutDate = bookedRoom.Count > 0 ? bookedRoom[0].CheckOutDate.Date : DateTime.MinValue,
+                        TotalAmount = Math.Round(b.TotalAmount, 2),
+                        DiscountPercent = Math.Round(b.Discount, 2),
+                        FinalAmount = Math.Round(b.TotalAmount - (b.Discount / 100 * b.TotalAmount), 2),
+                        BookingStatus = b.BookingStatus
+                    };
                 }).ToList();
                 return myBookings;
             }

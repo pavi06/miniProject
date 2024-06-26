@@ -63,3 +63,23 @@ var validateAndGet = () => {
         alert("Provide values properly!");
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('http://localhost:5058/api/AdminHotel/GetAllHotels', {
+        method: 'GET',
+        }).then(async(res) => {
+            if (!res.ok) {
+                const errorResponse = await res.json();
+                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+            }
+            return await res.json();
+        }).then(data => {
+            console.log(data);
+            displayHotelsRetrieved(data);
+        }).catch(error => {
+            alert(error);
+            console.error(error);
+       });
+});
+
+

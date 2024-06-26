@@ -23,7 +23,7 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<List<AdminHotelReturnDTO>> GetAllHotels();
 
         //search hotel by id
-        public Task<HotelReturnDTO> GetHotelById(int hotelId);
+        public Task<HotelDTO> GetHotelById(int hotelId);
 
         //remove hotel
         public Task<HotelReturnDTO> RemoveHotel(int hotelId);

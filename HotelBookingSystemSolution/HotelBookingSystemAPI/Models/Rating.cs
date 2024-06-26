@@ -16,7 +16,7 @@ namespace HotelBookingSystemAPI.Models
         public Hotel Hotel { get; set; }
         public double ReviewRating { get; set; }
         public string Comments { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; } = DateTime.Now.Date;
 
         public Rating() { }
         public Rating(int guestId, int hotelId, double reviewRating, string comments)

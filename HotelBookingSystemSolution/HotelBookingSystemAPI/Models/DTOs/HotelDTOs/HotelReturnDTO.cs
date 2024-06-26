@@ -11,7 +11,7 @@
         public string Amenities { get; set; }
         public string Restrictions { get; set; }
 
-        public HotelReturnDTO(int hotelId, string name, string address, string city, double rating, string amenities, string restrictions, bool isAvailable)
+        public HotelReturnDTO(int hotelId, string name, string address, string city, double rating, string amenities, string restrictions, bool isAvailable, List<Rating> ratings, List<RoomType> roomTypes)
         {
             HotelId = hotelId;
             Name = name;
@@ -21,6 +21,7 @@
             Amenities = amenities;
             Restrictions = restrictions;
             IsAvailable = isAvailable;
+
         }
     }
 }

@@ -13,7 +13,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<Guest> Get(int key)
         {
-            var guest = await _context.Guests.Include(g=>g.bookings).SingleOrDefaultAsync(p => p.GuestId == key);
+            var guest = await _context.Guests.Include(g=>g.Bookings).SingleOrDefaultAsync(p => p.GuestId == key);
             if (guest != null)
             {
                 return guest;
@@ -23,7 +23,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<IEnumerable<Guest>> Get()
         {
-            var guest = await _context.Guests.Include(g=>g.bookings).ToListAsync();
+            var guest = await _context.Guests.Include(g=>g.Bookings).ToListAsync();
             return guest;
 
         }

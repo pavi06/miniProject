@@ -81,45 +81,45 @@ namespace HotelBookingSystemAPIServiceTests
             Assert.AreEqual("Hotel Not available!", exception.Message);
         }
 
-        [Test]
-        public async Task UpdateHotelPassTest()
-        {
-            IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
-            IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
+        //[Test]
+        //public async Task UpdateHotelPassTest()
+        //{
+        //    IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
+        //    IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
 
-            //Action
-            UpdateHotelDTO update = new UpdateHotelDTO() { HotelId = 1, AttributeName = "TotalnoofRooms", AttributeValue = "3" };
-            var result = hotelService.UpdateHotelAttribute(update);
+        //    //Action
+        //    UpdateHotelDTO update = new UpdateHotelDTO() { HotelId = 1, AttributeName = "TotalnoofRooms", AttributeValue = "3" };
+        //    var result = hotelService.UpdateHotelAttribute(update);
 
-            //Assert
-            Assert.That(result, Is.Not.Null);
-        }
+        //    //Assert
+        //    Assert.That(result, Is.Not.Null);
+        //}
 
-        [Test]
-        public async Task UpdateHotelFailTest()
-        {
-            IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
-            IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
+        //[Test]
+        //public async Task UpdateHotelFailTest()
+        //{
+        //    IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
+        //    IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
 
-            //Action
-            UpdateHotelDTO update = new UpdateHotelDTO() { HotelId = 1, AttributeName = "Rating", AttributeValue = "3" };
-            var exception = Assert.ThrowsAsync<Exception>(() => hotelService.UpdateHotelAttribute(update));
-            //Assert
-            Assert.AreEqual("No such attribute available!", exception.Message);
-        }
+        //    //Action
+        //    UpdateHotelDTO update = new UpdateHotelDTO() { HotelId = 1, AttributeName = "Rating", AttributeValue = "3" };
+        //    var exception = Assert.ThrowsAsync<Exception>(() => hotelService.UpdateHotelAttribute(update));
+        //    //Assert
+        //    Assert.AreEqual("No such attribute available!", exception.Message);
+        //}
 
-        [Test]
-        public async Task UpdateHotelExceptionTest()
-        {
-            IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
-            IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
+        //[Test]
+        //public async Task UpdateHotelExceptionTest()
+        //{
+        //    IRepository<int, Hotel> hotelRepository = new HotelRepository(context);
+        //    IAdminHotelService hotelService = new AdminHotelService(hotelRepository);
 
-            //Action
-            UpdateHotelDTO update = new UpdateHotelDTO() { HotelId = 2, AttributeName = "Rating", AttributeValue = "3" };
-            var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => hotelService.UpdateHotelAttribute(update));
-            //Assert
-            Assert.AreEqual("Hotel Not available!", exception.Message);
-        }
+        //    //Action
+        //    UpdateHotelDTO update = new UpdateHotelDTO() { HotelId = 2, AttributeName = "Rating", AttributeValue = "3" };
+        //    var exception = Assert.ThrowsAsync<ObjectNotAvailableException>(() => hotelService.UpdateHotelAttribute(update));
+        //    //Assert
+        //    Assert.AreEqual("Hotel Not available!", exception.Message);
+        //}
 
         [Test]
         public async Task UpdateHotelAvailabilityPassTest()

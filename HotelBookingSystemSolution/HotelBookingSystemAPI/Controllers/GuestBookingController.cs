@@ -241,7 +241,7 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPut("CancelBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> CancelBooking( int bookingId)
+        public async Task<ActionResult<string>> CancelBooking([FromBody] int bookingId)
         {
             try
             {

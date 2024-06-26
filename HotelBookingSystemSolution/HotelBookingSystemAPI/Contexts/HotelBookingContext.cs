@@ -74,7 +74,7 @@ namespace HotelBookingSystemAPI.Contexts
             //guest -> can have many -> bookings associated with him/her
             modelBuilder.Entity<Booking>()
                .HasOne(b => b.Guest)
-               .WithMany(p => p.bookings)
+               .WithMany(p => p.Bookings)
                .HasForeignKey(b => b.GuestId)
                .OnDelete(DeleteBehavior.ClientSetNull);
 

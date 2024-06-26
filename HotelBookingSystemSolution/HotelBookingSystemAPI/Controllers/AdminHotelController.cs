@@ -132,5 +132,32 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+        #region GetHotelById
+        [AllowAnonymous]
+        [HttpPost("GetHotel")]
+        [ProducesResponseType(typeof(HotelDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<HotelDTO>> GetHotel([FromBody] int id)
+        {
+            try
+            {
+                HotelDTO result = await _hotelService.GetHotelById(id);
+                _logger.LogInformation("Successfully retrieved hotel");
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
     }
 }

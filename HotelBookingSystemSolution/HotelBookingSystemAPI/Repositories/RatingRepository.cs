@@ -29,7 +29,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<Rating> Get(int key)
         {
-            var rating = await _context.Ratings.SingleOrDefaultAsync(h => h.RatingId == key);
+            var rating = await _context.Ratings.Include(r=>r.Guest).SingleOrDefaultAsync(h => h.RatingId == key);
             if (rating == null)
                 throw new ObjectNotAvailableException("Rating");
             return rating;
@@ -37,7 +37,7 @@ namespace HotelBookingSystemAPI.Repositories
 
         public override async Task<IEnumerable<Rating>> Get()
         {
-            var rating = await _context.Ratings.ToListAsync();
+            var rating = await _context.Ratings.Include(r => r.Guest).ToListAsync();
             return rating;
 
         }

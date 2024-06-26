@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Now</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../Assets/Styles/registerStyle.css"/>
+    <link rel="stylesheet" href="../Assets/Styles/commonStyles.css"/>
+    <script src="../Assets/Scripts/registerScript.js"></script>
+    <script src="../Assets/Scripts/commonScript.js"></script>
+</head>
+<body>
+    <div class="design"></div>
+    <div class="formDiv">
+        <h3 class="heading">Register Now</h3>
+        <form id="registrationForm" name="registrationForm">
+            <div class="row mb-2" style="align-items: center;">
+                <div class="col-sm-4">
+                  <label for="name" class="form-label label">Name</label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" required class="form-control" name="name" id="name" placeholder="eg. Shiva" onblur="validate()">
+                  <small class="text-success" id="nameValid"></small>
+                  <small class="text-danger" id="nameInvalid"></small>
+                </div>
+            </div>
+            <div class="row mb-2" style="align-items: center;">
+                <div class="col-sm-4">
+                  <label for="email" class="form-label label">Email</label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="email" required class="form-control" name="email" id="email" placeholder="eg. abc@gmail.com" onblur="validateEmail()">
+                  <small class="text-success" id="emailValid"></small>
+                  <small class="text-danger" id="emailInvalid"></small>
+                </div>
+            </div>
+            <div class="row mb-2" style="align-items: center;">
+                <div class="col-sm-4">
+                    <label for="phoneNumber" class="form-label label">Phone Number</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="tel" required class="form-control" name="phoneNumber" id="phoneNumber" placeholder="eg. 9756453444" onblur="validatePhone()">
+                    <small class="text-success" id="phoneNumberValid"></small>
+                    <small class="text-danger" id="phoneNumberInvalid"></small>
+                  </div>
+            </div>
+            <div class="row mb-2" style="align-items: center;">
+                <div class="col-sm-4">
+                  <label for="address" class="form-label label" >Address</label>
+                </div>
+                <div class="col-sm-8">
+                  <textarea required class="form-control" name="address" id="address" placeholder="eg. No 3, Gandhi street, AVC, Chennai, Tamil Nadu, India" aria-rowspan="4" onblur="validateAddress('address')"></textarea>
+                  <small class="text-success" id="addressValid"></small>
+                  <small class="text-danger" id="addressInvalid"></small>
+                </div>
+            </div>
+            <div class="row mb-2" style="align-items: center;">
+                <div class="col-sm-4">
+                    <label for="password" class="form-label label" >Password</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="password" required class="form-control" name="password" id="password" placeholder="eg.XYZA$e67@a_v" onblur="validatePassword()">
+                    <small class="hint">Your password should contain minimum of 6 character, should have atleast 1 lowercase, 1 uppercase, symbols like @, $, &, *, _ and numeric  </small>
+                    <small class="text-success" id="passwordValid"></small>
+                    <small class="text-danger" id="passwordInvalid"></small>
+                  </div>
+            </div>
+            <div class="row mb-2" style="align-items: center;">
+                <div class="col-sm-4">
+                    <label for="confirmPassword" class="form-label label" >Confirm Password</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="password" required class="form-control" name="confirmPassword" id="confirmPassword" placeholder="eg.XYZA$e67@a_v" onblur="validateConfirmPassword()">
+                    <small class="text-success" id="confirmPasswordValid"></small>
+                    <small class="text-danger" id="confirmPasswordInvalid"></small>
+                  </div>
+            </div>
+            <div class="col-10 m-3" style="text-align: center;justify-content: center;align-items: center;">
+                <button type="button" class="buttonStyle"  onclick="validateAndRegister()">Register</button>
+            </div>
+        </form>
+    </div>
+    <div class="rightDiv">
+        <div class="innerText">
+            <h5 style="text-transform: uppercase; font-weight: bolder;margin-bottom: 2%;">"Already part of our community?"</h5>
+            <p style="font-size: 15px;">Great to have you here again! Let's dive into fresh discoveries!<br> Enjoy exploring!</p>
+            <p style="font-weight: 500; margin-top: 2%;">click the button below to login!</p>
+            <button type="button" class="buttonStyle bg-orange-200 nextBtn" onclick="">Login Now</button>
+        </div>
+        <div>
+            <img src="./Assets/Images/signUp.png" alt="person login image" class="frontendImage" style="width: 60%;height: 60% ;"/>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

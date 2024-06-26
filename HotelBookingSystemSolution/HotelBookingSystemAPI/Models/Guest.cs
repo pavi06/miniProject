@@ -13,7 +13,7 @@ namespace HotelBookingSystemAPI.Models
         public string Address { get; set; }
         public string Role { get; set; } = "User";
 
-        public List<Booking> bookings { get; set; } //navigation property
+        public List<Booking> Bookings { get; set; } //navigation property
 
         public Guest() { }
         public Guest(string name, string email, string phoneNumber, string address)

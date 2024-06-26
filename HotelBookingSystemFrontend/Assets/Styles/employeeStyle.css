@@ -1,0 +1,9 @@
+#loginInfo p:hover{
+    transform: scaleX(1.2);
+    width: fit-content;
+    padding: 3px 10px ;
+}
+
+.hideDiv{
+    display: none;
+}

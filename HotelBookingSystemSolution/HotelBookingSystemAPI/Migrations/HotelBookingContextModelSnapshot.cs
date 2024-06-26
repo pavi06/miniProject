@@ -462,7 +462,7 @@ namespace HotelBookingSystemAPI.Migrations
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Booking", b =>
                 {
                     b.HasOne("HotelBookingSystemAPI.Models.Guest", "Guest")
-                        .WithMany("bookings")
+                        .WithMany("Bookings")
                         .HasForeignKey("GuestId")
                         .IsRequired();
 
@@ -592,7 +592,7 @@ namespace HotelBookingSystemAPI.Migrations
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Guest", b =>
                 {
-                    b.Navigation("bookings");
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("HotelBookingSystemAPI.Models.Hotel", b =>

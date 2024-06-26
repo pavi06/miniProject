@@ -1,22 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://localhost:5058/api/AdminHotel/GetAllHotels', {
-        method: 'GET',
-        }).then(async(res) => {
-            if (!res.ok) {
-                const errorResponse = await res.json();
-                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
-            }
-            return await res.json();
-        }).then(data => {
-            console.log(data);
-            displayHotelsRetrieved(data);
-        }).catch(error => {
-            alert(error);
-            console.error(error);
-       });
-});
-
-
 var functionAddValidEffects = (element) => {
     var name = element.name;
     element.classList.remove("is-invalid");
@@ -146,7 +127,7 @@ var displayHotelsRetrieved = (data) => {
                             </div>
                             <p><a href="#">10 reviews</a></p>
                         </div>
-                        <button type="button" class="buttonStyle" style="width:80%; padding:5px" id="availabilityBtn"><span>Check Room Availability</span></button>
+                        <button type="button" class="buttonStyle" style="width:80%; padding:5px" id="availabilityBtn" onclick="redirectToRooms(${hotel.hotelId})"><span>Check Room Availability</span></button>
                     </div>
                 </div>
             </div> 
@@ -156,10 +137,11 @@ var displayHotelsRetrieved = (data) => {
     document.getElementById("hotelsDisplay").innerHTML = hotelsList;
 }
 
-// var availabilityCheckBtn = document.getElementById('availabilityBtn');
-// availabilityCheckBtn.addEventListener("click", function(){
-    
-// })
+var redirectToRooms = (id) => {
+    // get hotel
+    localStorage.setItem('currentHotelId', id);
+    window.location.href="./hotelRooms.html";
+}
 
 var refreshCheckBoxValues = (id)=>{
     // var checkedValues = [];
@@ -221,3 +203,7 @@ var fetchDataFromServer = (checkedValues) => {
 //       }
 //     });
 // }
+
+
+
+

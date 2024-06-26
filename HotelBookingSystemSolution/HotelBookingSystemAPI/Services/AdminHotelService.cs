@@ -41,12 +41,12 @@ namespace HotelBookingSystemAPI.Services
         #endregion
 
         #region GetHotelById
-        public async Task<HotelReturnDTO> GetHotelById(int hotelId)
+        public async Task<HotelDTO> GetHotelById(int hotelId)
         {
             try
             {
                 var hotel = await _hotelRepository.Get(hotelId);
-                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
+                return new HotelDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable, hotel.Ratings,hotel.RoomTypes);
             }
             catch (ObjectNotAvailableException)
             {
@@ -63,7 +63,7 @@ namespace HotelBookingSystemAPI.Services
                 var addedHotel = await _hotelRepository.Add( new Hotel(hotelDTO.Name, hotelDTO.Address, hotelDTO.City, hotelDTO.TotalNoOfRooms, 0,
                  hotelDTO.Amenities, hotelDTO.Restrictions, true) );
                 return new HotelReturnDTO(addedHotel.HotelId, addedHotel.Name, addedHotel.Address, addedHotel.City, 
-                     addedHotel.Rating, addedHotel.Amenities, addedHotel.Restrictions, addedHotel.IsAvailable);
+                     addedHotel.Rating, addedHotel.Amenities, addedHotel.Restrictions, addedHotel.IsAvailable, addedHotel.Ratings,addedHotel.RoomTypes);
             }
             catch (ObjectAlreadyExistsException)
             {
@@ -79,7 +79,7 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var hotel = await _hotelRepository.Delete(hotelId);
-                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City,   hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable);
+                return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City,   hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable, hotel.Ratings, hotel.RoomTypes);
             }
             catch (ObjectNotAvailableException)
             {
@@ -123,7 +123,7 @@ namespace HotelBookingSystemAPI.Services
                 }
                 var updatedHotel = await _hotelRepository.Update(hotel);
                 return new HotelReturnDTO(updatedHotel.HotelId, updatedHotel.Name, updatedHotel.Address, updatedHotel.City,
-                    updatedHotel.Rating, updatedHotel.Amenities, updatedHotel.Restrictions, updatedHotel.IsAvailable);
+                    updatedHotel.Rating, updatedHotel.Amenities, updatedHotel.Restrictions, updatedHotel.IsAvailable, updatedHotel.Ratings, updatedHotel.RoomTypes);
             }
             catch (ObjectsNotAvailableException)
             {
@@ -149,6 +149,7 @@ namespace HotelBookingSystemAPI.Services
 
         }
         #endregion
+
 
     }
 }

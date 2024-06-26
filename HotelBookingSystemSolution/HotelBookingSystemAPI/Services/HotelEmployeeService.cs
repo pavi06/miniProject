@@ -45,10 +45,10 @@ namespace HotelBookingSystemAPI.Services
             switch (filterBookingDTO.Attribute.ToLower())
             {
                 case "month":
-                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Month == Convert.ToInt32(filterBookingDTO.AttributeValue) && b.Date.Year == new DateTime().Year).ToList();
+                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Month == Convert.ToInt32(filterBookingDTO.AttributeValue) && b.Date.Year == DateTime.Now.Year).ToList();
                     break;
                 case "date":
-                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == Convert.ToDateTime(filterBookingDTO.AttributeValue).Date && b.Date.Year == new DateTime().Year).ToList();
+                    bookings = _bookingRepository.Get().Result.Where(b => b.HotelId == loggedUserWorksFor && b.Date.Date == Convert.ToDateTime(filterBookingDTO.AttributeValue).Date && b.Date.Year == DateTime.Now.Year).ToList();
                     break;
                 default:
                     throw new Exception("Invalid Attribute value");
@@ -79,7 +79,11 @@ namespace HotelBookingSystemAPI.Services
                 if(booking.RoomsBooked.Any(b => b.CheckInDate.Date == DateTime.Now.Date))
                 {
                     var guest = await _guestRepository.Get(booking.GuestId);
-                    guestDetails.Add(new GuestDetailsForCheckInDTO(guest.Name, guest.PhoneNumber));
+                    var roomTypeAndCount = booking.RoomsBooked
+                    .Select(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type)
+                    .GroupBy(type => type)
+                    .ToDictionary(g => g.Key, g => g.Count());
+                    guestDetails.Add(new GuestDetailsForCheckInDTO(guest.Name, guest.PhoneNumber,roomTypeAndCount));
                 }
             }
             if(guestDetails.Count() > 0)

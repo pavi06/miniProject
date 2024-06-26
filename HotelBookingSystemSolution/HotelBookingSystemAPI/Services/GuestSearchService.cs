@@ -52,7 +52,7 @@ namespace HotelBookingSystemAPI.Services
                 foreach (var roomType in roomTypes)
                 {
                     var roomsAvailableCount = NoOfRoomsAvailableInThatType(_roomRepository.Get().Result.Where(r => r.HotelId == searchRoomDTO.HotelId && r.RoomType.Type == roomType.Type && r.IsAvailable == true).ToList(), searchRoomDTO.CheckInDate, searchRoomDTO.CheckoutDate).Result;
-                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.Type,roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.Discount));
+                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.Type,roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.Discount, roomType.Amenities));
                 }
                 return roomTypesDTO;
             }
@@ -75,7 +75,7 @@ namespace HotelBookingSystemAPI.Services
                 {
                     var hotelAvailability = _hotelAvailability.Get(hotel.HotelId, hotelDTO.Date).Result;
                     var isAvailable = hotelAvailability == null || hotelAvailability.RoomsAvailableCount > 0;
-                    return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, isAvailable);
+                    return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, isAvailable, hotel.Ratings,hotel.RoomTypes);
 
                 }).ToList();
                 return hotels;

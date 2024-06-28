@@ -1,14 +1,3 @@
-// const hamBurger = document.querySelector(".toggle-btn");
-
-// hamBurger.addEventListener("click", function () {
-//   document.querySelector("#sidebar").classList.toggle("expand");
-// });
-
-// var toggleDropdown = (id) => {
-//     var dropdown = document.getElementById(id);
-//     dropdown.classList.toggle('active');
-// }
-
 function loadHotels (){
     fetch('http://localhost:5058/api/AdminHotel/GetAllHotels', {
         method: 'GET',
@@ -22,7 +11,6 @@ function loadHotels (){
         return await res.json();
     })
     .then(data => {
-        console.log(data);
         displayHotelsForAdmin(data);
     })
     .catch(error => {
@@ -39,7 +27,7 @@ var displayHotelsForAdmin = (data) => {
         <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign" style="width: 80%;">
             <div class="flex flex-row justify-between">                      
                 <div class="w-60 h-50 mt-4" style="object-fit: cover;">
-                    <img src="./Assets/Images/hotelImage5.jpg" alt="Image gallery"/>
+                    <img src="../../Assets/Images/hotelImage5.jpg" alt="Image gallery"/>
                 </div>
                 <div class="p-3">
                     <p class="hotelName">${hotel.name}</p>
@@ -54,45 +42,44 @@ var displayHotelsForAdmin = (data) => {
                     </div>
                 </div>
             </div>
-            <div class="flex flex-row px-3 mt-3 justify-center">
+            <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
                 <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="editHotelBtn" onclick="openModalForEdit(${hotel.hotelId})"><span>Edit Hotel</span></button>
                 <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomTypeBtn" onclick="routeRoomType(${hotel.hotelId})"><span>Add RoomType</span></button>
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId}, ${hotel.roomTypes})"><span>Add Room</span></button>
+                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>Add Room</span></button>
             </div>
+            <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
+                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>RoomTypes</span></button>
+                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>Rooms</span></button>
+             </div>
         </div>
         `;
     });
     document.getElementById("displayAllHotels").innerHTML = hotelsList.join('');
 }
 
+var resetFormValues = (formName) => {
+    document.getElementById(formName).reset();
+    const formInputs = document.getElementById(formName).querySelectorAll('input, textarea, select');
+    formInputs.forEach(input => {
+    //removing the classlist added and empty small element
+    input.classList.remove('is-valid', 'is-invalid');
+    document.getElementById(`${input.name}Valid`).innerHTML="";
+    document.getElementById(`${input.name}Invalid`).innerHTML="";
+    });
+}
+
 var routeRoomType = (hotelId) =>{
-    localStorage.setItem('currentHotel', hotelId)
+    localStorage.setItem('currentHotel', hotelId)    
     window.location.href="./AddRoomType.html";
 }
 
+// -----------update hotel---------
 function openModalForEdit(id){
     const editModal = new bootstrap.Modal(document.getElementById('editHotelModal'));
-    localStorage.setItem('currentHotel', id);
-    console.log(id);
     editModal.show();
-}
-
-function openModalForAdd(id, roomTypes){
-    console.log(roomTypes)
-    localStorage.setItem('currentHotel', id);
-    var roomSelect = document.getElementById('roomTypesSelect');
-    roomSelect.innerHTML = '';
-    if(roomTypes){
-        roomTypes.forEach(ele => {
-            roomSelect.innerHTML += `<option value="${ele.roomTypeId}">${ele.type}</option>`;
-        });
-    }else{
-        alert("Add roomTypes first to add the room!");
-        return;
-    }
-    const addRoomModal = new bootstrap.Modal(document.getElementById('addRoomModal'));
-    localStorage.setItem('currentHotel', id);
-    addRoomModal.show();
+    document.getElementById('editHotelModal').addEventListener('hidden.bs.modal', function (e) {
+        resetFormValues('updateHotelForm');
+    });
 }
 
 function updateHotel(){
@@ -125,15 +112,59 @@ function updateHotel(){
         console.log(data);
         alert("data updated successfully");
         document.querySelector('[data-bs-dismiss="modal"]').click();
-        //update the hotel itself,
+        //update the hotel itself!!!!!!!,
         loadHotels();
     }).catch(error => {
         alert(error);
         console.error(error);
     });
 }
+// ----------------------------
 
-function addRoom(){
+
+//---------Add Room---------
+var addRoomTypes = (itemName) =>{
+    var hotelId = localStorage.getItem(`${itemName}`);
+    fetch('http://localhost:5058/api/AdminHotel/GetHotel',{
+        method:'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body:JSON.stringify(hotelId)
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    })
+    .then(data => {
+        var roomTypesHtml ="";
+        data.roomTypes.forEach(roomtype => {
+            roomTypesHtml+=`
+                <option value ="${roomtype.roomTypeId}">${roomtype.type}</option>
+            `;
+        })
+        document.getElementById('roomTypesSelect').innerHTML=roomTypesHtml;
+    })
+    .catch(error => {
+        alert(error);
+        console.error(error);
+    });
+}
+
+function openModalForAdd(id){
+    localStorage.setItem('currentHotel', id);
+    addRoomTypes('currentHotel')
+    const addRoomModal = new bootstrap.Modal(document.getElementById('addRoomModal'));
+    addRoomModal.show();
+    document.getElementById('addRoomModal').addEventListener('hidden.bs.modal', function (e) {
+        resetFormValues('AddRoomForm');
+    });
+}
+
+function AddRoom(){
     var roomData = {
         hotelId : localStorage.getItem('currentHotel'),
         typeId : document.getElementById('roomTypesSelect').value,
@@ -155,7 +186,6 @@ function addRoom(){
         }
         return await res.json();
     }).then(data => {
-        console.log(data);
         alert("room added successfully");
         document.querySelector('[data-bs-dismiss="modal"]').click();
     }).catch(error => {
@@ -163,6 +193,7 @@ function addRoom(){
         console.error(error);
     });
 }
+//----------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
     loadHotels();

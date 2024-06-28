@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="../Assets/Styles/hotelsStyle.css"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../Assets/Scripts/hotelScript.js"></script>
-    <script src="../Assets/Scripts/commonScript.js"></script>
+    <script src="../Assets/Scripts/common.js"></script>
 </head>
 <body>
     <div>
         <nav class="flex justify-between p-4">
             <div>LOGO HERE</div>
             <ul class=" flex justify-end">
-                <li class="px-3 uppercase"><a href="#">Home</a></li>
+                <li class="px-3 uppercase"><a href="../Templates/index.html">Home</a></li>
                 <li class="px-3 uppercase"><a href="#" class="active">Hotels</a></li>
                 <li class="px-3 uppercase"><a href="#">Aboutus</a></li>
                 <li class="px-3 uppercase"><a href="#">Contactus</a></li>
@@ -140,13 +140,13 @@
                             </div>
                         </div> 
                         <div class="formElement">
-                            <button type="button" onclick="validateAndGet()" class="buttonSearch">Search Hotels</button>
+                            <button type="button" onclick="validateAndGet()" class="buttonSearch uppercase">Search Hotels</button>
                         </div>                       
                 </form>
                 <div id="hotelsDisplay">
 
                 </div>
-                <div><button class="buttonStyle" id="loadMoreBtn">Load More</button></div>
+                <div style="position: relative;float: right;"><button class="buttonStyle" id="loadMoreBtn"><span>Load More</span></button></div>
             </div>
         </div>
     </div>

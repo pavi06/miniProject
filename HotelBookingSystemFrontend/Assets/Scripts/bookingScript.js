@@ -64,14 +64,13 @@ function clearAll(){
 }
 
 var cancelBooking = (id) =>{
-    console.log(id)
     fetch('http://localhost:5058/api/GuestBooking/CancelBooking',{
         method:'PUT',
         headers:{
             'Content-Type':'application/json',
             'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
         },
-        body:JSON.stringify(id)
+        body:JSON.stringify({id})
     })
     .then(async(res) => {
         if (!res.ok) {
@@ -81,12 +80,113 @@ var cancelBooking = (id) =>{
         return await res.json();
     }).then(data => {
         console.log("Cancelled successfully");
+        //popup()
         fetchBookings();
+        //refund payment if available with delay!!
     }).catch(error => {
         alert(error);
         console.error(error);
    });
 }
+
+var addRoomTypes = (itemName) =>{
+    var hotelId = localStorage.getItem(`${itemName}`);
+    fetch('http://localhost:5058/api/AdminHotel/GetHotel',{
+        method:'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body:JSON.stringify(hotelId)
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    })
+    .then(data => {
+        var roomTypesHtml ="";
+        data.roomTypes.forEach(roomtype => {
+            roomTypesHtml+=`
+                <option value ="${roomtype.roomTypeId}">${roomtype.type}</option>
+            `;
+        })
+        document.getElementById('roomTypesSelect').innerHTML=roomTypesHtml;
+    })
+    .catch(error => {
+        alert(error);
+        console.error(error);
+    });
+}
+
+//Modify booking Region
+var modifyBooking = (bookingId, hotelId) => {
+    console.log(hotelId)
+    localStorage.setItem('currentBookingId',bookingId);
+    localStorage.setItem('currentHotelIdOfBooking',hotelId);
+    addRoomTypes('currentHotelIdOfBooking');
+    const modifyBookingModal = new bootstrap.Modal(document.getElementById('modifyBookingModal'));
+    modifyBookingModal.show();
+    document.getElementById('modifyBookingModal').addEventListener('hidden.bs.modal', function (e) {
+        document.getElementById('previewRoomsToCancel').innerHTML="";
+    });
+}
+
+const roomsList = [];
+
+var displayDiv = () =>{
+    document.getElementById('previewRoomsToCancel').innerHTML+=`
+        <div>
+            <div>
+                <p>${roomsList[roomsList.length-1].roomType}</p>
+                <p>${roomsList[roomsList.length-1].noOfRoomsToCancel}</p>
+            </div>
+        </div>
+    `;
+}
+
+var storeRoomToCancel = () =>{
+    console.log("Room stored");
+    const room = {
+        roomType : document.getElementById('roomTypesSelect').innerHTML,
+        noOfRoomsToCancel : document.getElementById('roomsCount').value
+    }
+    console.log(room);
+    roomsList.push(room);
+    document.getElementById('modifyBookingForm').reset();
+    displayDiv();
+}
+
+var modifyBookingFromModal = () =>{
+    fetch('http://localhost:5058/api/GuestBooking/ModifyBooking',{
+        method:'PUT',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
+        },
+        body:JSON.stringify({
+            bookingId:localStorage.getItem('currentBookingId'),
+            cancelRooms :roomsList
+        })
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    }).then(data => {
+        console.log("booking updated successfully");
+        //popup()
+        fetchBookings();
+        //refund payment if available with delay!!
+    }).catch(error => {
+        alert(error);
+        console.error(error);
+   });
+}
+//endRegion
 
 
 
@@ -95,9 +195,11 @@ var displayMyBookings = (data) =>{
     data.forEach(bookedHotel => {
         var checkInDate = new Date(bookedHotel.checkInDate).toLocaleDateString('en-US');
         var checkOutDate = new Date(bookedHotel.checkOutDate).toLocaleDateString('en-US');
+        console.log(bookedHotel)
+        console.log(bookedHotel.hotelId);
         modifyDetailsHtml = new Date(checkInDate) < new Date() ? ``: `
                 <div class="flex flex-row justify-center my-3" id="modifyBookingBtn">
-                    <button class="buttonStyle p-2 mr-5"><span>Modify Booking</span></button>
+                    <button class="buttonStyle p-2 mr-5" onclick="modifyBooking(${bookedHotel.bookId},${bookedHotel.hotelId})"><span>Modify Booking</span></button>
                     <button class="buttonStyle p-2" onclick="cancelBooking(${bookedHotel.bookId})"><span>Cancel Booking</span></button>
                 </div>
             `;

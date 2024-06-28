@@ -12,17 +12,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../Assets/Scripts/hotelRooms.js"></script>
-    <!-- <script src="./Assets/Scripts/scrollReveal.js"></script> -->
 </head>
 <body>
     <nav class="flex justify-between p-4">
         <div>LOGO HERE</div>
         <ul class=" flex justify-end">
-            <li class="px-3 uppercase"><a href="#">Hotels</a></li>
+            <li class="px-3 uppercase"><a href="../Templates/hotels.html">Hotels</a></li>
             <li class="px-3 uppercase"><a href="#" class="active">Info</a></li>
-            <li class="px-3 uppercase"><a href="#">Facilities</a></li>
-            <li class="px-3 uppercase"><a href="#">Rules/Restrictions</a></li>
-            <li class="px-3 uppercase"><a href="#">Reviews</a></li>
+            <li class="px-3 uppercase"><a href="#amenities">Facilities</a></li>
+            <li class="px-3 uppercase"><a href="#rules">Rules/Restrictions</a></li>
+            <li class="px-3 uppercase"><a href="#testimonials">Reviews</a></li>
         </ul>
     </nav>
     <section>
@@ -55,13 +54,13 @@
             
         </div>
     </section>
-    <section class="sec hide" style="padding-top: 10%;">
+    <section id="amenities" class="sec hide" style="padding-top: 10%;">
             <p class="text-3xl mb-5 font-bold uppercase text-orange-400 text-center">Amenities</p>
             <div class="flex flex-row justify-around flex-wrap" id="displayAmenities">
                  
             </div>
     </section>
-    <section class="sec hide">
+    <section id="rules" class="sec hide">
         <p class="text-3xl mb-5 mt-5 font-bold uppercase text-center text-orange-400">Rules / Restrictions</p>
         <div>
             <div class="bg-orange-300 w-100 p-3 font-bold text-xl">
@@ -73,8 +72,7 @@
             </div>
         </div>
     </section>
-    <section class="sec hide" style="background-color: rgba(0, 0, 0, 0.8);padding-top: 10%;padding-bottom: 5%;">
-        <!-- <p class="text-3xl mb-5 font-bold reviewRating text-orange-400 uppercase text-center">Reviews</p> -->
+    <section id="testimonials" class="sec hide" style="background-color: rgba(0, 0, 0, 0.8);padding-top: 10%;padding-bottom: 5%;">
         <p class="text-white text-center mb-10">Wanna look at our <span class="uppercase font-extrabold text-2xl px-3" style="color: #FFA456;">guests Testimonials</span>???</p>
         <div class="flex flex-row" id="displayTestimonials">
 

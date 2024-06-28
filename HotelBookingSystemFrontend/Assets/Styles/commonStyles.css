@@ -57,7 +57,6 @@ nav li a:hover{
 }
 
 .image{
-  margin-left: 5vw;
   transform: scaleX(-1);
 }
 
@@ -110,7 +109,6 @@ p{
   cursor: pointer;
   margin-bottom: 12px;
   margin-right: 5px;
-  text-transform: uppercase;
 }
 
 .buttonStyle::before {
@@ -118,9 +116,9 @@ p{
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 300%; /* Large enough to cover the entire button */
-  height: 300%; /* Large enough to cover the entire button */
-  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent color for fill effect */
+  width: 300%; 
+  height: 300%;
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
   transform: translate(-50%, -50%);

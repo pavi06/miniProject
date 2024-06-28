@@ -53,3 +53,50 @@ body{
 .frontendImage:hover{
     transform: scaleX(1.3);
 }
+
+.nextBtn:hover{
+    border: 1px solid rgb(35, 35, 35);
+    color: white;
+    font-size: 15px;
+  }
+
+  .buttonStyle{
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bolder;
+    background-color: #FFA456;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 12px;
+    margin-right: 5px;
+  }
+  
+  .buttonStyle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%; 
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+  
+  .buttonStyle:hover::before {
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+  }
+  
+  .buttonStyle span{
+    position: relative;
+    z-index: 1;
+  }

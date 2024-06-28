@@ -1,6 +1,6 @@
-var facilities = {'Free Wifi':'Stay connected with free, high-speed WiFi access.', 'Spa':'Relax and unwind with complimentary spa amenities.',
+var facilities = {'Wifi':'Stay connected with free, high-speed WiFi access.', 'Spa':'Relax and unwind with complimentary spa amenities.',
     'Gym':'Stay active at no extra cost in our state-of-the-art gym.','Scenic View':'Take in stunning vistas with picturesque views.',
-    'AC':'Enjoy cool comfort with complimentary air conditioning.','Restraurant':'Savor diverse cuisines at our complimentary dining spots.'
+    'AC':'Enjoy cool comfort with complimentary air conditioning.','Mini Restraurant':'Savor diverse cuisines at our complimentary dining spots.'
 }
 
 
@@ -73,12 +73,12 @@ var displayBasicHotelDetails = (data) =>{
                 </div>
             </div>
             <div class="grid h-80 w-100 my-10 grid-cols-5 grid-rows-4 gap-2">
-                <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200"><img src="./Assets/Images/hotelImage1.jpg" class="images"/></div>
-                <div class="col-span-2 row-span-2 rounded-xl bg-indigo-200"><img src="./Assets/Images/hotelImage2.jpg" class="images"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="./Assets/Images/hotelImage3.jpg" class="images"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="./Assets/Images/hotelImage4.jpg" class="images"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="./Assets/Images/hotelImage5.jpg" class="images"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="./Assets/Images/hotelBg.jpg" class="images"/></div>
+                <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage1.jpg" class="images"/></div>
+                <div class="col-span-2 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage2.jpg" class="images"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage3.jpg" class="images"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage4.jpg" class="images"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage5.jpg" class="images"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelBg.jpg" class="images"/></div>
             </div>
             <div class="flex flex-col h-auto" id="displayRoomTypes">
             ${roomTypesAvailable}

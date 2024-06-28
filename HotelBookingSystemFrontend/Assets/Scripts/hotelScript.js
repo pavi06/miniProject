@@ -12,21 +12,6 @@ var validateLocation = () =>{
     }
 }
 
-var validateDate = () =>{
-    var dateElement = document.getElementById('checkInDate');
-    console.log(dateElement)
-    var today = new Date();
-    let formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
-    console.log(formattedDate)
-    if(dateElement.value && Date.parse(dateElement.value) >= Date.parse(formattedDate)) {
-        functionAddValidEffects(dateElement);
-        return true;
-    } else {
-        functionAddInValidEffects(dateElement);
-        return false;
-    }
-}
-
 var validateAndGet = () => {
     console.log("Inside validate")
     var locationInput = document.hotelForm.location.value;
@@ -64,6 +49,52 @@ var validateAndGet = () => {
     }
 }
 
+// --------------------HOTELS BY FEATURES--------------------------------
+//method to toggle the dropdown used with filters ui
+var toggleDropdown = (id) => {
+    var dropdown = document.getElementById(id);
+    dropdown.classList.toggle('active');
+}
+
+var getCheckedCheckboxes = (groupId) => {
+    var checkedBoxes = [];
+    var groupCheckboxes = document.querySelectorAll(groupId + '[type="checkbox"]');
+    groupCheckboxes.forEach(function(cb) {
+      if (cb.checked) {
+        checkedBoxes.push(cb.value);
+      }
+    });
+    return checkedBoxes;
+}
+
+var refreshCheckBoxValues = (id)=>{
+    checkedValues = getCheckedCheckboxes(`#${id}`);
+    fetchDataFromServer(checkedValues);
+}
+
+// get hotels by features
+var fetchDataFromServer = (checkedValues) => {
+    fetch('http://localhost:5058/api/GuestBooking/GetHotelsByFeatures', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body:JSON.stringify(checkedValues),
+    }).then(async(res) => {
+            if (!res.ok) {
+                const errorResponse = await res.json();
+                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+            }
+            return await res.json();
+    }).then(data => {
+            console.log(data);
+            displayHotelsRetrieved(data);
+    }).catch(error => {
+            alert(error);
+            console.error(error);
+    });
+}
+
+// ----------------------------------------
+
 document.addEventListener('DOMContentLoaded', function() {
     fetch('http://localhost:5058/api/AdminHotel/GetAllHotels', {
         method: 'GET',
@@ -74,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return await res.json();
         }).then(data => {
-            console.log(data);
             displayHotelsRetrieved(data);
         }).catch(error => {
             alert(error);
@@ -83,3 +113,46 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// -------HOTEL REDIRECTION---------
+var redirectToRooms = (id) => {
+    // get hotel
+    localStorage.setItem('currentHotelId', id);
+    window.location.href="./hotelRooms.html";
+}
+
+
+// displayHotelstemplate
+var displayHotelsRetrieved = (data) => {
+    var hotelsList ="";
+    data.forEach(hotel => {
+        hotelsList+=`
+            <div class="px-3 pb-5 mb-10 h-auto cardDesign">
+                <div class="flex flex-row justify-between">                      
+                    <div class="w-60 h-50 mt-4" style="object-fit: cover;">
+                        <img src="../Assets/Images/hotelImage5.jpg" alt="HotelImage"/>
+                    </div>
+                    <div class="p-3">
+                        <p class="hotelName">${hotel.name}</p>
+                        <a href="#"><i class="bi bi-geo-alt-fill"></i>&nbsp;&nbsp;${hotel.address}</a>
+                        <p class="description">Amenities:${hotel.amenities}  <br> Restriction : ${hotel.restrictions}</p>
+                    </div>
+                    <div class="flex flex-col justify-between mt-3" style="float:right">
+                        <div>
+                            <p><span class="review">Review Score</span></p>
+                            <div>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <p><a href="#">10 reviews</a></p>
+                        </div>
+                        <button type="button" class="buttonStyle" style="width:80%; padding:5px" id="availabilityBtn" onclick="redirectToRooms(${hotel.hotelId})"><span>Check Room Availability</span></button>
+                    </div>
+                </div>
+            </div> 
+        `;
+    });
+    document.getElementById("hotelsDisplay").innerHTML = hotelsList;
+}

@@ -265,12 +265,12 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPut("ModifyBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> ModifyBooking(int bookingId, List<CancelRoomDTO> cancelRoomDTO)
+        public async Task<ActionResult<string>> ModifyBooking([FromBody] ModifyBookingDTO modifyBooking)
         {
             try
             {
                 var loggedUser = Convert.ToInt32(User.FindFirstValue("UserId"));
-                string result = await _bookingService.ModifyBooking(loggedUser, bookingId,cancelRoomDTO);
+                string result = await _bookingService.ModifyBooking(loggedUser, modifyBooking.BookingId, modifyBooking.CancelRooms);
                 _logger.LogInformation("Booking Modified successfully");
                 return Ok(result);
             }

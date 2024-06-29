@@ -10,10 +10,7 @@ namespace HotelBookingSystemAPI.Models.DTOs.RoomDTOs
         [Required(ErrorMessage = "RoomTypeId cannot be null")]
         public int RoomTypeId { get; set; }
 
-        [Required(ErrorMessage = "AttributeName cannot be null")]
-        public string AttributeName { get; set; }
-
-        [Required(ErrorMessage = "AttributeValue cannot be null")]
-        public string AttributeValue { get; set; }
+        [Required(ErrorMessage = "Attribute and Value cannot be null")]
+        public Dictionary<string, string> AttributeValuesPair { get; set; } = new Dictionary<string, string>();
     }
 }

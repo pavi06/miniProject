@@ -20,6 +20,7 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<UserLoginReturnDTO> EmployeeLogin(UserLoginDTO loginDTO);
         public Task<GuestReturnDTO> Register(GuestRegisterDTO guestDTO);
         public Task<EmployeeRegisterReturnDTO> RegisterEmployee(RegisterEmployeeDTO empDTO);
-        public Task<UserActivationDTO> GetUserForActivation(UserActivationDTO user);
+        public Task<UserStatusDTO> UpdateUserStatus(UserStatusDTO user);
+        public Task<List<AllInActiveUsersDTO>> GetAllUsersForActivation();
     }
 }

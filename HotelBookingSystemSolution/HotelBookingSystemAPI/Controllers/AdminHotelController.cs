@@ -9,6 +9,7 @@ using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Cors;
+using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -84,13 +85,13 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPut("UpdateHotelAvailabilityStatus")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> UpdateHotelStatus([FromBody] UpdateHotelStatusDTO updateHotelStatusDTO)
+        public async Task<ActionResult> UpdateHotelStatus([FromBody] int hotelId)
         {
             try
             {
-                var result = await _hotelService.UpdateHotelAvailabilityService(updateHotelStatusDTO);
+                var result = await _hotelService.UpdateHotelAvailabilityService(hotelId);
                 _logger.LogInformation("Hotel satatus updated");
-                return Ok(result);
+                return Ok(new { message = result });
             }
             catch (ObjectNotAvailableException e)
             {
@@ -158,6 +159,7 @@ namespace HotelBookingSystemAPI.Controllers
 
         }
         #endregion
+
 
     }
 }

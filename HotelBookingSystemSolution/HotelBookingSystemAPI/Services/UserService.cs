@@ -146,15 +146,24 @@ namespace HotelBookingSystemAPI.Services
         }
         #endregion 
 
-        #region UserActivation
-        public async Task<UserActivationDTO> GetUserForActivation(UserActivationDTO user)
+        #region UpdateUserStatus
+        public async Task<UserStatusDTO> UpdateUserStatus(UserStatusDTO user)
         {
             var userRetrived = await _userRepo.Get(user.GuestId);
             if (userRetrived != null)
             {
-                if (userRetrived.Status == "Active")
-                    throw new Exception("User Already Activated!");
-                userRetrived.Status = "Active";
+                if(user.Status == "Disabled")
+                {
+                    if (userRetrived.Status == "Disabled")
+                        throw new Exception("User Already Disabled!");
+                    userRetrived.Status = "Disabled";
+                }
+                else
+                {
+                    if (userRetrived.Status == "Active")
+                        throw new Exception("User Already Activated!");
+                    userRetrived.Status = "Active";
+                }                
                 try
                 {
                     var updatedUSer = await _userRepo.Update(userRetrived);
@@ -171,6 +180,27 @@ namespace HotelBookingSystemAPI.Services
             _logger.LogCritical("User not available");
             throw new ObjectNotAvailableException("User");
 
+        }
+        #endregion
+
+        #region GetAllUserForActivation
+        public async Task<List<AllInActiveUsersDTO>> GetAllUsersForActivation()
+        {
+            List<AllInActiveUsersDTO> usersForActivation = new List<AllInActiveUsersDTO>();
+            var users = await _userRepo.Get();
+            foreach(var user in users)
+            {
+                if (user != null)
+                {
+                    if (user.Status != "Active")
+                    {
+                        var guest = await _guestRepo.Get(user.GuestId);
+                        usersForActivation.Add(new AllInActiveUsersDTO(guest.GuestId, guest.Email, guest.PhoneNumber, guest.Role));
+                    }
+                       
+                }
+            }
+            return usersForActivation;
         }
         #endregion
 

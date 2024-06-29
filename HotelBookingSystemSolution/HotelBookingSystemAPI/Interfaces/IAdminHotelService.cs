@@ -1,6 +1,7 @@
 ﻿using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
+using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
 {
@@ -15,7 +16,7 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<HotelReturnDTO> RegisterHotel(HotelRegisterDTO hotelDTO);
 
         //updates the hotel availability status -> soft delete.
-        public Task<string> UpdateHotelAvailabilityService(UpdateHotelStatusDTO updateHotelStatusDTO);
+        public Task<string> UpdateHotelAvailabilityService(int hotelId);
         //update hotel by attributes(Amenities, totalNoOfRooms, etc)
         public Task<HotelReturnDTO> UpdateHotelAttribute(UpdateHotelDTO updateHotelDTO);
 
@@ -27,6 +28,7 @@ namespace HotelBookingSystemAPI.Interfaces
 
         //remove hotel
         public Task<HotelReturnDTO> RemoveHotel(int hotelId);
+
 
     }
 }

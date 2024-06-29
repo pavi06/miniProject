@@ -109,14 +109,14 @@ namespace HotelBookingSystemAPIServiceTests
         [Test]
         public async Task UserActivatePassTest()
         {
-            var res = userService.GetUserForActivation(new UserActivationDTO() { GuestId=1, Status="Active"});
+            var res = userService.GetUserForActivation(new UserStatusDTO() { GuestId=1, Status="Active"});
             Assert.IsNotNull(res);
         }
 
         [Test]
         public async Task UserActivatePassTest2()
         {
-            var res = Assert.ThrowsAsync<ObjectNotAvailableException>(()=>userService.GetUserForActivation(new UserActivationDTO() { GuestId = 3, Status = "Active" }));
+            var res = Assert.ThrowsAsync<ObjectNotAvailableException>(()=>userService.GetUserForActivation(new UserStatusDTO() { GuestId = 3, Status = "Active" }));
             Assert.AreEqual("User Not available!",res.Message);
         }
 
@@ -125,8 +125,8 @@ namespace HotelBookingSystemAPIServiceTests
         {
             IUserService userService = new UserService(userRepo, guestRepo, tokenService, empRepo, logger);
             await userService.Register(new GuestRegisterDTO() { Name = "Roke", Email = "roke@gmail.com", Address = "NO 3, Gndhi nagar,TN", Password = "Roke123", PhoneNumber = "9876565647" });
-            await userService.GetUserForActivation(new UserActivationDTO() { GuestId = 1, Status = "Active" });
-            var res = Assert.ThrowsAsync<Exception>(() => userService.GetUserForActivation(new UserActivationDTO() { GuestId = 1, Status = "Active" }));
+            await userService.GetUserForActivation(new UserStatusDTO() { GuestId = 1, Status = "Active" });
+            var res = Assert.ThrowsAsync<Exception>(() => userService.GetUserForActivation(new UserStatusDTO() { GuestId = 1, Status = "Active" }));
             Assert.AreEqual("User Already Activated!", res.Message);
         }
 

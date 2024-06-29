@@ -48,18 +48,19 @@ var displayHotelsForAdmin = (data) => {
                 <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>Add Room</span></button>
             </div>
             <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>RoomTypes</span></button>
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>Rooms</span></button>
-             </div>
+                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="updateHotelStatus(${hotel.hotelId})"><span>Update status</span></button>
+                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="routeAllRoomTypes(${hotel.hotelId})"><span>RoomTypes</span></button>
+                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="routeAllRooms(${hotel.hotelId})"><span>Rooms</span></button>
+            </div>
         </div>
         `;
     });
     document.getElementById("displayAllHotels").innerHTML = hotelsList.join('');
 }
 
-var resetFormValues = (formName) => {
+var resetFormValues = (formName, formTypes) => {
     document.getElementById(formName).reset();
-    const formInputs = document.getElementById(formName).querySelectorAll('input, textarea, select');
+    const formInputs = document.getElementById(formName).querySelectorAll(formTypes);
     formInputs.forEach(input => {
     //removing the classlist added and empty small element
     input.classList.remove('is-valid', 'is-invalid');
@@ -75,10 +76,11 @@ var routeRoomType = (hotelId) =>{
 
 // -----------update hotel---------
 function openModalForEdit(id){
+    localStorage.setItem('currentHotel',id)
     const editModal = new bootstrap.Modal(document.getElementById('editHotelModal'));
     editModal.show();
-    document.getElementById('editHotelModal').addEventListener('hidden.bs.modal', function (e) {
-        resetFormValues('updateHotelForm');
+    document.getElementById('editHotelModal').addEventListener('hidden.bs.modal', function () {
+        resetFormValues('updateHotelForm','input, textarea');
     });
 }
 
@@ -120,6 +122,34 @@ function updateHotel(){
     });
 }
 // ----------------------------
+
+//------------Update hotel status---------
+var updateHotelStatus = (hotelId) =>{
+    fetch('http://localhost:5058/api/AdminHotel/UpdateHotelAvailabilityStatus', {
+        method: 'PUT',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
+        },
+        body:JSON.stringify(hotelId)
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    })
+    .then(data => {
+        alert("Hotel status updated!")
+        console.log(data)
+        loadHotels();
+    })
+    .catch(error => {
+        alert(error);
+        console.error(error);
+    });
+}
 
 
 //---------Add Room---------
@@ -195,6 +225,21 @@ function AddRoom(){
 }
 //----------------------------
 
+
+// --------------Route roomtypes----------
+var routeAllRoomTypes = (hotelId) =>{
+    localStorage.setItem('currentHotel', hotelId)    
+    window.location.href="./RoomTypes.html";
+}
+// ---------------------------
+
+// ---------Route Rooms---------
+var routeAllRooms = (hotelId) => {
+    localStorage.setItem('currentHotel', hotelId)    
+    window.location.href="./Rooms.html";
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     loadHotels();
 })
+

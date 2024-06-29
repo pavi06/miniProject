@@ -28,15 +28,41 @@ namespace HotelBookingSystemAPI.Controllers
         }
 
         #region ActivateUser
-        [HttpPut("ActivateUser")]
-        [ProducesResponseType(typeof(UserActivationDTO), StatusCodes.Status200OK)]
+        [HttpPut("UpdateUserStatus")]
+        [ProducesResponseType(typeof(UserStatusDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UserActivationDTO>> ActivateUser(UserActivationDTO user)
+        public async Task<ActionResult<UserStatusDTO>> ActivateUser(UserStatusDTO user)
         {
             try
             {
-                UserActivationDTO result = await _userService.GetUserForActivation(user);
+                UserStatusDTO result = await _userService.UpdateUserStatus(user);
                 _logger.LogInformation("User Activated successfully");
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+        #region GetAllUsersForActivaion
+        [HttpGet("GetAllUsersForActivaion")]
+        [ProducesResponseType(typeof(List<AllInActiveUsersDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<AllInActiveUsersDTO>>> GetAllInActiveUsers()
+        {
+            try
+            {
+                List<AllInActiveUsersDTO> result = await _userService.GetAllUsersForActivation();
+                _logger.LogInformation("All users retrieved successfully");
                 return Ok(result);
             }
             catch (ObjectNotAvailableException e)

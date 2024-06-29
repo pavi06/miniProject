@@ -98,22 +98,32 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var roomType = await _roomTypeRepository.Get(updateDTO.RoomTypeId);
-                switch (updateDTO.AttributeName.ToLower())
+                foreach (var pair in updateDTO.AttributeValuesPair)
                 {
-                    case "amount":
-                        roomType.Amount = Convert.ToDouble(updateDTO.AttributeValue);
-                        break;
-                    case "amenities":
-                        roomType.Amenities = updateDTO.AttributeValue;
-                        break;
-                    case "discount":
-                        roomType.Discount = Convert.ToDouble(updateDTO.AttributeValue);
-                        break;
-                    case "images":
-                        roomType.Images = updateDTO.AttributeValue;
-                        break;
-                    default:
-                        throw new Exception("No such attribute available!");
+                    switch (pair.Key.ToLower())
+                    {
+                        case "amount":
+                            roomType.Amount = Convert.ToDouble(pair.Value);
+                            break;
+                        case "amenities":
+                            roomType.Amenities = pair.Value;
+                            break;
+                        case "discount":
+                            roomType.Discount = Convert.ToDouble(pair.Value);
+                            break;
+                        case "images":
+                            roomType.Images = pair.Value;
+                            break;
+                        case "occupancy":
+                            roomType.Occupancy = Convert.ToInt32(pair.Value);
+                            break;
+                        case "cots":
+                            roomType.CotsAvailable = Convert.ToInt32(pair.Value);
+                            break;
+                        default:
+                            throw new Exception("No such attribute available!");
+                    }
+
                 }
                 var updatedRoomType = await _roomTypeRepository.Update(roomType);
                 return new RoomTypeReturnDTO(updatedRoomType.RoomTypeId, updatedRoomType.Type, updatedRoomType.Occupancy, updatedRoomType.Images, updatedRoomType.Amount, updatedRoomType.CotsAvailable,
@@ -124,6 +134,17 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("RoomType");
             }
 
+        }
+        #endregion
+
+        #region GetAllRoomTypes
+        public async Task<List<RoomTypeReturnDTO>> GetAllRoomTypesByHotel(int hotelId)
+        {
+            List<RoomTypeReturnDTO> roomTypes = _roomTypeRepository.Get().Result.Where(rt => rt.HotelId == hotelId).ToList().Select(
+                    roomType => new RoomTypeReturnDTO(roomType.RoomTypeId, roomType.Type, roomType.Occupancy, roomType.Images, roomType.Amount,
+                    roomType.CotsAvailable, roomType.Amenities, roomType.Discount, roomType.HotelId
+                )).ToList();
+            return roomTypes;
         }
         #endregion
     }

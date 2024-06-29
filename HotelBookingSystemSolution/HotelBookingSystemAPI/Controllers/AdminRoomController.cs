@@ -80,6 +80,32 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+        #region GetAllRoomTypesOfTheHotel
+        [HttpPost("GetAllRoomTypes")]
+        [ProducesResponseType(typeof(List<RoomTypeReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<RoomTypeReturnDTO>>> GetRoomsForHotel([FromBody] int hotelId)
+        {
+            try
+            {
+                List<RoomTypeReturnDTO> roomTypes = await _roomService.GetAllRoomTypesByHotel(hotelId);
+                _logger.LogInformation("Available roomsTypes displayed successfully!");
+                return Ok(roomTypes);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
         #region UpdateRoomStatus
         [HttpPut("UpdateRoomStatusForHotel")]
         [ProducesResponseType(typeof(ReturnRoomDTO), StatusCodes.Status200OK)]

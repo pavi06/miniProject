@@ -3,6 +3,7 @@ using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
+using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HotelBookingSystemAPI.Services
@@ -133,12 +134,12 @@ namespace HotelBookingSystemAPI.Services
         #endregion
 
         #region UpdateHotelAvailability
-        public async Task<string> UpdateHotelAvailabilityService(UpdateHotelStatusDTO statusDTO)
+        public async Task<string> UpdateHotelAvailabilityService(int hotelId)
         {
             try
             {
-                var hotel = await _hotelRepository.Get(statusDTO.HotelId);
-                hotel.IsAvailable = statusDTO.Status;
+                var hotel = await _hotelRepository.Get(hotelId);
+                hotel.IsAvailable = !hotel.IsAvailable;
                 await _hotelRepository.Update(hotel);
                 return "Status updated successfully";
             }

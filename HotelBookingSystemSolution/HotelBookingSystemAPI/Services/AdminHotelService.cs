@@ -3,36 +3,47 @@ using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
+using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using HotelBookingSystemAPI.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingSystemAPI.Services
 {
     public class AdminHotelService : IAdminHotelService
     {
         private readonly IRepository<int, Hotel> _hotelRepository;
+        private readonly IRepository<int, Rating> _ratingRepository;
 
-        public AdminHotelService(IRepository<int,Hotel> hotelRepository) { 
+        public AdminHotelService(IRepository<int,Hotel> hotelRepository, IRepository<int, Rating> ratingRepository) { 
             _hotelRepository = hotelRepository;
+            _ratingRepository = ratingRepository;
         }
 
         #region GetAllHotels
         public async Task<List<AdminHotelReturnDTO>> GetAllHotels()
         {
             List<AdminHotelReturnDTO> hotels = (await _hotelRepository.Get())
-                .Select(hotel => new AdminHotelReturnDTO(
+             .Select(hotel =>
+             {
+                 var roomTypes = hotel.RoomTypes.Select(r => r.Type).ToList();
+                 return new AdminHotelReturnDTO(
                     hotel.HotelId,
                     hotel.Name,
                     hotel.Address,
                     hotel.City,
                     hotel.Rating,
+                    hotel.Ratings.Count(),
                     hotel.Amenities,
                     hotel.Restrictions,
                     hotel.IsAvailable,
                     hotel.TotalNoOfRooms,
-                    hotel.RoomTypes,
-                    hotel.Ratings))
-                .ToList();
+                    roomTypes
+                 );
+             })
+             .ToList();
+
             if (hotels.Count() >= 1)
             {
                 return hotels;
@@ -42,12 +53,13 @@ namespace HotelBookingSystemAPI.Services
         #endregion
 
         #region GetHotelById
-        public async Task<HotelDTO> GetHotelById(int hotelId)
+        public async Task<AdminHotelReturnDTO> GetHotelById(int hotelId)
         {
             try
             {
                 var hotel = await _hotelRepository.Get(hotelId);
-                return new HotelDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, hotel.IsAvailable, hotel.Ratings,hotel.RoomTypes);
+                var roomTypes = hotel.RoomTypes.Select(r => r.Type).ToList();
+                return new AdminHotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Ratings.Count(), hotel.Amenities, hotel.Restrictions, hotel.IsAvailable, hotel.TotalNoOfRooms,roomTypes);
             }
             catch (ObjectNotAvailableException)
             {
@@ -148,6 +160,21 @@ namespace HotelBookingSystemAPI.Services
                 throw new ObjectNotAvailableException("Hotel");
             }
 
+        }
+        #endregion
+
+
+        #region Ratings
+        public async Task<List<RatingReturnDTO>> GetAllRatings(int hotelId)
+        {
+            var ratings = _ratingRepository.Get().Result.Where(r => r.HotelId == hotelId).ToList();
+            List<RatingReturnDTO> ratingsList = new List<RatingReturnDTO>();
+            foreach (var rating in ratings)
+            {
+                ratingsList.Add(
+                    new RatingReturnDTO(rating.RatingId, rating.ReviewRating, rating.Comments, rating.Guest.Name, rating.Date));
+            }
+            return ratingsList;
         }
         #endregion
 

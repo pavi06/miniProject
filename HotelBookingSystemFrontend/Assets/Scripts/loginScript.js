@@ -19,8 +19,9 @@ var validateAndLogin = () => {
         })
         .then( data => {
                 localStorage.setItem('loggedInUser',JSON.stringify(data));
-                console.log("login successfully");
+                localStorage.setItem('isLoggedIn',true)
                 alert("Login successfull");
+                startSession();
                 //check and redirect to the page most recently viwed
                 checkAndRedirectUrlAfterRegistrationOrLogin();
         }).catch( error => {
@@ -32,5 +33,4 @@ var validateAndLogin = () => {
     else{
         alert("login failed! Try again Later!!");
     }
-
 }

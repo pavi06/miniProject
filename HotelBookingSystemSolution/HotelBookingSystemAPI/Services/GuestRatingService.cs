@@ -51,7 +51,7 @@ namespace HotelBookingSystemAPI.Services
                     Rating rating = new Rating(loggedUser, ratingDTO.HotelId, ratingDTO.ReviewRating, ratingDTO.Comments);
                     var ratingAdded = await _ratingRepository.Add(rating);
                     await UpdateOverAllRating(ratingAdded);
-                    return new RatingReturnDTO(ratingAdded.RatingId, ratingAdded.ReviewRating, ratingAdded.Comments);
+                    return new RatingReturnDTO(ratingAdded.RatingId, ratingAdded.ReviewRating, ratingAdded.Comments, ratingAdded.Guest.Name, ratingAdded.Date);
                 }
                 throw new ObjectNotAvailableException("Hotel");
             }

@@ -53,7 +53,9 @@ var validateAndRegister = () => {
                 //storing user in local storage
                 localStorage.setItem('registeredUser', registeredUser);
                 console.log(localStorage.getItem('registeredUser'));
+                localStorage.setItem('isLoggedIn',true)
                 console.log("registered successfully");
+                startSession();
                 alert(data);
                 console.log(data);
                 //check and redirect to the recently viwedpage before register/login

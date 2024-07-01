@@ -218,7 +218,7 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpPost("MakePaymentAndConfirmBooking")]
         [ProducesResponseType(typeof(PaymentReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PaymentReturnDTO>> MakePayment(double amount)
+        public async Task<ActionResult<PaymentReturnDTO>> MakePayment([FromBody]double amount)
         {
             try
             {

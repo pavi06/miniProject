@@ -19,7 +19,7 @@ var functionAddInValidEffects = (element) => {
 
 // validation
 // [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}
-var validateEmail=()=>{
+function validateEmail(){
     var element = document.getElementById('email');
     if(element.value){
         return functionAddValidEffects(element, 'email');
@@ -28,7 +28,6 @@ var validateEmail=()=>{
         return functionAddInValidEffects(element, 'email');
     }
 }
-
 var validatePassword = () => {
     var regexExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$&*_])(?=.*[0-9]).{6,}$/;
     var element = document.getElementById('password');
@@ -110,16 +109,39 @@ var resetFormValues = (formName) => {
     });
 }
 
+var checkUserLoggedInOrNot = () =>{
+    if( localStorage.getItem('isLoggedIn')){
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav')); 
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
+    }
+    else{
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
+    }
+}
+
+var logOut = () => {
+    localStorage.clear();
+    if(window.location.pathname === '/Templates/UserTemplate/myBookings.html' || '/Templates/UserTemplate/booking.html'){
+        window.location.href = '/Templates/hotels.html';
+    }
+    document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
+    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+
+};
+
 
 //redirectionafterloginorregister
 var checkAndRedirectUrlAfterRegistrationOrLogin = () => {
     const redirectUrl = localStorage.getItem('redirectUrl');
-    if(!localStorage.getItem('loggedInUser')){
+    if(!localStorage.getItem('isLoggedIn')){
         alert("something went wrong......Login properly!");
         //dynamically change value for login !!!!!!!
         window.location.href ="./login.html";
         return;
     }
+    startSession();
+    checkUserLoggedInOrNot();
     const userRole = JSON.parse(localStorage.getItem('loggedInUser')).role;
     if (redirectUrl) {
         // Clear the stored URL
@@ -154,3 +176,8 @@ $(document).ready(function(){
       $('.menu-btn').css("visibility", "visible");
     });
 });
+
+
+
+
+

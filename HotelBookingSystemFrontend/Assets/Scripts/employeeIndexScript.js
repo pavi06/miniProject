@@ -195,7 +195,7 @@ var validateAndLoginEmployee = () => {
 }
 
 var logout = () =>{
-    localStorage.removeItem('loggedInUser');
+    localStorage.clear();
     document.getElementById('logOutBtn').classList.add('hideDiv');
     document.getElementById('bookingsLi').classList.remove('active');
     document.getElementById('checkInBtn').classList.remove('active');

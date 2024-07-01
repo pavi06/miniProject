@@ -1,6 +1,7 @@
 ﻿using HotelBookingSystemAPI.Models;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
+using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 
 namespace HotelBookingSystemAPI.Interfaces
@@ -24,10 +25,11 @@ namespace HotelBookingSystemAPI.Interfaces
         public Task<List<AdminHotelReturnDTO>> GetAllHotels();
 
         //search hotel by id
-        public Task<HotelDTO> GetHotelById(int hotelId);
+        public Task<AdminHotelReturnDTO> GetHotelById(int hotelId);
 
         //remove hotel
         public Task<HotelReturnDTO> RemoveHotel(int hotelId);
+        public Task<List<RatingReturnDTO>> GetAllRatings(int hotelId);
 
 
     }

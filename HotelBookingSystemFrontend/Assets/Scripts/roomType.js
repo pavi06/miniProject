@@ -203,5 +203,6 @@ var fetchData = () =>{
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    checkUserLoggedInOrNot();
     fetchData();
 })

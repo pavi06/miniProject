@@ -287,57 +287,6 @@ input {
     color: #FFA456;
   }
   
-  /* @media screen and (max-width: 520px) {
-    .screen-body {
-      flex-direction: column;
-    }
-  
-    .screen-body-item.left {
-      margin-bottom: 30px;
-    }
-  
-    .app-title {
-      flex-direction: row;
-    }
-  
-    .app-title span {
-      margin-right: 12px;
-    }
-  
-    .app-title:after {
-      display: none;
-    }
-  }
-  
-  @media screen and (max-width: 600px) {
-    .screen-body {
-      padding: 40px;
-    }
-  
-    .screen-body-item {
-      padding: 0;
-    }
-  } */
-  
-  
-  /* ul {
-    padding:0;
-    list-style:none;
-    line-height:1.6;
-    font-size:14px;
-    margin-bottom:0;
-  }
-  
-  ul a {
-    color:inherit;
-    text-decoration:none;
-    opacity:0.8;
-  }
-  
-  ul a:hover {
-    opacity:1;
-  } */
-  
   .item.social {
     text-align:center;
   }
@@ -398,11 +347,6 @@ input {
     font-size:20px;
     opacity:0.6;
   }
-
-  /* .hide{
-    opacity: 0;
-    transition: all 1s ease;
-  } */
 
 .visible{
     opacity: 1;
@@ -491,4 +435,12 @@ input[type="password"]:focus + .hint{
   color: white;
   margin-right: 5px;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+.hide{
+  display: none;
+}
+
+.show{
+  display: block;
 }

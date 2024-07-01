@@ -96,6 +96,8 @@ var fetchDataFromServer = (checkedValues) => {
 // ----------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
+    checkUserLoggedInOrNot();
+    console.log(window.location.pathname);
     fetch('http://localhost:5058/api/AdminHotel/GetAllHotels', {
         method: 'GET',
         }).then(async(res) => {
@@ -116,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // -------HOTEL REDIRECTION---------
 var redirectToRooms = (id) => {
     // get hotel
-    localStorage.setItem('currentHotelId', id);
+    localStorage.setItem('currentHotel', id);
     window.location.href="./hotelRooms.html";
 }
 

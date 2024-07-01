@@ -1,5 +1,5 @@
 var validateAndAddHotel = () =>{
-    if(!localStorage.getItem('loggedInUser')){
+    if(!localStorage.getItem('isLoggedIn')){
         alert("Something went wrong..Login again to continue!");
         window.location.href='./login.html';
     }

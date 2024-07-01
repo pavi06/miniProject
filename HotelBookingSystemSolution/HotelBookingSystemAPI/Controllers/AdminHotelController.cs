@@ -10,6 +10,7 @@ using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Cors;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
+using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -136,14 +137,41 @@ namespace HotelBookingSystemAPI.Controllers
         #region GetHotelById
         [AllowAnonymous]
         [HttpPost("GetHotel")]
-        [ProducesResponseType(typeof(HotelDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AdminHotelReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<HotelDTO>> GetHotel([FromBody] int id)
+        public async Task<ActionResult<AdminHotelReturnDTO>> GetHotel([FromBody] int id)
         {
             try
             {
-                HotelDTO result = await _hotelService.GetHotelById(id);
+                AdminHotelReturnDTO result = await _hotelService.GetHotelById(id);
                 _logger.LogInformation("Successfully retrieved hotel");
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+        [AllowAnonymous]
+        #region GetAllRatingForHotel
+        [HttpPost("GetAllRatingsForHotel")]
+        [ProducesResponseType(typeof(List<RatingReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<RatingReturnDTO>>> GetAllRatings([FromBody] int hotelId)
+        {
+            try
+            {
+                List<RatingReturnDTO> result = await _hotelService.GetAllRatings(hotelId);
+                _logger.LogInformation("Successfully retrieved ratings");
                 return Ok(result);
             }
             catch (ObjectsNotAvailableException e)

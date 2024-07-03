@@ -85,6 +85,7 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 Payment payment = null;
+                Console.WriteLine(bookingDetails);
                 if (amount == bookingDetails.FinalAmount)
                     payment = new Payment(amount, "Successful - Full Payment Done", "Online Payment");
                 else
@@ -272,7 +273,8 @@ namespace HotelBookingSystemAPI.Services
                         TotalAmount = Math.Round(b.TotalAmount, 2),
                         DiscountPercent = Math.Round(b.Discount, 2),
                         FinalAmount = Math.Round(b.TotalAmount - (b.Discount / 100 * b.TotalAmount), 2),
-                        BookingStatus = b.BookingStatus
+                        BookingStatus = b.BookingStatus,
+                        BookedDate = b.Date
                     };
                 }).ToList();
                 return myBookings;

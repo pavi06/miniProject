@@ -42,12 +42,15 @@
 
 const SESSION_EXPIRATION_TIME = 5 * 60;
 const CHECK_ACTIVITY_INTERVAL = 30;
+// const HEARTBEAT_INTERVAL = 60;
 let logoutTimer;
+// let heartbeatInterval;
 
 
 function startSession() {
     clearTimeout(logoutTimer);
-    logoutTimer = setTimeout(logout, SESSION_EXPIRATION_TIME * 1000);
+    logoutTimer = setTimeout(this.logout, SESSION_EXPIRATION_TIME * 1000);
+    // heartbeatInterval = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL * 1000);
 }
 
 function resetSession() {

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Cors;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
+using HotelBookingSystemAPI.Models.DTOs;
 
 namespace HotelBookingSystemAPI.Controllers
 {
@@ -178,6 +179,27 @@ namespace HotelBookingSystemAPI.Controllers
             {
                 _logger.LogError(e.Message);
                 return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+        #region GetDetails
+        [HttpGet("GetAppDetails")]
+        [ProducesResponseType(typeof(AppDetailsDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AppDetailsDTO>> GetBasicDetails()
+        {
+            try
+            {
+                AppDetailsDTO result = await _hotelService.GetDetails();
+                _logger.LogInformation("Successfully retrieved application data for analysis");
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -13,9 +13,10 @@
         public double DiscountPercent { get; set; }
         public double FinalAmount { get; set; }
         public string BookingStatus { get; set; }
+        public DateTime BookedDate { get; set; }
 
         public MyBookingDTO() { }
-        public MyBookingDTO(int bookId,int hotelId, string hotelName, int noOfRoomsBooked, DateTime checkInDate, DateTime checkOutDate,  double totalAmount, double discountPercent, double finalAmount, string hotelLocation, string bookingStatus)
+        public MyBookingDTO(int bookId,int hotelId, string hotelName, int noOfRoomsBooked, DateTime checkInDate, DateTime checkOutDate,  double totalAmount, double discountPercent, double finalAmount, string hotelLocation, string bookingStatus, DateTime bookedDate)
         {
             BookId = bookId;
             HotelId = hotelId;
@@ -28,6 +29,7 @@
             FinalAmount = finalAmount;
             HotelLocation = hotelLocation;
             BookingStatus = bookingStatus;
+            BookedDate = bookedDate;
         }
     }
 }

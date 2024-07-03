@@ -18,7 +18,7 @@ const checkInDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
 currentDate.setDate(currentDate.getDate() + 1);
 const checkOutDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
 var bodyData = {
-    hotelId : 1,
+    hotelId : currentHotel,
     checkInDate: checkInDate,
     checkoutDate: checkOutDate
 }
@@ -89,6 +89,7 @@ var displayBasicHotelDetails = (data) =>{
 }
 
 var displayRoomDetails = (data) =>{
+    document.getElementById('displayRoomTypes').innerHTML = "";
     data.forEach(roomType => {
         var discountAmount = (roomType.discount/100)*roomType.amount;
         var finalAmount = roomType.amount - discountAmount;
@@ -117,6 +118,12 @@ var displayRoomDetails = (data) =>{
         document.getElementById('displayRoomTypes').appendChild(dataDiv);
     }); 
     displayRoomTypes.querySelectorAll('.addToCartBtn').forEach(button => {
+        var roomTypeId = button.getAttribute('data-roomtype-id');
+        var roomType = data.find(rt => rt.roomTypeId === parseInt(roomTypeId));
+        if (roomType.noOfRoomsAvailable === 0) {
+            button.disabled = true;
+            button.style.cursor = 'auto';
+        }
         button.addEventListener('click', function(event) {
             if(!localStorage.getItem('isLoggedIn')){
                 localStorage.setItem('redirectUrl', window.location.pathname)
@@ -191,9 +198,13 @@ var displayTestimonials = (data) =>{
 
 var addToBookingCart = (roomType) =>{
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    console.log(cartItems)
+    if(cartItems.length === 0){
+        document.querySelector('.bookRooms').classList.add('hide');
+    } 
+    else{
+        document.querySelector('.bookRooms').classList.add('show');
+    }
     const roomtypeExitsOrNot = cartItems.find(item => item.roomTypeId === roomType.roomTypeId);
-    console.log(roomtypeExitsOrNot)
     if (roomtypeExitsOrNot) {
         console.log("inside if")
         roomtypeExitsOrNot.quantity++;
@@ -205,6 +216,38 @@ var addToBookingCart = (roomType) =>{
         console.log("inside else")
         cartItems.push({ ...roomType, quantity: 1 });
         alert("Item added successfully!")
+        document.querySelector('.bookRooms').classList.add('show');
     }
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+
+var validateAndGet = () =>{
+    var checkIn = new Date(document.getElementById('checkInDate').value); 
+    var checkOut = new Date(document.getElementById('checkOutDate').value);
+    const checkInDate = `${checkIn.getFullYear()}-${(checkIn.getMonth() + 1).toString().padStart(2, '0')}-${checkIn.getDate().toString().padStart(2, '0')}`;
+    const checkOutDate = `${checkOut.getFullYear()}-${(checkOut.getMonth() + 1).toString().padStart(2, '0')}-${checkOut.getDate().toString().padStart(2, '0')}`;
+    var bodyData = {
+        hotelId : currentHotel,
+        checkInDate: checkInDate,
+        checkoutDate: checkOutDate
+    }
+
+    fetch('http://localhost:5058/api/GuestBooking/GetRoomsByHotel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body:JSON.stringify(bodyData)
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    }).then(data => {
+        displayRoomDetails(data);
+    }).catch(error => {
+        alert(error);
+        console.error(error);
+   });
+    
 }

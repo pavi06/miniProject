@@ -32,6 +32,7 @@ html {
 }
 
 nav{
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     box-shadow: 0 8px 6px -6px #FFA456;
@@ -74,22 +75,6 @@ p{
   font-weight: bolder;
 }
 
-.travelImage{
-  position: absolute;
-  width: 40%;
-  height: 40%;
-  right: 0px;
-  animation: sliding 5s ease-in infinite;
-}
-
-@keyframes sliding{
-  0%{
-    right: 0px;
-  }
-  100%{
-    right: 100%;
-  }
-}
 
 .checked {
     color: orange;
@@ -121,7 +106,7 @@ p{
   border-radius: 50%;
   transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
   transform: translate(-50%, -50%);
-  z-index: 0;
+  /* z-index: 0; */
 }
 
 .buttonStyle:hover::before {
@@ -133,7 +118,7 @@ p{
 
 .buttonStyle span{
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .nextBtn:hover{
@@ -141,18 +126,6 @@ p{
   color: white;
   font-size: 15px;
 }
-
-/* .buttonStyle{
-    padding: 5px;
-    border-radius: 5px;
-    font-weight: bolder;
-    margin-bottom: 12px;
-    margin-right: 5px;
-} */
-
-/* .buttonStyle:hover{
-    background-color: #e8a264;
-} */
 
 input {
     font-weight: 700;
@@ -443,4 +416,10 @@ input[type="password"]:focus + .hint{
 
 .show{
   display: block;
+}
+
+.btnActive{
+  background-color: white;
+  border: 1px solid #FFA456;
+  color: black;
 }

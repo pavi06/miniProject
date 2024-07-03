@@ -13,25 +13,27 @@ var displayBookings = (data) =>{
         //check whether ths id is needed!!!        
         var textColor = booking.bookingStatus === "Cancelled" ? "red":"green";        
         bookingList+=`
-                    <div class="px-3 pb-5 mb-10 mx-auto h-auto cardDesign" style="width:80%">
-                    <div class="flex flex-col justify-between">                      
-                        <div class="p-3">
-                        <div class="flex flex-row">
-                            <p class="fw-bold">Guest Name :</p>
-                            <p class="ml-5 text-xl">${booking.guestName}</p>
-                        </div>
-                        <div class="flex flex-row my-2">
-                            <p class="fw-bold">Phone Number :</p>
-                            <p class="ml-5 text-xl">${booking.phoneNumber}</p>
-                        </div>
-                        ${generateRoomsBookedTemplate(booking)}
-                        <div class="flex flex-row">
-                            <p class="fw-bold">BookingStatus :</p>
-                            <p class="ml-5 text-xl" style="color:${textColor}">${booking.bookingStatus}</p>
-                        </div>
+                   <div class="px-3 pb-5 mb-10 mx-auto h-auto cardDesign" style="width: 60%;">
+                   <h2 class="text-center fw-bolder pt-3 text-2xl" style="color:#FFA456">GUEST DETAILS</h2>
+                    <div class="flex flex-col justify-between" style="width: 100%;">                      
+                        <div class="p-3 mx-auto">
+                            <div class="flex flex-row">
+                                <p class="fw-bold">Guest Name :</p>
+                                <p class="ml-5 text-xl">${booking.guestName}</p>
+                            </div>
+                            <div class="flex flex-row my-2">
+                                <p class="fw-bold">Phone Number :</p>
+                                <p class="ml-5 text-xl">${booking.phoneNumber}</p>
+                            </div>
+                            ${generateRoomsBookedTemplate(booking)}
+                            <div class="flex flex-row">
+                                <p class="fw-bold">BookingStatus :</p>
+                                <p class="ml-5 text-xl" style="color:${textColor}">${booking.bookingStatus}</p>
+                            </div>
                         </div>
                     </div>
-                </div> 
+                </div>
+
                 `;
     });
     document.getElementById('displayCount').innerHTML = data.length;
@@ -71,9 +73,10 @@ var displaycheckInDetail = (data) =>{
     data.forEach(booking => {
         //check whether ths id is needed!!!
         bookingList+=`
-                    <div class="px-3 pb-5 mb-10 mx-auto h-auto cardDesign" style="width:80%">
+                    <div class="px-3 pb-5 mb-10 mx-auto h-auto cardDesign" style="width:60%">
+                    <h2 class="text-center fw-bolder pt-3 text-2xl" style="color:#FFA456">GUEST DETAILS</h2>
                     <div class="flex flex-col justify-between">                      
-                        <div class="p-3">
+                        <div class="p-3 mx-auto">
                         <div class="flex flex-row">
                             <p class="fw-bold">Guest Name :</p>
                             <p class="ml-5 text-xl">${booking.guestName}</p>
@@ -127,34 +130,40 @@ var fetchBookings = (fetchString) => {
 var filterBookings = () => {
     var attributeName = document.getElementById('filterBy').value;
     var value = document.getElementById('filterValue').value;
+    if(!(attributeName && value)){
+        alert("Provide data properly!")
+        return 
+    }
+    if (!((attributeName === "Month" && value.match(/^0[1-9]|1[0-2]$/)) || (attributeName === "Date" && value.match(/^\d{2}-\d{2}-\d{4}$/)))) {
+        alert("Provide data properly!");
+        return;
+    }    
     console.log(attributeName)
     console.log(value)
-    if(attributeName && value){
-        fetch('http://localhost:5058/api/HotelEmployee/GetAllBookingRequestByFiltering',{
-            method:'POST',
-            headers:{
-                'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
-                'Content-Type' : 'application/json'
-            },
-            body:JSON.stringify({
-                attribute:attributeName,
-                attributeValue:value
-            })
+    fetch('http://localhost:5058/api/HotelEmployee/GetAllBookingRequestByFiltering',{
+        method:'POST',
+        headers:{
+            'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+        body:JSON.stringify({
+            attribute:attributeName,
+            attributeValue:value
         })
-        .then(async(res) => {
-            if (!res.ok) {
-                const errorResponse = await res.json();
-                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
-            }
-            return await res.json();
-        }).then(data => {
-            console.log(data);
-            displayBookings(data);
-        }).catch(error => {
-            alert(error);
-            console.error(error);
-        });
-    }
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    }).then(data => {
+        console.log(data);
+        displayBookings(data);
+    }).catch(error => {
+        alert(error);
+        console.error(error);
+    });
 }
 
 var validateAndLoginEmployee = () => {
@@ -196,13 +205,14 @@ var validateAndLoginEmployee = () => {
 
 var logout = () =>{
     localStorage.clear();
-    document.getElementById('logOutBtn').classList.add('hideDiv');
-    document.getElementById('bookingsLi').classList.remove('active');
-    document.getElementById('checkInBtn').classList.remove('active');
-    document.getElementById('logInBtn').classList.remove('hideDiv');
-    document.getElementById('displayAllBookings').innerHTML = "";
-    document.getElementById('loginInfo').classList.remove('hideDiv');
-    document.getElementById('filter').classList.add('hideDiv');
+    document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.remove('hide'));
+    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.remove('active'));
+    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+    document.getElementById('logInBtn').classList.remove('hide');
+    document.getElementById('displayAllBookings').classList.add('hide');
+    document.getElementById('loginInfo').classList.add('show');
+    document.getElementById('filter').classList.add('hide');
+    document.getElementById('bookingsCount').classList.add('hide');
 }
 
 var GetCheckIns = ()=>{
@@ -235,12 +245,15 @@ var GetCheckIns = ()=>{
 document.addEventListener('DOMContentLoaded', function() {
     var user = JSON.parse(localStorage.getItem('loggedInUser'));
     if(user && user.role === "HotelEmployee"){
-        document.getElementById('loginInfo').classList.add('hideDiv');
-        document.getElementById('logInBtn').classList.add('hideDiv');
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('show'));
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
+        document.getElementById('loginInfo').classList.add('hide');
         document.getElementById('bookingsLi').classList.add('active');
-        document.getElementById('filter').classList.remove('hideDiv');
+        document.getElementById('filter').classList.add('show');
         fetchBookings('All');
-    }else{
-        document.getElementById('logOutBtn').classList.add('hideDiv');
+    }
+    else{
+        document.getElementById('filter').classList.add('hide');
+        document.getElementById('bookingsCount').classList.add('hide');
     }
 })

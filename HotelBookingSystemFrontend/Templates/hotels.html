@@ -9,18 +9,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../Assets/Styles/commonStyles.css">
     <link rel="stylesheet" href="../Assets/Styles/hotelsStyle.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../Assets/Scripts/hotelScript.js"></script>
     <script src="../Assets/Scripts/common.js"></script>
+    <script src="../Assets/Scripts/TrackingSessions.js"></script>
 </head>
 <body>
-    <div>
-        <nav class="flex justify-between p-4">
+    <div style="width: 100%;">
+        <nav class="flex flex-wrap justify-between p-4">
             <div>LOGO HERE</div>
-            <ul class=" flex justify-end">
+            <ul class="flex flex-wrap justify-end">
                 <li class="px-3 uppercase"><a href="../Templates/index.html">Home</a></li>
                 <li class="px-3 uppercase"><a href="#" class="active">Hotels</a></li>
-                <li class="px-3 uppercase logInNavs"><a href="./UserTemplate/booking.html">BookingCart</a></li>
+                <li class="px-3 uppercase logInNavs bookRooms"><a href="./UserTemplate/booking.html">BookingDetails</a></li>
                 <li class="px-3 uppercase logInNavs"><a href="./UserTemplate/myBookings.html">MyBookings</a></li>
                 <li class="px-3 uppercase logOutNavs"><a href="./login.html">SignUp/LogIn</a></li>
                 <li class="px-3 uppercase logInNavs"><a href="#" onclick="logOut()">LogOut</a></li>
@@ -31,7 +33,7 @@
                 <p class="menu">Filter out</p>
                 <div style="padding-left: 20px;">
                     <div class="filter-dropdown" id="facilitiesDropdown">
-                        <div class="filter-btn">Hotel Facilities <button onclick="toggleDropdown('facilitiesDropdown')"><i class="bi bi-caret-down-fill arrow"></i><i class="bi bi-caret-up-fill arrowup"></i></button></div>
+                        <div class="filter-btn" style="word-wrap: break-word;">Hotel Facilities <button onclick="toggleDropdown('facilitiesDropdown')"><i class="bi bi-caret-down-fill arrow"></i><i class="bi bi-caret-up-fill arrowup"></i></button></div>
                         <form class="filter-content">
                             <div class="form-check">
                                 <div class="mb-2">
@@ -55,7 +57,7 @@
                                     <label class="form-check-label" for="facility">Gym</label>
                                 </div>
                                 <div class="mb-2">
-                                    <input class="form-check-input" type="checkbox" value="Restraurant" id="facility" onchange="refreshCheckBoxValues('facility')">
+                                    <input class="form-check-input" type="checkbox" value="Mini Restaurant" id="facility" onchange="refreshCheckBoxValues('facility')">
                                     <label class="form-check-label" for="facility">Restraurant</label>
                                 </div>                                
                             </div>
@@ -69,9 +71,9 @@
                             <div class="form-check">
                                 <div class="mb-2">
                                     <input class="form-check-input" type="checkbox" value="5" id="ratings" onchange="refreshCheckBoxValues('ratings')">
-                                    <label class="form-check-label" for="ratings">5 Stars</label>
+                                    <label class="form-check-label" for="ratings">High to Low</label>
                                 </div>
-                                <div class="mb-2">
+                                <!-- <div class="mb-2">
                                     <input class="form-check-input" type="checkbox" value="4" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">4 Stars</label>
                                 </div>
@@ -86,7 +88,7 @@
                                 <div class="mb-2">
                                     <input class="form-check-input" type="checkbox" value="1" id="ratings" onchange="refreshCheckBoxValues('ratings')">
                                     <label class="form-check-label" for="ratings">1 Stars</label>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -121,12 +123,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-4 p-3">
+            <div class="col-span-4 p-3 pb-1">
                 <form class="flex flex-row flex-wrap justify-between formMain" name="hotelForm" id="hotelForm">  
                         <div class="formElement">
                             <div class="flex flex-row justify-center text-center">
                                 <label for="location" class="form-label label">Location</label>
-                                <div class="flex flex-col">
+                                <div class="flex flex-col w-50">
                                     <input type="text" required class="form-control" style="margin-right: 5%;" name="location" id="location" placeholder="eg. Ooty" onblur="validateLocation()">
                                     <small class="text-success" id="locationValid"></small>
                                     <small class="text-danger" id="locationInvalid"></small>
@@ -145,11 +147,30 @@
                             <button type="button" onclick="validateAndGet()" class="buttonSearch uppercase">Search Hotels</button>
                         </div>                       
                 </form>
+                <div style="float: right;margin-top: 0px;"><button class="buttonStyle mx-auto uppercase" type="button" onclick="getRecommandation()"><span>Get Recommandation</span></button></div>
                 <div id="hotelsDisplay">
 
                 </div>
-                <div style="position: relative;float: right;"><button class="buttonStyle" id="loadMoreBtn"><span>Load More</span></button></div>
+                <div id="paginationButtons">
+                
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="modal fade" id="recommandationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- add filter to get by location-->
+            <p class="text-center mb-1 mt-5 font-bold uppercase text-2xl"><span class="text-orange-400">Recommanded &nbsp;</span>Hotel Rooms</p>
+            <div class="modal-body text-center">
+                <div class="flex flex-row flex-wrap" id="displayRecommandation">                  
+                   
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 </body>

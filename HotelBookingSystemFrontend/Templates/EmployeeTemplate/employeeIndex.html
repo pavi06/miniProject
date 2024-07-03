@@ -10,8 +10,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../../Assets/Scripts/employeeIndexScript.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
 </head>
-<body>
+<body class="mb-5">
     <section>
         <!-- <div class="backgroundDesign align-middle" style="margin-top: 10%;">
             <div>
@@ -23,10 +24,10 @@
             <nav class="flex justify-between p-4">
                 <div>LOGO HERE</div>
                 <ul class=" flex justify-end">
-                    <li class="px-3 uppercase"><a><button onclick="fetchBookings('All')" id="bookingsLi"><span class="uppercase">Bookings</span></button></a></li>
-                    <li class="px-3 uppercase"><a><button id="checkInBtn" onclick="GetCheckIns()"><span class="uppercase">Get CheckIn</span></button></a></li>
-                    <li class="px-3 uppercase"><a href="../EmployeeTemplate/login.html"><button id="logInBtn"><span class="uppercase">LogIn</span></button></a></li>
-                    <li class="px-3 uppercase"><a><button id="logOutBtn" onclick="logout()" ><span class="uppercase">LogOut</span></button></a></li>
+                    <li class="px-3 uppercase logInNavs"><a onclick="fetchBookings('All')" id="bookingsLi"><span class="uppercase">Bookings</span></a></li>
+                    <li class="px-3 uppercase logInNavs"><a onclick="GetCheckIns()" id="checkInBtn"><span class="uppercase">Get CheckIn</span></a></li>
+                    <li class="px-3 uppercase logOutNavs"><a href="../EmployeeTemplate/login.html" id="logInBtn"><span class="uppercase">LogIn</span></a></li>
+                    <li class="px-3 uppercase logInNavs"><a onclick="logout()" id="logOutBtn"><span class="uppercase">LogOut</span></a></li>
                 </ul>
             </nav>
             <div id="loginInfo" class="px-5 py-3 bg-white uppercase fw-bolder mx-auto align-middle" style="width:fit-content;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);color: #FFA456;"><p class="text-center">Login&nbsp; to&nbsp; see&nbsp; details</p></div>
@@ -39,7 +40,7 @@
                             <option>Date</option>
                             <option>Month</option>
                         </select>
-                        <input type="text" required class="form-control ml-3" id="filterValue" style=" margin-bottom: 10px;"/>
+                        <input type="text" required class="form-control ml-3" name="filterValue" id="filterValue" style=" margin-bottom: 10px;" />
                         <button class="buttonStyle ml-3 mr-5 px-4" type="button" id="searchBtn" onclick="filterBookings()" style="padding: 5px; width: fit-content;"><span class="text-center">Filter Bookings</span></button>
                     </form>
                 </div>

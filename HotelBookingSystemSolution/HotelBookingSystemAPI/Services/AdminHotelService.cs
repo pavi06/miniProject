@@ -1,12 +1,14 @@
 ﻿using HotelBookingSystemAPI.CustomExceptions;
 using HotelBookingSystemAPI.Interfaces;
 using HotelBookingSystemAPI.Models;
+using HotelBookingSystemAPI.Models.DTOs;
 using HotelBookingSystemAPI.Models.DTOs.HotelDTOs;
 using HotelBookingSystemAPI.Models.DTOs.InsertDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RatingDTOs;
 using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using HotelBookingSystemAPI.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingSystemAPI.Services
@@ -15,10 +17,17 @@ namespace HotelBookingSystemAPI.Services
     {
         private readonly IRepository<int, Hotel> _hotelRepository;
         private readonly IRepository<int, Rating> _ratingRepository;
+        private readonly IRepository<int, Guest> _guestRepository;
+        private readonly IRepository<int, HotelEmployee> _empRepository;
+        private readonly IRepository<int, Booking> _bookRepository;
 
-        public AdminHotelService(IRepository<int,Hotel> hotelRepository, IRepository<int, Rating> ratingRepository) { 
+
+        public AdminHotelService(IRepository<int,Hotel> hotelRepository, IRepository<int, Rating> ratingRepository, IRepository<int, Guest> guestRepository, IRepository<int, HotelEmployee>  empRepository, IRepository<int, Booking> bookingRepository) { 
             _hotelRepository = hotelRepository;
             _ratingRepository = ratingRepository;
+            _guestRepository = guestRepository;
+            _empRepository = empRepository;
+            _bookRepository = bookingRepository;
         }
 
         #region GetAllHotels
@@ -27,7 +36,11 @@ namespace HotelBookingSystemAPI.Services
             List<AdminHotelReturnDTO> hotels = (await _hotelRepository.Get())
              .Select(hotel =>
              {
-                 var roomTypes = hotel.RoomTypes.Select(r => r.Type).ToList();
+                 Dictionary<int, string> roomTypes = new Dictionary<int, string>();
+                 foreach(var rt in hotel.RoomTypes)
+                 {
+                     roomTypes.Add(rt.RoomTypeId, rt.Type);
+                 }
                  return new AdminHotelReturnDTO(
                     hotel.HotelId,
                     hotel.Name,
@@ -58,7 +71,11 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var hotel = await _hotelRepository.Get(hotelId);
-                var roomTypes = hotel.RoomTypes.Select(r => r.Type).ToList();
+                Dictionary<int, string> roomTypes = new Dictionary<int, string>();
+                foreach (var rt in hotel.RoomTypes)
+                {
+                    roomTypes.Add(rt.RoomTypeId, rt.Type);
+                }
                 return new AdminHotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Ratings.Count(), hotel.Amenities, hotel.Restrictions, hotel.IsAvailable, hotel.TotalNoOfRooms,roomTypes);
             }
             catch (ObjectNotAvailableException)
@@ -175,6 +192,17 @@ namespace HotelBookingSystemAPI.Services
                     new RatingReturnDTO(rating.RatingId, rating.ReviewRating, rating.Comments, rating.Guest.Name, rating.Date));
             }
             return ratingsList;
+        }
+        #endregion
+
+
+        #region ProvideDetailsOfApp
+        public async Task<AppDetailsDTO> GetDetails()
+        {
+            var bookingCount = _bookRepository.Get().Result.Count(b => b.Date.Month == DateTime.Now.Month);
+            return new AppDetailsDTO(_hotelRepository.Get().Result.Count(), _guestRepository.Get().Result.Count(u => u.Role == "User"),
+                _empRepository.Get().Result.Count(), Math.Round(bookingCount / (double)DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
+                );
         }
         #endregion
 

@@ -12,9 +12,9 @@
         public string Amenities { get; set; }
         public string Restrictions { get; set; }
         public int TotalNoOfRooms { get; set; }
-        public List<string> RoomTypes { get; set; }
+        public Dictionary<int,string> RoomTypes { get; set; }
 
-        public AdminHotelReturnDTO(int hotelId, string name, string address, string city, double rating,  int ratingCount, string amenities, string restrictions, bool isAvailable, int totalNoOfRooms, List<string> roomTypes)
+        public AdminHotelReturnDTO(int hotelId, string name, string address, string city, double rating,  int ratingCount, string amenities, string restrictions, bool isAvailable, int totalNoOfRooms, Dictionary<int, string> roomTypes)
         {
             HotelId = hotelId;
             Name = name;

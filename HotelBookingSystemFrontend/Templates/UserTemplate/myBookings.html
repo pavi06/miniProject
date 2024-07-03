@@ -11,6 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../../Assets/Scripts/myBooking.js"></script>
     <script src="../../Assets/Scripts/common.js"></script>
+    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
 </head>
 <body>
     <nav class="flex justify-between p-4">
@@ -18,7 +19,7 @@
         <ul class=" flex justify-end">
             <li class="px-3 uppercase"><a href="../index.html">Home</a></li>
             <li class="px-3 uppercase"><a href="../hotels.html">Hotels</a></li>
-            <li class="px-3 uppercase logInNavs"><a href="./booking.html">BookingCart</a></li>
+            <li class="px-3 uppercase logInNavs bookRooms"><a href="./booking.html">BookingDetails</a></li>
             <li class="px-3 uppercase logInNavs"><a href="#" class="active">MyBookings</a></li>
             <li class="px-3 uppercase logOutNavs"><a href="../login.html">SignUp/LogIn</a></li>
             <li class="px-3 uppercase logInNavs"><a href="#" onclick="logOut()">LogOut</a></li>
@@ -32,7 +33,7 @@
             </div>
         </div> -->
         <div style="position: absolute;top: 20%;width: 100%;">
-            <h2 class="text-3xl font-extrabold text-center my-5 uppercase text-orange-400">My Bookings</h2>
+            <h2 class="text-3xl font-extrabold text-center my-3 uppercase text-orange-400">My Bookings</h2>
             <div class="flex flex-col items-center" id="myBookings">
             
             </div>
@@ -42,10 +43,15 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Select Rooms To Cancel</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div id="previewRoomsToCancel">
+            <h5 class="uppercase text-xl fw-bolder text-center p-3" style="color:#FFA456;">Select Rooms To Cancel</h5>
+            <div id="previewRooms" style="width: 60%;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" class="mx-auto p-3">
+              <div class="flex flex-row justify-between">
+                <p class="fw-bolder">RoomType</p>
+                <p class="fw-bolder">Rooms Count</p>
+              </div>
+              <div id="previewRoomsToCancel"></div>
 
             </div>
             <div class="modal-body text-center">

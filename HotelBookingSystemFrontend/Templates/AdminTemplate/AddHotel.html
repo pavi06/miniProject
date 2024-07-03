@@ -13,6 +13,7 @@
     <script src="../../Assets/Scripts/AddHotelScript.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <script src="../../Assets/Scripts/common.js"></script>
+    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
 </head>
 <body>
     <h4 class="text-center uppercase p-3 mb-5 fw-bolder text-2xl" style="background-color: rgba(0, 0, 0, 0.8);color: #FFA456;box-shadow: 0 8px 6px -6px #FFA456;">Add Hotel</h4>
@@ -26,7 +27,7 @@
                <h3 class="text-center uppercase pl-3 m-auto align-middle text-black">Explore stay</h3>
            </div>
            <div class="close-btn m-auto align-middle">
-                <i class="bi bi-x"></i>
+                <i class="bi bi-x" style="color: black;"></i>
            </div>
         </div>
         <div class="menu">
@@ -40,14 +41,14 @@
          </div>
           <div class="item"><a href="./Users.html"><i class="bi bi-people-fill"></i>Users</a></div>
           <div style="position: absolute;bottom: 0px;width: 100%;margin-bottom: 5%;">
-               <div class="item lognIn"><a><i class="bi bi-box-arrow-in-right"></i>LogIn</a></div>
-               <div class="item logOut"><a><i class="bi bi-box-arrow-in-left"></i>LogOut</a></div>
+               <div class="item logOutNavs"><a href="../login.html"><i class="bi bi-box-arrow-in-right"></i>LogIn</a></div>
+               <div class="item logInNavs"><a onclick="logOut()"><i class="bi bi-box-arrow-in-left"></i>LogOut</a></div>
           </div>
         </div>
     </div>
     <section class="mainSection" style="width: 100%;">
-        <div style="width: 80%;">
-            <form id="AddHotelForm" name="AddHotelForm" class="w-75 mr-auto ml-auto p-3">
+        <div style="width: 80%;" class="mx-auto">
+            <form id="AddHotelForm" name="AddHotelForm" class="w-75 mx-auto p-3">
                     <div class="row mb-2" style="align-items: center;">
                         <div class="col-sm-4">
                           <label for="hotelName" class="form-label label">Hotel Name</label>

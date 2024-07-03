@@ -111,7 +111,18 @@ var resetFormValues = (formName) => {
 
 var checkUserLoggedInOrNot = () =>{
     if( localStorage.getItem('isLoggedIn')){
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav')); 
+        if(window.location.pathname === '/Templates/login.html'){
+            return;
+        }
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));
+        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        if(document.querySelector('.bookRooms')){
+            if(cartItems.length === 0){
+                document.querySelector('.bookRooms').classList.add('hide');
+            }else{
+                document.querySelector('.bookRooms').classList.add('show');
+            }
+        }
         document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
     }
     else{
@@ -159,6 +170,17 @@ var checkAndRedirectUrlAfterRegistrationOrLogin = () => {
     }
 }
 
+var checkAdminLoggedInOrNot = () =>{
+    if( localStorage.getItem('isLoggedIn')){
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));        
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
+    }
+    else{
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
+    }
+}
+
 
 $(document).ready(function(){
     $('.sub-btn').click(function(){
@@ -175,7 +197,10 @@ $(document).ready(function(){
       $('.side-bar').removeClass('active');
       $('.menu-btn').css("visibility", "visible");
     });
+
+    checkAdminLoggedInOrNot();
 });
+
 
 
 

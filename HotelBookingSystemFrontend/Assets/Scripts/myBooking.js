@@ -9,23 +9,25 @@ var displayMyBookings = (data) =>{
                     <button class="buttonStyle p-2" onclick="cancelBooking(${bookedHotel.bookId})"><span>Cancel Booking</span></button>
                 </div>
             `;
-        dateDisplayHtml = new Date(checkOutDate).toLocaleDateString('en-US')===new Date('1/1/1').toLocaleDateString('en-US') ? `` : `<p class="info">CheckInDate : ${checkInDate}<br>CheckOutDate : ${checkOutDate}</p>`;
+        dateDisplayHtml = new Date(checkOutDate).toLocaleDateString('en-US')===new Date('1/1/1').toLocaleDateString('en-US') ? `` : `<p class="info fw-bolder">CheckInDate : <span style="color:#FFA456">${checkInDate}</span><br>CheckOutDate : <span style="color:#FFA456;">${checkOutDate}</span></p>`;
         
         var discountTemplate = bookedHotel.discountPercent>0? ` <p class="info discount">Discount Percent : <span id="discountPercent" style="color: green;">${bookedHotel.discountPercent}</span>%</p>` : ``;
         bookingList+=`
-            <div class="h-75 m-5 ml-20 bg-white bookedCard" style="width: 80%;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+            <div class="h-75 m-5 ml-20 bg-white bookedCard" style="width: 60%;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;border-radius:20px">
                 <span class="ribbon font-bold uppercase">${bookedHotel.bookingStatus}</span>
-                <div class="flex flex-row justify-between" style="margin-top: 3rem;padding: 2%;">
+                <h3 class="fw-bolder text-center text-2xl pt-3" style="color:#FFA456;">BOOKING DETAILS</h3>
+                <div class="flex flex-row justify-between" style="margin-top: 2rem;padding: 2%;">
                     <div class="ml-5">
                         <p class="info"><a class="font-bold text-2xl">${bookedHotel.hotelName}</a></p>
                         <p class="info">${bookedHotel.hotelLocation}</p>
                         <p class="info mt-3">No of rooms booked : ${bookedHotel.noOfRoomsBooked}</p>
+                         ${dateDisplayHtml}
                     </div>
                     <div class="mr-5">
-                        ${dateDisplayHtml}
+                        <p>Booked On : ${new Date(bookedHotel.bookedDate).toLocaleDateString('en-US')}</p>
                         <p class="info mt-10 mp">Total Amount : &#x20b9; ${bookedHotel.totalAmount}</p>
                         ${discountTemplate}
-                        <p class="info">Final Amount : &#x20b9; ${bookedHotel.finalAmount}</p>
+                        <p class="info fw-bolder">Final Amount : &#x20b9; ${bookedHotel.finalAmount}</p>
                     </div>                    
                 </div>
                 ${modifyDetailsHtml}
@@ -81,19 +83,20 @@ var modifyBooking = (bookingId, hotelId) => {
 const roomsList = [];
 
 var displayDiv = () =>{
-    document.getElementById('previewRoomsToCancel').innerHTML+=`
-        <div>
-            <div>
-                <p>${roomsList[roomsList.length-1].roomType}</p>
-                <p>${roomsList[roomsList.length-1].noOfRoomsToCancel}</p>
-            </div>
+    var div = document.createElement('div');
+    div.innerHTML=`
+        <div class="flex flex-row justify-between">
+            <p>${roomsList[roomsList.length-1].roomType}</p>
+            <p>${roomsList[roomsList.length-1].noOfRoomsToCancel}</p>
         </div>
     `;
+    document.getElementById('previewRoomsToCancel').appendChild(div);
+    
 }
 
 var storeRoomToCancel = () =>{
     const room = {
-        roomType : document.getElementById('roomTypesSelect').innerHTML,
+        roomType : document.getElementById('roomTypesSelect').value,
         noOfRoomsToCancel : document.getElementById('roomsCount').value
     }
     roomsList.push(room);
@@ -118,9 +121,10 @@ var modifyBookingFromModal = () =>{
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
-        return await res.json();
+        return await res.text();
     }).then(data => {
-        alert("Booking updated successfully!");
+        alert(`${data}`);
+        document.querySelector('[data-bs-dismiss="modal"]').click();
         //popup()
         fetchBookings();
         //refund payment if available with delay!!
@@ -139,19 +143,20 @@ var cancelBooking = (id) =>{
             'Content-Type':'application/json',
             'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
         },
-        body:JSON.stringify({id})
+        body:JSON.stringify(id)
     })
     .then(async(res) => {
         if (!res.ok) {
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
-        return await res.json();
+        return await res.text();
     }).then(data => {
-        console.log("Cancelled successfully");
-        //popup()
+        alert(data)
         fetchBookings();
-        //refund payment if available with delay!!
+        setTimeout(function() {
+            alert("Refund is done successfully!");
+        }, 60000);
     }).catch(error => {
         alert(error);
         console.error(error);
@@ -178,7 +183,7 @@ var addRoomTypes = (itemName) =>{
         var roomTypesHtml ="";
         data.roomTypes.forEach(roomtype => {
             roomTypesHtml+=`
-                <option value ="${roomtype.roomTypeId}">${roomtype.type}</option>
+                <option value ="${roomtype}">${roomtype}</option>
             `;
         })
         document.getElementById('roomTypesSelect').innerHTML=roomTypesHtml;

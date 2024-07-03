@@ -10,110 +10,54 @@
     <link rel="stylesheet" href="../../Assets/Styles/commonStyles.css"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="../../Assets/Scripts/roomType.js"></script>
     <script src="../../Assets/Scripts/common.js"></script>
+    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
+    <script>
+        var validateAndAddRoomType = () =>{
+            if(validate('facilities') && validateDecimalNumber('discount') && validateDecimalNumber('price') && validateNumber('cots')
+            && validateNumber('occupancy')){
+                fetch('http://localhost:5058/api/AdminRoom/RegisterRoomTypeForHotel', {
+                    method: 'POST',
+                    headers:{
+                        'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        type: document.getElementById('roomType').value,
+                        occupancy: document.getElementById('occupancy').value,
+                        images: document.getElementById('roomImages').value,
+                        amount: document.getElementById('price').value,
+                        cotsAvailable: document.getElementById('cots').value,
+                        amenities: document.getElementById('facilities').value,
+                        discount: document.getElementById('discount').value,
+                        hotelId: localStorage.getItem('currentHotel')
+                    })
+                })
+                .then(async(res) => {
+                    if (!res.ok) {
+                        const errorResponse = await res.json();
+                        throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+                    }
+                    resetFormValues('AddRoomTypeForm');
+                    return await res.json();
+                })
+                .then(data => {
+                    alert("Room type added successfully!");
+                })
+                .catch(error => {
+                    alert(error);
+                    console.error(error);
+                });
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="wrapper">
-        <!-- <aside id="sidebar">
-            <div class="d-flex">
-                <button type="button" onclick="addClassExpand()">
-                    <i class="lni lni-menu"></i>
-                </button>
-                <div class="sidebar-logo">
-                    <a href="#">ExploreStay</a>
-                </div>
-            </div>
-            <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-hospital"></i>
-                        <span>Hotel</span>
-                        <button onclick="toggleDropdown('hotel')" class="sidebar-item"><i class="lni lni-chevron-down arrow"></i><i class="lni lni-chevron-up arrowup"></i></button>
-                    </a>
-                    <ul id="hotel" class="sidebar-dropdown" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Add Hotel</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Update Hotel</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#room" aria-expanded="false" aria-controls="room">
-                        <i class="lni lni-home"></i>
-                        <span>Room</span>
-                    </a>
-                    <ul id="room" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Add Room</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Update Room</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#roomType" aria-expanded="false" aria-controls="roomType">
-                        <i class="lni lni-apartment"></i>
-                        <span>RoomType</span>
-                    </a>
-                    <ul id="roomType" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Add RoomType</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Update RoomType</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#users" aria-expanded="false" aria-controls="users">
-                        <i class="lni lni-users"></i>
-                        <span>Users</span>
-                    </a>
-                    <ul id="users" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Get Users</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Update User</a>
-                        </li>
-                    </ul>
-                </li> 
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#booking" aria-expanded="false" aria-controls="booking">
-                        <i class="lni lni-book"></i>
-                        <span>Booking</span>
-                    </a>
-                    <ul id="booking" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Get All Bookings</a>
-                        </li>
-                    </ul>
-                </li>              
-            </ul>
-            <div class="sidebar-footer">
-                <a href="#" class="sidebar-link login">
-                    <i class="lni lni-enter"></i>
-                    <span>LogIn</span>
-                </a>
-                <a href="#" class="sidebar-link logout">
-                    <i class="lni lni-exit"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside> -->
         <h4 class="text-center uppercase p-3 mb-5 fw-bolder text-2xl" style="background-color: rgba(0, 0, 0, 0.8);color: #FFA456;box-shadow: 0 8px 6px -6px #FFA456;">Add Room Type</h4>
         <div class="main p-3">
-            <div>
-                <h1 class="text-center text-2xl font-bold mb-5">Add New RoomType For the Hotel</h1>
-                <form id="AddRoomTypeForm" name="AddRoomTypeForm" class="w-75 mr-auto ml-auto">
+            <div class="mx-auto" style="width: 60%;">
+                <form id="AddRoomTypeForm" name="AddRoomTypeForm" class="w- mr-auto ml-auto">
                     <div class="row mb-2" style="align-items: center;">
                         <div class="col-sm-4">
                           <label for="roomType" class="form-label label">Type</label>

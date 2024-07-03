@@ -80,7 +80,7 @@ namespace HotelBookingSystemAPI.Services
                 }).ToList();
                 return hotels;
             }
-            throw new ObjectsNotAvailableException("hotels");
+            return new List<HotelReturnDTO>();
         }
 
         public async Task<List<HotelReturnDTO>> GetHotelsByRatings(SearchHotelDTO hotelDTO)
@@ -117,13 +117,13 @@ namespace HotelBookingSystemAPI.Services
                 var hotels = booking.Select(b => b.HotelId).Distinct().ToList();
                 //recommended based on previously booked preferences roomtype, hotel
                 var roomTypes = booking.SelectMany(b => b.RoomsBooked.Select(r => _roomRepository.Get(r.RoomId).Result.RoomType.Type)).Distinct().ToList();
-                var roomsForRecomm = _roomTypeRepository.Get().Result.Where(r => roomTypes.Contains(r.Type) && r.Discount >= 3.5 && hotels.Contains(r.HotelId)).ToList();
+                var roomsForRecomm = _roomTypeRepository.Get().Result.Where(r => roomTypes.Contains(r.Type) && r.Discount >= 0 && hotels.Contains(r.HotelId)).OrderByDescending(r => r.Discount).ToList();
                 List<HotelRecommendationDTO> rooms = roomsForRecomm.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
                 return rooms;
 
             }
             //for first time user , the rooms with discount is recommended
-            var roomsForRecommForFirstTimeUser = _roomTypeRepository.Get().Result.Where(r => r.Discount >= 3.5).ToList();
+            var roomsForRecommForFirstTimeUser = _roomTypeRepository.Get().Result.Where(r => r.Discount >= 0).OrderByDescending(r=>r.Discount).ToList();
             List<HotelRecommendationDTO> roomsRecommended = roomsForRecommForFirstTimeUser.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
             return roomsRecommended;
         }

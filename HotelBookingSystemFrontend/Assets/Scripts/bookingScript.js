@@ -1,8 +1,8 @@
 var hotelDetail = {};
 var totalAmount = 0;
+var advancePayment=0;
 
 document.addEventListener('DOMContentLoaded',function(){
-    console.log(window.location.pathname)
     checkUserLoggedInOrNot();
     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     console.log(cartItems.length)
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded',function(){
        });
         displayCartItems();
     }else{
-        document.getElementById('bookRooms').innerHTML = "<div class='text-center text-xl fw-bolder'>No Rooms where added yet!</div>";
+        document.getElementById('bookRooms').innerHTML = "<div class='text-center text-xl fw-bolder p-3 mx-auto ring-1 ring-orange-400'>No Rooms where added yet!</div>";
         console.log("button disable");
         document.getElementById("clearBtn").disabled = true;
         document.getElementById("proceedBtn").disabled = true;
@@ -48,54 +48,38 @@ var displayHotelDetail = (data) => {
 
 var displayDetailsForModal = () =>{
     updateModalWithData();   
-    showModal();
 }
 
 function updateModalWithData (){
-    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    if(cartItems.length === 0){
-        document.getElementById('modalData').innerHTML = "<div>No room is selected for booking!</div>";
-        document.getElementById("proceedPaymentAndBookBtn").disabled = true;
-    }
-    var roomsHtml = "";
-    var totalAmount = 0;
-    cartItems.forEach(item => {
-        var amount = item.amount - item.amount*item.discount/100;
-        totalAmount+=item.quantity*item.amount;
-        roomsHtml += `
-            <tr>
-                <td>${item.roomType}</td>
-                <td>${item.quantity}</td>
-                <td>&#8377;${amount} </td>
-            </tr>
-        `;
-    });
-    roomsHtml+=`
-        <tr>
-            <td colspan = "2">Total Amount : </td>
-            <td>${totalAmount}</td>
-        </tr>
-    `;
-
-    document.getElementById('modalData').innerHTML = `
-            <p class="font-bold text-orange-400">${hotelDetail.name}</p>
-            <p class="leading-6">${hotelDetail.address}</p><br>
-            <p class="text-orange-400 uppercase font-bold text-base mb-3">----------Rooms Booked----------</p>
-            <div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${roomsHtml}
-                    </tbody>
-                </table>
-            </div>
-        `;
+    var rooms = JSON.parse(localStorage.getItem('cartItems')) || [];
+    var roomsNeeded = [];
+    console.log(rooms)
+    rooms.forEach(room => 
+        roomsNeeded.push({
+            roomType : room.roomType,
+            roomsNeeded : room.quantity
+        })
+    )
+    fetch('http://localhost:5058/api/GuestBooking/BookRooms',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`
+        },
+        body:JSON.stringify(roomsNeeded)
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.json();
+    }).then(data => {       
+       displayModalWithData(data);
+    }).catch(error => {
+        alert(error);
+        console.error(error);
+   });
 }
 
 function showModal() {
@@ -107,7 +91,7 @@ function showModal() {
 var displayCartItems = () =>{
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     if(cartItems.length === 0 ){
-        document.getElementById('bookRooms').innerHTML = "<div class='text-center text-xl fw-bolder'>No Rooms where added yet!</div>";
+        document.getElementById('bookRooms').innerHTML = "<div class='text-center text-xl fw-bolder mx-auto uppercase ring-1 ring-orange-400 p-3' style='width:50%;'>No Rooms where added yet!</div>";
         document.getElementById("proceedBtn").disabled = true;
         document.getElementById("clearBtn").disabled = true;
         return;
@@ -144,16 +128,13 @@ var removeFromCart = (id) => {
 }
 
 var changeQuantity = (id, increValue) => {
-    console.log(id)
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const itemToUpdate = cartItems.find(item => item.roomTypeId === id);
-    console.log(itemToUpdate)
     if (itemToUpdate) {
         itemToUpdate.quantity += increValue;
-        console.log("Quantity---")
-        console.log(itemToUpdate.quantity)
         if (itemToUpdate.quantity <= 0) {
             removeFromCart(id);
+            window.location.href='../hotels.html';
         } else {
             if(itemToUpdate.quantity > itemToUpdate.noOfRoomsAvailable){
                 alert("Oops! No more rooms available!");
@@ -181,7 +162,7 @@ var payAndBookRoom = () => {
     document.getElementById("proceedBtn").disabled = false;
     var paymentAmount=0.0;
     if(payment === 'halfPayment'){
-        paymentAmount = totalAmount/2; 
+        paymentAmount = advancePayment; 
     }else{
         paymentAmount = totalAmount;
     }
@@ -202,12 +183,67 @@ var payAndBookRoom = () => {
     }).then(data => {
         alert("Payment done successfully and booking confirmed!")
         localStorage.removeItem('cartItems');
-        document.getElementById('bookingDetailsModal').hide();
-        displayCartItems();
+        window.location.href="./myBookings.html";
+        // document.getElementById('bookingDetailsModal').hide();
+        // displayCartItems();
     }).catch(error => {
         alert(error);
         console.error(error);
    });
+}
+
+
+var displayModalWithData = (data)=>{
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    if(cartItems.length === 0){
+        document.getElementById('modalData').innerHTML = "<div>No room is selected for booking!</div>";
+        document.getElementById("proceedPaymentAndBookBtn").disabled = true;
+    }
+    var roomsHtml = "";
+    cartItems.forEach(item => {
+        var amount = item.amount - item.amount*item.discount/100;
+        totalAmount+=item.quantity*item.amount;
+        roomsHtml += `
+            <tr>
+                <td>${item.roomType}</td>
+                <td>${item.quantity}</td>
+                <td>&#8377;${amount} </td>
+            </tr>
+        `;
+    });
+    roomsHtml+=`
+        <tr>
+            <td colspan = "2">Total Amount : </td>
+            <td>${data.totalAmount}</td>
+        </tr>
+    `;
+    totalAmount = data.finalAmount;
+    advancePayment = data.advancePayment;
+
+    document.getElementById('modalData').innerHTML = `
+            <p class="font-bold text-orange-400">${hotelDetail.name}</p>
+            <p class="leading-6">${hotelDetail.address}</p><br>
+            <p class="text-orange-400 uppercase font-bold text-base mb-3">----------Rooms Booked----------</p>
+            <div>
+                <p>Total No of Rooms Booked : ${data.noOfRoomsBooked}</p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${roomsHtml}
+                    </tbody>
+                </table>
+                <p>Discount : ${data.discountPercent}</p>
+                <p>Final Amount : ${data.finalAmount}</p>
+                <p>Advance Payment : ${data.advancePayment}</p>
+            </div>
+        `;
+    showModal();
 }
 
 

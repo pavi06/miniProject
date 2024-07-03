@@ -1,7 +1,8 @@
 var validateAndAddHotel = () =>{
     if(!localStorage.getItem('isLoggedIn')){
-        alert("Something went wrong..Login again to continue!");
-        window.location.href='./login.html';
+        alert("Login to continue!");
+        window.location.href='../login.html';
+        return;
     }
     if(validate('hotelName') && validateAddress('address') && validate('city') && validateNumber('roomsCount')
     && validate('amenities') && validate('restriction')){

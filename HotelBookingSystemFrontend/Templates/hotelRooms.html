@@ -13,6 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../Assets/Scripts/hotelRooms.js"></script>
     <script src="../Assets/Scripts/common.js"></script>
+    <script src="../Assets/Scripts/TrackingSessions.js"></script>
 </head>
 <body>
     <nav class="flex justify-between p-4">
@@ -21,7 +22,7 @@
             <li class="px-3 uppercase"><a href="../Templates/index.html">Home</a></li>
             <li class="px-3 uppercase"><a href="../Templates/hotels.html">Hotels</a></li>
             <li class="px-3 uppercase"><a href="#" class="active">HotelDetails</a></li>
-            <li class="px-3 uppercase logInNavs"><a href="./UserTemplate/booking.html">BookingCart</a></li>
+            <li class="px-3 uppercase logInNavs bookRooms"><a href="./UserTemplate/booking.html">BookingDetails</a></li>
             <li class="px-3 uppercase logInNavs"><a href="./UserTemplate/myBookings.html">MyBookings</a></li>
             <li class="px-3 uppercase logOutNavs"><a href="./login.html">SignUp/LogIn</a></li>
             <li class="px-3 uppercase logInNavs"><a href="#" onclick="logOut()">LogOut</a></li>
@@ -49,7 +50,7 @@
                     </div>
                 </div> 
                 <div class="formElement">
-                    <button type="button" onclick="validateAndGet()" class="buttonSearch">Search Hotels</button>
+                    <button type="button" onclick="validateAndGet()" class="buttonSearch">Search Rooms</button>
                 </div>                       
             </form>
         </div>

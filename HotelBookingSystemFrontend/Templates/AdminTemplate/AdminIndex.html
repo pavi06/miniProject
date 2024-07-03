@@ -9,8 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../Assets/Scripts/adminIndexScript.js"></script>
+    <script src="../../Assets/Scripts/adminIndex.js"></script>
     <script src="../../Assets/Scripts/common.js"></script>
+    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
 </head>
 <body>
     <h4 class="text-center uppercase p-3 mb-5 fw-bolder text-2xl" style="background-color: rgba(0, 0, 0, 0.8);color: #FFA456;box-shadow: 0 8px 6px -6px #FFA456;">Admin Home</h4>
@@ -44,21 +45,14 @@
         </div>
     </div>
     <section class="mainSection">
-        <div class="text-center">
-            <h2 class="uppercase m-auto fw-bolder text-orange-300 text-3xl mb-5">ExploreStay Application</h2>
-            <div class="flex justify-evenly">
-                <div class="flex flex-column uppercase mx-auto p-3">
-                    <div class="my-2 fw-bolder flex flex-row justify-between"><p>Hotels Available</p><span class="fw-normal">Value</span></div>
-                    <div class="my-2 fw-bolder flex flex-row justify-between"><p>Employees</p><span class="fw-normal">Value</span></div>
-                    <div class="my-2 fw-bolder flex flex-row justify-between"><p>Users</p><span class="fw-normal">Value</span></div>              
-                    <h2 class="uppercase m-auto fw-bolder text-orange-300 text-xl mb-5">Analytics</h2>
-                    <div style="width: 100%;">
-                        <div class="my-2 fw-bolder flex flex-row justify-between"><p>Average Usage Time</p><span class="fw-normal">Value</span></div>
-                        <div class="my-2 fw-bolder flex flex-row justify-between"><p>Average bookings per day</p><span class="fw-normal">Value</span></div>
-                    </div>              
+        <div>
+            <h2 class="uppercase m-auto fw-bolder text-3xl mb-3 text-center">ExploreStay <span class="text-orange-300">Application</span></h2>
+            <div class="flex flex-row mt-3" style="width: 100%;">
+                <div class="flex justify-between" id="detailsDiv" style="width: 60vw;">
+                    
                 </div>
-                <div class="ml-5">
-                    <img src="../../Assets/Images/analytics.png" style="width: 45%;height: 90%;"/>
+                <div class="ml-5 mt-2" style="width: 40vw;">
+                    <img src="../../Assets/Images/analytics.png" style="width: 90%;height: 90%;"/>
                 </div>
             </div>
         </div>

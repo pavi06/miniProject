@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Rooms</title>
+    <title>CelestialStays</title>
+    <link rel="icon" type="image/x-icon" href="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../Assets/Styles/commonStyles.css">
-    <link rel="stylesheet" href="../../Assets/Styles/bookingStyle.css">
+    <link rel="stylesheet" href="../../Assets/Styles/common.css">
+    <link rel="stylesheet" href="../../Assets/Styles/booking.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../Assets/Scripts/bookingScript.js"></script>
-    <script src="../../Assets/Scripts/common.js"></script>
-    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
+    <script src="../../Assets/Scripts/trackingSessions.js"></script>
+    <!-- <script src="../../Assets/Scripts/common.js"></script> -->
+    <script src="../../Assets/Scripts/booking.js"></script>
 </head>
 <body>
     <nav class="flex justify-between p-4">
-        <div>LOGO HERE</div>
-        <ul class=" flex justify-end">
+        <div><img src="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000" style="width: 20%;"/></div>
+        <ul class="flex flex-wrap justify-end">
             <li class="px-3 uppercase"><a href="../index.html">Home</a></li>
             <li class="px-3 uppercase"><a href="../hotels.html">Hotels</a></li>
             <li class="px-3 uppercase logInNavs bookRooms"><a href="./booking.html" class="active">BookingDetails</a></li>
@@ -28,11 +29,11 @@
     </nav>
     <section>
         <div id="bookRooms">
-            <div class="grid grid-cols-3 p-3" id="roomStart">
-                <div class="w-45 mr-4 shadow-md flex items-center mb-20" id="hotelDetail">
+            <div class="flex p-3" id="roomStart">
+                <div class="mr-4 shadow-md flex items-center mb-2" id="hotelDetail">
                     
                 </div>
-                <div class="col-span-2 pb-20" id="cartItemsDiv">
+                <div class="w-100 pb-2" id="cartItemsDiv">
                     <h1 class="text-center"><span class="font-bold text-orange-400 text-2xl uppercase">Rooms Selected</span></h1>
                                 
                 </div>

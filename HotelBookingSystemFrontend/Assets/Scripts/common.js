@@ -51,7 +51,7 @@ var validateAddress=(id)=>{
 }
 
 var validate = (id) =>{
-    var element = document.getElementById(`${id}`);
+    var element = document.getElementById(id);
     var regString = /[a-zA-Z]/g
     if(element.value && element.value.match(regString)){
         return functionAddValidEffects(element);
@@ -63,10 +63,8 @@ var validate = (id) =>{
 
 var validateDate = () =>{
     var dateElement = document.getElementById('checkInDate');
-    console.log(dateElement)
     var today = new Date();
     let formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
-    console.log(formattedDate)
     if(dateElement.value && Date.parse(dateElement.value) >= Date.parse(formattedDate)) {
         functionAddValidEffects(dateElement);
         return true;
@@ -98,9 +96,44 @@ var validateDecimalNumber = (id) =>{
     }
 }
 
-var resetFormValues = (formName) => {
+var validateLocation = () =>{
+    var locationElement = document.getElementById('location');
+    var reg=/^[a-zA-Z]+$/;
+    if(locationElement.value && locationElement.value.match(reg)){
+        functionAddValidEffects(locationElement);
+        return true;
+    }
+    else{
+        functionAddInValidEffects(locationElement);
+        return false;
+    }
+}
+
+function validatePhone(){
+    var element = document.registrationForm.phoneNumber;
+    var regPhone =  /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
+    if(element.value && element.value.match(regPhone)){
+        return functionAddValidEffects(element);
+    }
+    else{
+        return functionAddInValidEffects(element);
+    }
+}
+
+var validateConfirmPassword = () => {
+    var element = document.registrationForm.confirmPassword;
+    var element2 = document.registrationForm.password;
+    if(element.value && element.value === element2.value){
+        return functionAddValidEffects(element);
+    }
+    else{
+        return functionAddInValidEffects(element);
+    }
+}
+
+var resetFormValues = (formName, formTypes) => {
     document.getElementById(formName).reset();
-    const formInputs = document.getElementById(formName).querySelectorAll('input, textarea');
+    const formInputs = document.getElementById(formName).querySelectorAll(formTypes);
     formInputs.forEach(input => {
     //removing the classlist added and empty small element
     input.classList.remove('is-valid', 'is-invalid');
@@ -145,64 +178,155 @@ var logOut = () => {
 //redirectionafterloginorregister
 var checkAndRedirectUrlAfterRegistrationOrLogin = () => {
     const redirectUrl = localStorage.getItem('redirectUrl');
+    console.log(redirectUrl)
     if(!localStorage.getItem('isLoggedIn')){
-        alert("something went wrong......Login properly!");
-        //dynamically change value for login !!!!!!!
+        console.log("inside isloggedin error")
+        addAlert("something went wrong......Login properly!");
         window.location.href ="./login.html";
         return;
     }
     startSession();
-    checkUserLoggedInOrNot();
+    // checkUserLoggedInOrNot();
     const userRole = JSON.parse(localStorage.getItem('loggedInUser')).role;
+    console.log(userRole)
     if (redirectUrl) {
         // Clear the stored URL
         localStorage.removeItem('redirectUrl');                    
         // Redirect back to the original page
         window.location.href = redirectUrl;
     } else {
+        console.log("inside else")
         //if no redirect url goes to the home page
         if(userRole === 'Admin'){
             window.location.href = './AdminTemplate/AdminIndex.html';
         }
         else{
+            console.log("redirectingggg")
             window.location.href = './index.html';
         }
     }
 }
 
-var checkAdminLoggedInOrNot = () =>{
-    if( localStorage.getItem('isLoggedIn')){
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));        
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
-    }
-    else{
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
-    }
+// var displayToast = (message,toastStatus) =>{
+//     document.getElementById('toastMsg').innerHTML= message;
+//     document.getElementById('toastStatus').innerHTML = toastStatus
+//     if(toastStatus === 'sucess'){
+//         document.getElementById('toastStatus').innerHTML = 'SUCCESS';
+//         document.getElementById('toastStatus').style.color = '#FFA456';
+//     }else{
+//         document.getElementById('toastStatus').innerHTML = 'FAILED';
+//         document.getElementById('toastStatus').style.color = 'black';
+//     }
+//     console.log(document.querySelector(".toast"))
+//     console.log(document.querySelector(".progress"))
+//     document.querySelector(".toast").classList.add("activeToast");
+//     document.querySelector(".progress").classList.add("activeToast");
+//     let timer1;
+//     let timer2;
+//     timer1 = setTimeout(() =>{
+//         document.querySelector(".toast").classList.remove("activeToast");
+//     },4000);
+
+//     timer2 = setTimeout(() =>{
+//         document.querySelector(".progress").classList.remove("activeToast");
+//     },4300);
+// }
+
+// function closeToast(){
+//     document.querySelector(".toast").classList.remove("active");
+//     progress.classList.remove("active");
+// }
+
+
+//add alert modal at the end of the body 
+
+if(document.querySelector(".modalCloseBtn")){
+    document.querySelector(".modalCloseBtn").addEventListener("click", () =>
+        document.getElementById('alertModal').classList.remove("active")
+    );
 }
 
 
-$(document).ready(function(){
-    $('.sub-btn').click(function(){
-      $(this).next('.sub-menu').slideToggle();
-      $(this).find('.dropdown').toggleClass('rotate');
-    });
+var addAlert = (message) =>{
+    if(document.getElementById('alertModal')){
+        document.getElementById('alertMessage').innerHTML = message;
+        const modal = new bootstrap.Modal(document.getElementById('alertModal'));
+        modal.show();
+        return;
+    }
+    const alert = document.createElement('div')
+    alert.innerHTML = `
+         <div class="modal" id="alertModal" style="border-radius:50px">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header bg-red-400">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
+                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
+                <div class="modal-body text-center">
+                    <p class="text-xl text-black" id="alertMessage">${message}</p>
+                </div>
+                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentElement('beforeend', alert);
+    const modal = new bootstrap.Modal(document.getElementById('alertModal'));
+    modal.show();
+    if(message === '404 Error! - No hotels are available!' || message === "No more hotels available!"){
+        if( document.getElementById('loadBtn')){
+            document.getElementById('loadBtn').classList.add('hide');
+        }
+        if(document.getElementById('loadBtnWithBody')){
+            document.getElementById('loadBtnWithBody').classList.add('hide');
+        }
+    }
+    return;
+}
 
-    $('.menu-btn').click(function(){
-      $('.side-bar').addClass('active');
-      $('.menu-btn').css("visibility", "hidden");
-    });
-
-    $('.close-btn').click(function(){
-      $('.side-bar').removeClass('active');
-      $('.menu-btn').css("visibility", "visible");
-    });
-
-    checkAdminLoggedInOrNot();
-});
+if(document.querySelector(".modalCloseBtn")){
+    document.querySelector(".modalCloseBtn").addEventListener("click", () =>
+        document.getElementById('alertModal').classList.remove("active")
+    );
+}
 
 
-
-
-
-
+var addSuccessAlert = (message) =>{
+    if(document.getElementById('successAlertModal')){
+        document.getElementById('successAlertModal').innerHTML = message;
+        const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
+        modal.show();
+        return;
+    }
+    const alert = document.createElement('div')
+    alert.innerHTML = `
+         <div class="modal" id="successAlertModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header bg-green-400">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
+                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
+                <div class="modal-body text-center">
+                    <p class="text-xl text-black" id="successAlertMessage">${message}</p>
+                </div>
+                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-green-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentElement('beforeend', alert);
+    const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
+    modal.show();
+    if(message.includes('No hotels are available!') || message === "No more hotels available!"){
+        if( document.getElementById('loadBtn')){
+            document.getElementById('loadBtn').classList.add('hide');
+        }
+        if(document.getElementById('loadBtnWithBody')){
+            document.getElementById('loadBtnWithBody').classList.add('hide');
+        }
+    }
+}

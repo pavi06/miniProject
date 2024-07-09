@@ -13,14 +13,14 @@ namespace HotelBookingSystemAPI.Interfaces
         /// </summary>
         /// <param name="hotelDTO"> dto object with location and date</param>
         /// <returns></returns>
-        public Task<List<HotelReturnDTO>> GetHotelsByLocationAndDate(SearchHotelDTO hotelDTO);
+        public Task<List<AdminHotelReturnDTO>> GetHotelsByLocationAndDate(int limit, int skip, SearchHotelDTO hotelDTO);
 
         /// <summary>
         /// Return list of available hotels ( based on location and date) ranked on ratings
         /// </summary>
         /// <param name="hotelDTO">DTO object which holds hotelId, date</param>
         /// <returns></returns>
-        public Task<List<HotelReturnDTO>> GetHotelsByRatings(SearchHotelDTO hotelDTO);
+        public Task<List<AdminHotelReturnDTO>> GetHotelsByRatings(int limit, int skip, SearchHotelDTO hotelDTO);
 
         /// <summary>
         /// Return list of hotels that satisfy a specific condition 
@@ -28,7 +28,7 @@ namespace HotelBookingSystemAPI.Interfaces
         /// <param name="features">feature to look for in the hotel, which is of string type</param>
         /// <param name="hotelDTO">DTO object which holds hotelId, date</param>
         /// <returns></returns>
-        public Task<List<HotelReturnDTO>> GetHotelsByFeatures(List<string> features, SearchHotelDTO hotelDTO);
+        public Task<List<AdminHotelReturnDTO>> GetHotelsByFeatures(int limit, int skip, List<string> features, SearchHotelDTO hotelDTO);
 
         /// <summary>
         /// Returns the list of roomtypes and no of rooms available in that type for the specified hotel

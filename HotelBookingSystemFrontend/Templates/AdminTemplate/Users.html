@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users for activation</title>
+    <title>CelestialStays</title>
+    <link rel="icon" type="image/x-icon" href="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../Assets/Styles/commonStyles.css">
-    <link rel="stylesheet" href="../../Assets/Styles/adminIndexStyle.css">
+    <link rel="stylesheet" href="../../Assets/Styles/common.css">
+    <link rel="stylesheet" href="../../Assets/Styles/adminIndex.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="../../Assets/Scripts/trackingSessions.js"></script>
     <script src="../../Assets/Scripts/activateUser.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-    <script src="../../Assets/Scripts/common.js"></script>
-    <script src="../../Assets/Scripts/TrackingSessions.js"></script>
 </head>
-<body>
-    
-    <h4 class="text-center uppercase p-3 mb-5 fw-bolder text-2xl" style="background-color: rgba(0, 0, 0, 0.8);color: #FFA456;box-shadow: 0 8px 6px -6px #FFA456;">Users</h4>
+<body>    
+    <h4 class="text-center uppercase p-3 mb-5 fw-bolder text-2xl" style="background-color: rgba(0, 0, 0, 0.8);color: #FFA456;box-shadow: 0 8px 6px -6px #FFA456;">Users &nbsp;for&nbsp; status &nbsp;update</h4>
     <div class="menu-btn">
         <i class="bi bi-list"></i>
     </div>
     <div class="side-bar">
         <div class="flex flex-row align-middle p-3 m-auto" style="background: #FFA456;">
-           <div class="logo m-auto align-middle"><img src="./logo.png"/></div>
+           <div class="logo m-auto align-middle"><img src="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000" style="width: 35%;"/></div>
            <div>
-               <h3 class="text-center uppercase pl-3 m-auto align-middle">Explore stay</h3>
+               <h3 class="text-center uppercase pl-3 m-auto align-middle text-black">CelestialStays</h3>
            </div>
            <div class="close-btn m-auto align-middle">
                 <i class="bi bi-x" style="color: black;"></i>
@@ -47,7 +46,7 @@
         </div>
     </div>
     <section class="mainSection">
-        <div id="displayUsers">
+        <div id="displayUsers" class="flex flex-row flex-wrap">
 
         </div>
     </section>

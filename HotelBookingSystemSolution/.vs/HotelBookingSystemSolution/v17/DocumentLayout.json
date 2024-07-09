@@ -3,12 +3,40 @@
   "WorkspaceRootPath": "C:\\MiniProject\\HotelBookingSystemSolution\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\controllers\\guestbookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\controllers\\guestbookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\services\\guestsearchservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\services\\guestsearchservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\services\\adminhotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\services\\adminhotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\models\\dtos\\hoteldtos\\adminhotelreturndto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\models\\dtos\\hoteldtos\\adminhotelreturndto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\services\\guestbookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\services\\guestbookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\interfaces\\iguestbookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\interfaces\\iguestbookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\customexceptions\\objectsnotavailableexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\customexceptions\\objectsnotavailableexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\controllers\\adminhotelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\controllers\\adminhotelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|c:\\miniproject\\hotelbookingsystemsolution\\hotelbookingsystemapi\\interfaces\\iadminhotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFBB5C17-8A0F-4373-B259-4FB78CE1202E}|HotelBookingSystemAPI\\HotelBookingSystemAPI.csproj|solutionrelative:hotelbookingsystemapi\\interfaces\\iadminhotelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,33 +46,117 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "AdminHotelReturnDTO.cs",
               "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\AdminHotelReturnDTO.cs",
               "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\AdminHotelReturnDTO.cs",
               "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\AdminHotelReturnDTO.cs",
               "RelativeToolTip": "HotelBookingSystemAPI\\Models\\DTOs\\HotelDTOs\\AdminHotelReturnDTO.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAzwAwAAAAwAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-03T11:28:20.428Z",
+              "WhenOpened": "2024-07-08T00:04:50.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GuestSearchService.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Services\\GuestSearchService.cs",
+              "ViewState": "AQIAAFwAAAAAAAAAAAAMwGQAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T06:08:25.045Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "AdminHotelService.cs",
               "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
               "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
               "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
               "RelativeToolTip": "HotelBookingSystemAPI\\Services\\AdminHotelService.cs",
-              "ViewState": "AQIAAD8AAAAAAAAAAAAwwEUAAAAJAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAQwDAAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-29T03:47:35.873Z",
+              "WhenOpened": "2024-07-07T04:07:56.716Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GuestBookingController.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Controllers\\GuestBookingController.cs",
+              "ViewState": "AQIAAGIAAAAAAAAAAAAWwHEAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T01:41:15.279Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GuestBookingService.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Services\\GuestBookingService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T06:19:55.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ObjectsNotAvailableException.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomExceptions\\ObjectsNotAvailableException.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\CustomExceptions\\ObjectsNotAvailableException.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\CustomExceptions\\ObjectsNotAvailableException.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\CustomExceptions\\ObjectsNotAvailableException.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T06:10:30.241Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IAdminHotelService.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Interfaces\\IAdminHotelService.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Interfaces\\IAdminHotelService.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Interfaces\\IAdminHotelService.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Interfaces\\IAdminHotelService.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwBwAAABXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T04:07:23.861Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AdminHotelController.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Controllers\\AdminHotelController.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAuwB4AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T04:05:40.29Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IGuestBookingService.cs",
+              "DocumentMoniker": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Interfaces\\IGuestBookingService.cs",
+              "RelativeDocumentMoniker": "HotelBookingSystemAPI\\Interfaces\\IGuestBookingService.cs",
+              "ToolTip": "C:\\MiniProject\\HotelBookingSystemSolution\\HotelBookingSystemAPI\\Interfaces\\IGuestBookingService.cs",
+              "RelativeToolTip": "HotelBookingSystemAPI\\Interfaces\\IGuestBookingService.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAowFoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T01:49:16.921Z"
             }
           ]
         }

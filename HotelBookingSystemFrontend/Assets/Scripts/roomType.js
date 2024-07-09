@@ -24,14 +24,10 @@ var addRoomTypes = (itemName) =>{
         document.getElementById('roomTypesSelectOptions').innerHTML=roomTypesHtml;
     })
     .catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
     });
 }
 
-var validateAndAddRoom = () =>{
-    
-}
 
 var openModalForRoomTypeEdit = (roomtypeId, hotelId) =>{
     localStorage.setItem('currentRoomType', roomtypeId);
@@ -72,14 +68,12 @@ var editRoomTypeFromModal = () =>{
         return await res.json();
     })
     .then(data => {
-        console.log(data);
-        alert("Updated successfully")
+        addSuccessAlert('Roomtype updated Successfully!')
         document.querySelector('[data-bs-dismiss="modal"]').click();
         fetchData();
     })
     .catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
     });
 }
 
@@ -89,48 +83,48 @@ var displayRoomTypes = (data) =>{
     data.forEach(roomType => {
         var finalAmount = roomType.amount - (roomType.amount * roomType.discount/100);
         roomTypesHtml +=`
-            <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign" style="width: 60%;">
-          <div class="flex flex-row justify-between">                      
-              <div class="w-60 h-50 mt-10" style="object-fit: cover;">
-                  <img src="../../Assets/Images/hotelImage5.jpg" alt="Image gallery"/>
+            <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign" style="width: 33%;">
+        <div class="flex flex-column">                      
+            <div class="w-80 h-50 mt-10 mx-auto" style="object-fit: cover;">
+                <img src="../../Assets/Images/hotelImage5.jpg" alt="Image gallery"/>
+            </div>
+            <div class="p-3 text-sm text-pretty">
+              <p class="uppercase fw-bolder mb-3 text-center" style="color: #FFA456;">General Info</p>
+              <div class="grid grid-cols-2 py-1">
+                <p class="fw-bolder">Roomtype </p>
+                <p class="lowercase fw-normal">${roomType.type}</p>
               </div>
-              <div class="p-3">
-                <p class="uppercase fw-bolder mb-3" style="color: #FFA456;font-size: 30px;">General Info</p>
-                <div class="grid grid-cols-2">
-                  <p class="uppercase fw-bolder">room type </p>
-                  <p class="lowercase fw-normal px-3" style="font-size:25px;">${roomType.type}</p>
-                </div>
-                <div class="grid grid-cols-2">
-                  <p class="uppercase fw-bolder">occupancy </p>
-                  <p class="lowercase fw-normal px-3" style="font-size:25px;">${roomType.occupancy}</p>
-                </div>
-                <div class="grid grid-cols-2">
-                  <p class="uppercase fw-bolder">cotsAvailable </p>
-                  <p class="lowercase fw-normal px-3" style="font-size:25px;">${roomType.cotsAvailable}</p>
-                </div>
-                <div class="grid grid-cols-2">
-                  <p class="uppercase fw-bolder">amenities </p>
-                  <p class="lowercase fw-normal px-3" style="font-size:25px;">${roomType.amenities}</p>
-                </div>
-                <p class="uppercase fw-bolder" style="color: #FFA456;font-size: 30px;">Pricing</p>
-                <div class="grid grid-cols-2">
-                      <p class="uppercase fw-bolder">amount </p>
-                      <p class="lowercase fw-normal px-3" style="font-size:25px;">${roomType.amount}</p>
-                    </div>
-                    <div class="grid grid-cols-2">
-                      <p class="uppercase fw-bolder">Discount </p>
-                      <p class="lowercase fw-normal px-3" style="font-size:25px;">${roomType.discount}</p>
-                    </div>
-                    <div class="grid grid-cols-2">
-                      <p class="uppercase fw-bolder">Final amount</p>
-                      <p class="lowercase fw-normal px-3" style="font-size:25px;">${finalAmount}</p>
-                    </div>
+              <div class="grid grid-cols-2 py-1">
+                <p class="fw-bolder">occupancy </p>
+                <p class="lowercase fw-normal">${roomType.occupancy}</p>
               </div>
-          </div>
-          <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
-              <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="editHotelBtn" onclick="openModalForRoomTypeEdit(${roomType.roomTypeId}, ${roomType.hotelId})"><span>Edit RoomType</span></button>
-          </div>
+              <div class="grid grid-cols-2 py-1">
+                <p class="fw-bolder">cotsAvailable </p>
+                <p class="lowercase fw-normal">${roomType.cotsAvailable}</p>
+              </div>
+              <div class="grid grid-cols-2 py-1">
+                <p class="fw-bolder">amenities </p>
+                <p class="lowercase fw-normal">${roomType.amenities}</p>
+              </div>
+              <p class="uppercase fw-bolder my-3 text-center" style="color: #FFA456;">Pricing</p>
+              <div class="grid grid-cols-2 py-1">
+                    <p class="fw-bolder">amount </p>
+                    <p class="lowercase fw-normal">${roomType.amount}</p>
+                  </div>
+                  <div class="grid grid-cols-2 py-1">
+                    <p class="fw-bolder">Discount </p>
+                    <p class="lowercase fw-normal">${roomType.discount}</p>
+                  </div>
+                  <div class="grid grid-cols-2 py-1">
+                    <p class="fw-bolder">Final amount</p>
+                    <p class="lowercase fw-normal ">${finalAmount}</p>
+                  </div>
+            </div>
         </div>
+        <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
+            <button type="button" class="buttonStyle mr-5" id="editHotelBtn" onclick="openModalForRoomTypeEdit(${roomType.roomTypeId}, ${roomType.hotelId})"><span>Edit RoomType</span></button>
+        </div>
+      </div>
         `;
     })
     document.getElementById('roomTypesDiv').innerHTML=roomTypesHtml;
@@ -157,8 +151,7 @@ var fetchData = () =>{
         displayRoomTypes(data);
     })
     .catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
     });
 }
 

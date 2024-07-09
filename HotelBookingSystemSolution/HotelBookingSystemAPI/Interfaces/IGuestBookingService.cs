@@ -84,5 +84,7 @@ namespace HotelBookingSystemAPI.Interfaces
         /// <returns></returns>
         public Task CalculateRefundForRoomCancel(int loggedUser, Booking updatedBooking, double totalAmount);
 
+        public Task<string> CheckRefundDone(int id);
+
     }
 }

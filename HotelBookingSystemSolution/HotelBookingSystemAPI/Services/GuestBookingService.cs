@@ -384,5 +384,17 @@ namespace HotelBookingSystemAPI.Services
         }
         #endregion
 
+        #region CheckRefund
+        public async Task<string> CheckRefundDone(int id)
+        {
+            var refund = _refundRepository.Get().Result.Where(r=>r.BookId == id).ToList();
+            if (refund.Count()>0)
+            {
+                return $"An amount of Rs.{refund[0].RefundAmount} is refunded back to you!";
+            }
+            return "No refund";
+        }
+        #endregion
+
     }
 }

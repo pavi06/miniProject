@@ -9,6 +9,7 @@ using HotelBookingSystemAPI.Models.DTOs.RoomDTOs;
 using HotelBookingSystemAPI.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingSystemAPI.Services
@@ -31,13 +32,48 @@ namespace HotelBookingSystemAPI.Services
         }
 
         #region GetAllHotels
-        public async Task<List<AdminHotelReturnDTO>> GetAllHotels()
+        public async Task<List<AdminHotelReturnDTO>> GetAllHotels(int limit, int skip)
         {
-            List<AdminHotelReturnDTO> hotels = (await _hotelRepository.Get())
+            List<AdminHotelReturnDTO> hotels = (_hotelRepository.Get().Result.Skip(skip).Take(limit))
              .Select(hotel =>
              {
                  Dictionary<int, string> roomTypes = new Dictionary<int, string>();
                  foreach(var rt in hotel.RoomTypes)
+                 {
+                     roomTypes.Add(rt.RoomTypeId, rt.Type);
+                 }
+                 return new AdminHotelReturnDTO(
+                    hotel.HotelId,
+                    hotel.Name,
+                    hotel.Address,
+                    hotel.City,
+                    hotel.Rating,
+                    hotel.Ratings.Count(),
+                    hotel.Amenities,
+                    hotel.Restrictions,
+                    hotel.IsAvailable,
+                    hotel.TotalNoOfRooms,
+                    roomTypes
+                 );
+             })
+             .ToList();
+
+            if (hotels.Count() >= 1)
+            {
+                return hotels;
+            }
+            throw new ObjectsNotAvailableException("hotels");
+        }
+        #endregion
+
+        #region GetAllHotels
+        public async Task<List<AdminHotelReturnDTO>> GetAllHotelsWithoutLimit()
+        {
+            List<AdminHotelReturnDTO> hotels = (_hotelRepository.Get().Result)
+             .Select(hotel =>
+             {
+                 Dictionary<int, string> roomTypes = new Dictionary<int, string>();
+                 foreach (var rt in hotel.RoomTypes)
                  {
                      roomTypes.Add(rt.RoomTypeId, rt.Type);
                  }
@@ -203,6 +239,41 @@ namespace HotelBookingSystemAPI.Services
             return new AppDetailsDTO(_hotelRepository.Get().Result.Count(), _guestRepository.Get().Result.Count(u => u.Role == "User"),
                 _empRepository.Get().Result.Count(), Math.Round(bookingCount / (double)DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
                 );
+        }
+        #endregion
+
+        #region GetAllHotelByLocation
+        public async Task<List<AdminHotelReturnDTO>> GetAllHotelsByLocation(string location)
+        {
+            List<AdminHotelReturnDTO> hotels = (_hotelRepository.Get().Result.Where(h=>h.City.ToLower()==location.ToLower()))
+             .Select(hotel =>
+             {
+                 Dictionary<int, string> roomTypes = new Dictionary<int, string>();
+                 foreach (var rt in hotel.RoomTypes)
+                 {
+                     roomTypes.Add(rt.RoomTypeId, rt.Type);
+                 }
+                 return new AdminHotelReturnDTO(
+                    hotel.HotelId,
+                    hotel.Name,
+                    hotel.Address,
+                    hotel.City,
+                    hotel.Rating,
+                    hotel.Ratings.Count(),
+                    hotel.Amenities,
+                    hotel.Restrictions,
+                    hotel.IsAvailable,
+                    hotel.TotalNoOfRooms,
+                    roomTypes
+                 );
+             })
+             .ToList();
+
+            if (hotels.Count() >= 1)
+            {
+                return hotels;
+            }
+            throw new ObjectsNotAvailableException("hotels");
         }
         #endregion
 

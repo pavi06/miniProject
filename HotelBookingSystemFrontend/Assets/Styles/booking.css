@@ -1,0 +1,82 @@
+table, tr, td{
+    border: 1px solid rgb(52, 52, 52);
+    padding: 5px;
+}
+
+.room{
+    flex-direction: row;
+}
+
+.room:hover{
+    transform: scale(1.02);
+}
+
+.options {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 0px;
+    font-weight: bolder;
+    display: none;
+}
+
+.options.active {
+    display: block;
+    border: 1px solid #FFA456;
+}
+
+#hotelDetail{
+    width: 45%;
+}
+#roomStart{
+    flex-direction: row;
+}
+
+.roomsNeededCount{
+    flex-direction:row;
+}
+
+@media (max-width:780px){
+    #roomStart{
+        flex-direction: column;
+    }
+    #hotelDetail{
+        width: 50%;
+    }
+
+    #cartItemsDiv{
+        width: 100%;
+    }
+}
+
+@media (max-width:540px){
+    #roomStart{
+        flex-direction: column;
+    }
+    #hotelDetail{
+        width: 100%;
+    }
+
+    #cartItemsDiv{
+        width: 100%;
+        padding-top: 1%;
+    }
+    .room{
+        align-items: center;
+        justify-content: center;
+        overflow-wrap: break-word;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .buttonStyle{
+        padding: 4px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .roomsNeededCount{
+        flex-direction:column;
+    }
+    .deleteButton{
+        float: right;
+    }
+}

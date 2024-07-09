@@ -21,6 +21,7 @@ namespace HotelBookingSystemAPI.Controllers
     [ExcludeFromCodeCoverage]
     [EnableCors("MyCors")]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,User")]
     [ApiController]
     public class GuestBookingController : ControllerBase
     {
@@ -42,14 +43,14 @@ namespace HotelBookingSystemAPI.Controllers
         [AllowAnonymous]
         #region GetHotelsByLocationAndDate
         [HttpPost("GetHotelsByLocationAndDate")]
-        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotels([FromBody]SearchHotelDTO searchHotelDTO)
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetHotels(int limit, int skip,[FromBody]SearchHotelDTO searchHotelDTO)
         {
             searchHotel = searchHotelDTO;
             try
             {
-                List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByLocationAndDate(searchHotelDTO);
+                List<AdminHotelReturnDTO> result = await _guestSearchService.GetHotelsByLocationAndDate(limit, skip,searchHotelDTO);
                 _logger.LogInformation("Successfully retrieved hotels");
                 return Ok(result);
             }
@@ -71,13 +72,13 @@ namespace HotelBookingSystemAPI.Controllers
         [AllowAnonymous]
         #region GetHotelsByRating
         [HttpGet("GetHotelsByRating")]
-        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotelsByRanking()
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetHotelsByRanking(int limit, int skip)
         {
             try
             {
-                List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByRatings(searchHotel);
+                List<AdminHotelReturnDTO> result = await _guestSearchService.GetHotelsByRatings(limit, skip, searchHotel);
                 _logger.LogInformation("Hotels retrieved successfully based on rating");
                 return Ok(result);
             }
@@ -98,13 +99,13 @@ namespace HotelBookingSystemAPI.Controllers
         [AllowAnonymous]
         #region GetHotelsByCertainFeatures
         [HttpPost("GetHotelsByFeatures")]
-        [ProducesResponseType(typeof(List<HotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<HotelReturnDTO>>> GetHotelsByFeature(List<string> features)
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetHotelsByFeature(int limit, int skip, List<string> features)
         {
             try
             {
-                List<HotelReturnDTO> result = await _guestSearchService.GetHotelsByFeatures(features,searchHotel);
+                List<AdminHotelReturnDTO> result = await _guestSearchService.GetHotelsByFeatures(limit,skip,features,searchHotel);
                 _logger.LogInformation("Successfully retrieved hotels by its features");
                 return Ok(result);
             }
@@ -181,7 +182,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        [Authorize(Roles = "Admin,User")]
+        
         #region RequestRoomsNeeded
         [HttpPost("BookRooms")]
         [ProducesResponseType(typeof(BookingReturnDTO), StatusCodes.Status200OK)]
@@ -213,7 +214,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        [Authorize(Roles = "Admin,User")]
+
         #region MakePaymentAndConfirmBooking
         [HttpPost("MakePaymentAndConfirmBooking")]
         [ProducesResponseType(typeof(PaymentReturnDTO), StatusCodes.Status200OK)]
@@ -236,7 +237,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        [Authorize(Roles = "Admin,User")]
+
         #region CancelBooking
         [HttpPut("CancelBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -260,7 +261,6 @@ namespace HotelBookingSystemAPI.Controllers
         #endregion
 
 
-        [Authorize(Roles = "Admin,User")]
         #region ModifyBooking
         [HttpPut("ModifyBooking")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -288,7 +288,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        [Authorize(Roles = "Admin,User")]
+       
         #region GetMyBookings
         [HttpGet("GetMyBookings")]
         [ProducesResponseType(typeof(List<MyBookingDTO>), StatusCodes.Status200OK)]
@@ -316,7 +316,7 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
-        [Authorize(Roles = "Admin,User")]
+
         #region GetRecommandedHotel
         [HttpGet("GetRecommandation")]
         [ProducesResponseType(typeof(List<HotelRecommendationDTO>), StatusCodes.Status200OK)]
@@ -343,5 +343,31 @@ namespace HotelBookingSystemAPI.Controllers
         }
         #endregion
 
+
+        #region CheckRefundDone
+        [HttpPost("CheckRefundDone")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<string>> CheckRefundDone([FromBody] int id)
+        {
+            try
+            {
+                var result = await _bookingService.CheckRefundDone(id);
+                _logger.LogInformation("successfully checked whether refund is done or not");
+                return Ok(result);
+            }
+            catch (ObjectNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
     }
 }

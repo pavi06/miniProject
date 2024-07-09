@@ -65,35 +65,40 @@ namespace HotelBookingSystemAPI.Services
         #endregion
 
         #region GetHotelsByLocation
-        public async Task<List<HotelReturnDTO>> GetHotelsByLocationAndDate(SearchHotelDTO hotelDTO)
+        public async Task<List<AdminHotelReturnDTO>> GetHotelsByLocationAndDate(int limit, int skip,SearchHotelDTO hotelDTO)
         {
 
-            var hotelsAvailable = _hotelRepository.Get().Result.Where(h => h.City.ToLower() == hotelDTO.Location.ToLower());
+            var hotelsAvailable = _hotelRepository.Get().Result.Where(h => h.City.ToLower() == hotelDTO.Location.ToLower()).Skip(skip).Take(limit);
             if (hotelsAvailable.Count() > 0)
             {
-                List<HotelReturnDTO> hotels = hotelsAvailable.Select( hotel =>
+                List<AdminHotelReturnDTO> hotels = hotelsAvailable.Select( hotel =>
                 {
                     var hotelAvailability = _hotelAvailability.Get(hotel.HotelId, hotelDTO.Date).Result;
                     var isAvailable = hotelAvailability == null || hotelAvailability.RoomsAvailableCount > 0;
-                    return new HotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Amenities, hotel.Restrictions, isAvailable, hotel.Ratings,hotel.RoomTypes);
+                    Dictionary<int,string> roomTypes = new Dictionary<int,string>();
+                    foreach (var rt in hotel.RoomTypes)
+                    {
+                        roomTypes.Add(rt.RoomTypeId, rt.Type);
+                    }
+                    return new AdminHotelReturnDTO(hotel.HotelId, hotel.Name, hotel.Address, hotel.City, hotel.Rating, hotel.Ratings.Count() ,hotel.Amenities, hotel.Restrictions, isAvailable, hotel.TotalNoOfRooms,roomTypes);
 
                 }).ToList();
                 return hotels;
             }
-            return new List<HotelReturnDTO>();
+            return new List<AdminHotelReturnDTO>();
         }
 
-        public async Task<List<HotelReturnDTO>> GetHotelsByRatings(SearchHotelDTO hotelDTO)
+        public async Task<List<AdminHotelReturnDTO>> GetHotelsByRatings(int limit, int skip, SearchHotelDTO hotelDTO)
         {
-            var hotels = await GetHotelsByLocationAndDate(hotelDTO);
+            var hotels = await GetHotelsByLocationAndDate(limit, skip, hotelDTO);
             return hotels.OrderByDescending(h => h.Rating).ToList();
         }
         #endregion
 
         #region GetHotelsByFeature
-        public async Task<List<HotelReturnDTO>> GetHotelsByFeatures(List<string> features,SearchHotelDTO hotelDTO)
+        public async Task<List<AdminHotelReturnDTO>> GetHotelsByFeatures(int limit, int skip,List<string> features,SearchHotelDTO hotelDTO)
         {
-            var hotels = await GetHotelsByLocationAndDate(hotelDTO);
+            var hotels = await GetHotelsByLocationAndDate(limit, skip,hotelDTO);
             return  hotels.Where(hotel => features.All(feature => hotel.Amenities.Contains(feature))).ToList();
         }
         #endregion
@@ -118,13 +123,13 @@ namespace HotelBookingSystemAPI.Services
                 //recommended based on previously booked preferences roomtype, hotel
                 var roomTypes = booking.SelectMany(b => b.RoomsBooked.Select(r => _roomRepository.Get(r.RoomId).Result.RoomType.Type)).Distinct().ToList();
                 var roomsForRecomm = _roomTypeRepository.Get().Result.Where(r => roomTypes.Contains(r.Type) && r.Discount >= 0 && hotels.Contains(r.HotelId)).OrderByDescending(r => r.Discount).ToList();
-                List<HotelRecommendationDTO> rooms = roomsForRecomm.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
+                List<HotelRecommendationDTO> rooms = roomsForRecomm.Select(r => new HotelRecommendationDTO(r.HotelId,r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
                 return rooms;
 
             }
             //for first time user , the rooms with discount is recommended
             var roomsForRecommForFirstTimeUser = _roomTypeRepository.Get().Result.Where(r => r.Discount >= 0).OrderByDescending(r=>r.Discount).ToList();
-            List<HotelRecommendationDTO> roomsRecommended = roomsForRecommForFirstTimeUser.Select(r => new HotelRecommendationDTO(r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
+            List<HotelRecommendationDTO> roomsRecommended = roomsForRecommForFirstTimeUser.Select(r => new HotelRecommendationDTO(r.HotelId,r.Hotel.Name, r.Hotel.Address, r.Hotel.City, r.Type, r.Discount)).ToList();
             return roomsRecommended;
         }
         #endregion

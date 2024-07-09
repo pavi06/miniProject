@@ -56,8 +56,7 @@ var fetchBookings = () =>{
         displayMyBookings(data);
     })
     .catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
     });
 }
 
@@ -123,14 +122,16 @@ var modifyBookingFromModal = () =>{
         }
         return await res.text();
     }).then(data => {
-        alert(`${data}`);
+        if(data === 'Cannot Modify instead proceed with cancel booking!'){
+            addAlert(data);
+        }else{
+            addSuccessAlert(data)
+        }
         document.querySelector('[data-bs-dismiss="modal"]').click();
-        //popup()
         fetchBookings();
-        //refund payment if available with delay!!
+        refundPopup(localStorage.getItem('currentBookingId'));
     }).catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
    });
 }
 //endRegion
@@ -152,14 +153,11 @@ var cancelBooking = (id) =>{
         }
         return await res.text();
     }).then(data => {
-        alert(data)
+        addSuccessAlert(data)
         fetchBookings();
-        setTimeout(function() {
-            alert("Refund is done successfully!");
-        }, 60000);
+        refundPopup(id);
     }).catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
    });
 }
 
@@ -181,15 +179,153 @@ var addRoomTypes = (itemName) =>{
     })
     .then(data => {
         var roomTypesHtml ="";
-        data.roomTypes.forEach(roomtype => {
-            roomTypesHtml+=`
-                <option value ="${roomtype}">${roomtype}</option>
+        console.log(data.roomTypes)
+        for (let key in data.roomTypes) {
+            if (data.roomTypes.hasOwnProperty(key)) {
+              roomTypesHtml+=`
+                <option value ="${data.roomTypes[key]}">${data.roomTypes[key]}</option>
             `;
-        })
+            }
+        }
         document.getElementById('roomTypesSelect').innerHTML=roomTypesHtml;
     })
     .catch(error => {
-        alert(error);
-        console.error(error);
+        addAlert(error.message)
     });
 }
+
+var refundPopup = (id) =>{
+    fetch('http://localhost:5058/api/GuestBooking/CheckRefundDone',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
+        },
+        body:JSON.stringify(id)        
+    })
+    .then(async(res) => {
+        if (!res.ok) {
+            const errorResponse = await res.json();
+            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+        }
+        return await res.text();
+    }).then(data => {
+        if(data !== "No Refund"){
+            setTimeout(function() {
+                addSuccessAlert(data)
+            }, 60000);
+        } 
+    }).catch(error => {
+        addAlert(error.message)
+   });
+}
+
+var addSuccessAlert = (message) =>{
+    console.log("--inside alert")
+    if(document.getElementById('successAlertModal')){
+        document.getElementById('successAlertModal').innerHTML = message;
+        const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
+        modal.show();
+        console.log("modal show")
+        return;
+    }
+    const alert = document.createElement('div')
+    alert.innerHTML = `
+         <div class="modal" id="successAlertModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header bg-green-400">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
+                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
+                <div class="modal-body text-center">
+                    <p class="text-xl text-black" id="successAlertMessage">${message}</p>
+                </div>
+                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-green-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentElement('beforeend', alert);
+    const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
+    modal.show();
+    if(message.includes('No hotels are available!') || message === "No more hotels available!"){
+        if( document.getElementById('loadBtn')){
+            document.getElementById('loadBtn').classList.add('hide');
+        }
+        if(document.getElementById('loadBtnWithBody')){
+            document.getElementById('loadBtnWithBody').classList.add('hide');
+        }
+    }
+}
+
+var addAlert = (message) =>{
+    if(document.getElementById('alertModal')){
+        document.getElementById('alertMessage').innerHTML = message;
+        const modal = new bootstrap.Modal(document.getElementById('alertModal'));
+        modal.show();
+        return;
+    }
+    const alert = document.createElement('div')
+    alert.innerHTML = `
+         <div class="modal" id="alertModal" style="border-radius:50px">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header bg-red-400">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
+                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
+                <div class="modal-body text-center">
+                    <p class="text-xl text-black" id="alertMessage">${message}</p>
+                </div>
+                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentElement('beforeend', alert);
+    const modal = new bootstrap.Modal(document.getElementById('alertModal'));
+    modal.show();
+    if(message === '404 Error! - No hotels are available!' || message === "No more hotels available!"){
+        if( document.getElementById('loadBtn')){
+            document.getElementById('loadBtn').classList.add('hide');
+        }
+        if(document.getElementById('loadBtnWithBody')){
+            document.getElementById('loadBtnWithBody').classList.add('hide');
+        }
+    }
+}
+
+var checkUserLoggedInOrNot = () =>{
+    if( localStorage.getItem('isLoggedIn')){
+        if(window.location.pathname === '/Templates/login.html'){
+            return;
+        }
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));
+        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        if(document.querySelector('.bookRooms')){
+            if(cartItems.length === 0){
+                document.querySelector('.bookRooms').classList.add('hide');
+            }else{
+                document.querySelector('.bookRooms').classList.add('show');
+            }
+        }
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
+    }
+    else{
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
+    }
+}
+
+var logOut = () => {
+    localStorage.clear();
+    if(window.location.pathname === '/Templates/UserTemplate/myBookings.html' || '/Templates/UserTemplate/booking.html'){
+        window.location.href = '/Templates/hotels.html';
+    }
+    document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
+    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+
+};

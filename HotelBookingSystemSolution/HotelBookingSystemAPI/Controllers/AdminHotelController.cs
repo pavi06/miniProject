@@ -36,11 +36,65 @@ namespace HotelBookingSystemAPI.Controllers
         [HttpGet("GetAllHotels")]
         [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetAllHotels()
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetAllHotels(int limit = 0, int skip=0)
         {
             try
             {
-                List<AdminHotelReturnDTO> result = await _hotelService.GetAllHotels();
+                List<AdminHotelReturnDTO> result = await _hotelService.GetAllHotels(limit, skip);
+                _logger.LogInformation("Successfully retrieved hotels");
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+        #region GetAllHotels
+        [AllowAnonymous]
+        [HttpGet("GetAllHotelsWithoutLimit")]
+        [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetAllHotelsWithoutLimit()
+        {
+            try
+            {
+                List<AdminHotelReturnDTO> result = await _hotelService.GetAllHotelsWithoutLimit();
+                _logger.LogInformation("Successfully retrieved hotels");
+                return Ok(result);
+            }
+            catch (ObjectsNotAvailableException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+
+        }
+        #endregion
+
+        #region GetAllHotelsByLocation
+        [AllowAnonymous]
+        [HttpPost("GetAllHotelsByLocation")]
+        [ProducesResponseType(typeof(List<AdminHotelReturnDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<AdminHotelReturnDTO>>> GetAllHotelsByLocation([FromBody] string location)
+        {
+            try
+            {
+                List<AdminHotelReturnDTO> result = await _hotelService.GetAllHotelsByLocation(location);
                 _logger.LogInformation("Successfully retrieved hotels");
                 return Ok(result);
             }

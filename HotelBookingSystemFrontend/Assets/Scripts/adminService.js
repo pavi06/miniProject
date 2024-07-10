@@ -145,11 +145,15 @@ function loadHotels (){
 
 var displayHotelsForAdmin = (data) => {
     var hotelsList = data.map((hotel) => {
+        var starRatingHtml = ""; 
+        for (let i = 0; i < hotel.rating; i++) {
+            starRatingHtml+=`<span class="fa fa-star fa-lg checked p-0.5"></span>`;
+        }
         return `
         <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign loadOnScroll" style="width: 80%;">
-            <div class="flex flex-row justify-between">                      
-                <div class="w-60 h-50 mt-4" style="object-fit: cover;">
-                    <img src="../../Assets/Images/hotelImage5.jpg" alt="Image gallery"/>
+            <div class="hotelsFlex">                      
+                <div class="mt-4 imageDiv">
+                    <img src="https://drive.google.com/thumbnail?id=1gizbhn8kXaSVBIIVE8sdIonEmk0e01tN" alt="Image gallery"/>
                 </div>
                 <div class="p-3">
                     <p class="hotelName">${hotel.name}</p>
@@ -159,25 +163,25 @@ var displayHotelsForAdmin = (data) => {
                 <div class="flex flex-col justify-between mt-3" style="float:right">
                     <div>
                         <p class="description"><span class="review">Review Score</span></p>
-                        <p class="description" style="line-height: 10px;">${hotel.rating}</p>
-                        <p class="description"><a href="#">${hotel.ratingCount} reviews</a></p>
+                         ${starRatingHtml}
+                        <p class="description text-center fw-bolder"><a href="#">${hotel.ratingCount} reviews</a></p>
                     </div>
                 </div>
             </div>
             <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="editHotelBtn" onclick="openModalForEdit(${hotel.hotelId})"><span>Edit Hotel</span></button>
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomTypeBtn" onclick="routeRoomType(${hotel.hotelId})"><span>Add RoomType</span></button>
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>Add Room</span></button>
+                <button type="button" class="buttonStyle mr-5 px-2" id="editHotelBtn" onclick="openModalForEdit(${hotel.hotelId})"><span>Edit Hotel</span></button>
+                <button type="button" class="buttonStyle mr-5 px-2" id="addRoomTypeBtn" onclick="routeRoomType(${hotel.hotelId})"><span>Add RoomType</span></button>
+                <button type="button" class="buttonStyle mr-5 px-2" id="addRoomBtn" onclick="openModalForAdd(${hotel.hotelId})"><span>Add Room</span></button>
             </div>
             <div class="flex flex-row flex-wrap px-3 mt-3 justify-center">
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="updateHotelStatus(${hotel.hotelId})"><span>Update status</span></button>
-                <button type="button" class="buttonStyle mr-5" style="width:20%; padding:5px" id="addRoomBtn" onclick="routeAllRoomTypes(${hotel.hotelId})"><span>RoomTypes</span></button>
+                <button type="button" class="buttonStyle mr-5 px-2" id="addRoomBtn" onclick="updateHotelStatus(${hotel.hotelId})"><span>Update status</span></button>
+                <button type="button" class="buttonStyle mr-5 px-2" id="addRoomBtn" onclick="routeAllRoomTypes(${hotel.hotelId})"><span>RoomTypes</span></button>
             </div>
         </div>
         `;
     });
     document.getElementById("displayAllHotels").innerHTML = hotelsList.join('');
-    // lazyload();
+    lazyload();
 }
 
 var routeRoomType = (hotelId) =>{
@@ -224,7 +228,6 @@ function updateHotel(){
     }).then(data => {
         addSuccessAlert('Hotel updated successfully!')
         document.querySelector('[data-bs-dismiss="modal"]').click();
-        //update the hotel itself!!!!!!!,
         loadHotels();
     }).catch(error => {
         addAlert(error.message)
@@ -306,7 +309,6 @@ function AddRoom(){
         typeId : document.getElementById('roomTypesSelect').value,
         images : document.getElementById('roomImages').value
     };
-    console.log(roomData);
     fetch('http://localhost:5058/api/AdminRoom/RegisterRoomForHotel',{
         method:'POST',
         headers:{
@@ -341,9 +343,12 @@ var routeAllRoomTypes = (hotelId) =>{
 
 var filterHotels = () =>{
     var location = document.getElementById('filterValue').value;
-    console.log(location)
     if(!location){
         addAlert("Provide the valid location!");
+        return;
+    }
+    if(location === 'All'){
+        loadHotels();
         return;
     }
     fetch('http://localhost:5058/api/AdminHotel/GetAllHotelsByLocation',{
@@ -372,31 +377,31 @@ document.addEventListener('DOMContentLoaded', function() {
     dropDown();
 })
 
-//------lazy loading
-// var lazyload = () => {
-//     const items = document.querySelectorAll('.loadOnScroll');
-//     console.log(items)
-//     const observer = new IntersectionObserver(entries => {
-//         entries.forEach(entry => {
-//             entry.target.classList.toggle('show', entry.isIntersecting);
-//         });
-//     }, {
-//         threshold: 0.2,
-//         rootMargin: '20px'
-//     });
+// ------lazy loading
+var lazyload = () => {
+    const items = document.querySelectorAll('.loadOnScroll');
 
-//     items.forEach(item => {
-//         observer.observe(item);
-//     });
-// };
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            entry.target.classList.toggle('show', entry.isIntersecting);
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '20px'
+    });
 
+    items.forEach(item => {
+        observer.observe(item);
+    });
+};
 
+// --------add cities to the datalist----------
 var addCityDatalist = (data) =>{
     var dataList = document.getElementById('datalistCityOptions');
     dataList.innerHTML = '';
     var uniqueCities = [...new Set(data.map(hotel => hotel.city))];
-    dataList.innerHTML = uniqueCities.map(city => `<option value="${city}">`).join('');
-    console.log(dataList)
+    dataList.innerHTML = '<option value="All">';
+    dataList.innerHTML += uniqueCities.map(city => `<option value="${city}">`).join('');
 }
 
 var checkAdminLoggedInOrNot = () =>{
@@ -421,8 +426,8 @@ var checkAdminLoggedInOrNot = () =>{
     alert.innerHTML = `
          <div class="modal" id="alertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-red-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
@@ -454,8 +459,8 @@ var addSuccessAlert = (message) =>{
     alert.innerHTML = `
          <div class="modal" id="successAlertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-green-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
@@ -512,4 +517,15 @@ var logOut = () =>{
     document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
     document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
     window.location.href="../login.html";
+}
+
+var resetFormValues = (formName, formTypes) => {
+    document.getElementById(formName).reset();
+    const formInputs = document.getElementById(formName).querySelectorAll(formTypes);
+    formInputs.forEach(input => {
+    //removing the classlist added and empty small element
+    input.classList.remove('is-valid', 'is-invalid');
+    document.getElementById(`${input.name}Valid`).innerHTML="";
+    document.getElementById(`${input.name}Invalid`).innerHTML="";
+    });
 }

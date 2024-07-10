@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return Promise.all(dataPromises);
         }).then(dataArray => {
             const [data1, data2, data3] = dataArray; // Destructure the array of responses
-            displayBasicHotelDetails(data1);
+            displayBasicHotelDetails(data1, data2);
             imageLoad();
             displayRoomDetails(data2)
             displayAmenitiesInfo(data1.amenities);
@@ -64,7 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
        });
 });
 
-var displayBasicHotelDetails = (data) =>{
+var displayBasicHotelDetails = (data, imagesData) =>{
+    var imagesList = imagesData[0].images.split(',')
     var starRatingHtml = ""; 
     for (let i = 0; i < data.rating; i++) {
         starRatingHtml+=`<span class="fa fa-star checked p-0.5"></span>`;
@@ -83,12 +84,12 @@ var displayBasicHotelDetails = (data) =>{
                 </div>
             </div>
             <div class="grid h-80 w-100 my-10 grid-cols-5 grid-rows-4 gap-2">
-                <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage1Small.jpg)"><img src="../Assets/Images/hotelImage1.jpg" class="images" loading="lazy"/></div>
-                <div class="col-span-2 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage2Small.jpg)"><img src="../Assets/Images/hotelImage2.jpg" class="images" loading="lazy"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage3Small.jpg)"><img src="../Assets/Images/hotelImage3.jpg" class="images" loading="lazy"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage4Small.jpg)"><img src="../Assets/Images/hotelImage4.jpg" class="images" loading="lazy"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage5Small.jpg)"><img src="../Assets/Images/hotelImage5.jpg" class="images" loading="lazy"/></div>
-                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelBgSmall.jpg)"><img src="../Assets/Images/hotelBg.jpg" class="images" loading="lazy"/></div>
+                <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage1Small.jpg)"><img src="${imagesList[0]}" class="images" loading="lazy"/></div>
+                <div class="col-span-2 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage2Small.jpg)"><img src="${imagesList[2]}" class="images" loading="lazy"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage3Small.jpg)"><img src="${imagesList[2]}" class="images" loading="lazy"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage4Small.jpg)"><img src="${imagesList[3]}" class="images" loading="lazy"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelImage5Small.jpg)"><img src="${imagesList[4]}" class="images" loading="lazy"/></div>
+                <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200 blurLoad" style="background-image:url(../Assets/Images/hotelBgSmall.jpg)"><img src="${imagesList[0]}" class="images" loading="lazy"/></div>
             </div>
         </div>    `;
 }
@@ -117,7 +118,7 @@ var displayRoomDetails = (data) =>{
         var roomTypeHtml =`
             <div  class=" w-75 h-auto px-5 py-3 mb-5 flex justify-between shadow-lg mx-auto roomTypes" style="border-radius:20px;">
                 <div>
-                    <button type="button" onclick="openRoomTypeModalForDetails()" class="subHeading">${roomType.roomType}</button>
+                    <button type="button" onclick="openRoomTypeModalForDetails('${roomType.images}','${roomType.amenities}')" class="subHeading">${roomType.roomType}</button>
                     ${roomsAvailableHtml}
                     <p>Amenities : ${roomType.amenities}</p>
                 </div>
@@ -153,13 +154,11 @@ var displayRoomDetails = (data) =>{
             }
             else{
                 var clickedRoomTypeId = event.currentTarget.getAttribute('data-roomtype-id');
-                console.log(clickedRoomTypeId,"----------")
                 var roomTypeToAdd = data.find(rt => rt.roomTypeId === parseInt(clickedRoomTypeId));
-                console.log("entering bookingCart")
                 addToBookingCart(roomTypeToAdd);
             }            
         });
-    });     
+    });      
 }
 
 var displayAmenitiesInfo = (data) =>{
@@ -269,6 +268,32 @@ var validateAndGet = () =>{
         addAlert(error.message)
    });    
 }
+
+
+var openRoomTypeModalForDetails = (images, facilities) =>{
+ var imageList = images.split(',')
+ var facilitiesList = facilities.split(',')
+ const addRoomDetailsModal = new bootstrap.Modal(document.getElementById('roomTypeDetailsModal'));
+ var imageDiv = document.getElementById('imagesGrid');
+ var html="";
+ imageList.forEach(image =>{
+    html+=`
+        <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200"><img src="${image}" class="images"/></div>
+    `;
+ })
+ imageDiv.innerHTML=html;
+ var facilitiesDiv = document.getElementById('facilitiesModalDiv');
+ var facilitiesHtml="";
+ facilitiesList.forEach(facility =>{
+    facilitiesHtml+=`
+        <div class="flex-none w-35 px-3 m-3 ring-1 ring-orange-400"><i class="bi bi-dot"></i>${facility}</div>
+    `;
+ })
+ facilitiesDiv.innerHTML=facilitiesHtml;
+ addRoomDetailsModal.show();
+}
+
+
 
 //-------------------image load--------
 var imageLoad = () =>{

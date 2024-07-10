@@ -80,6 +80,7 @@ var redirectToRooms = (id) => {
 
 // displayHotelstemplate
 var displayHotelsRetrieved = (data, boolValue) => {
+    console.log(data)
     if(data.length === 0 && document.getElementById('hotelsDisplay').childNodes.length === 0){
         if( document.getElementById('loadBtn')){
             document.getElementById('loadBtn').classList.add('hide');
@@ -104,13 +105,19 @@ var displayHotelsRetrieved = (data, boolValue) => {
         } 
         var starRatingHtml = ""; 
         for (let i = 0; i < hotel.rating; i++) {
-            starRatingHtml+=`<span class="fa fa-star checked"></span>`;
+            starRatingHtml+=`<span class="fa fa-star checked fa-lg p-0.5"></span>`;
+        }
+        var buttonHtml="";
+        if(hotel.isAvailable){
+            buttonHtml = ` <button type="button" class="buttonStyle" style="width:80%; padding:5px" id="availabilityBtn" onclick="redirectToRooms(${hotel.hotelId})"><span>Check Room Availability</span></button>`;
+        }else{
+            buttonHtml=`<button type="button" class="btn ring-1 ring-red-400 text-red-500" style="width:80%; padding:5px; cursor:auto;" id="availabilityBtn"><span>Not Availability right now!</span></button>`;
         }
         return `
         <div class="px-3 pb-5 mb-10 h-auto cardDesign">
               <div class="flex justify-between cardInside">                      
                   <div class="w-60 h-50 mt-4" style="object-fit: cover;">
-                      <img src="../Assets/Images/hotelImage5.jpg" alt="HotelImage"/>
+                      <img src="https://drive.google.com/thumbnail?id=1GPAgDD_PBEnX0NrdGxyR6ZrOcbGpL3Lr" alt="HotelImage"/>
                   </div>
                   <div class="p-3">
                       <p class="hotelName">${hotel.name}</p>
@@ -123,9 +130,9 @@ var displayHotelsRetrieved = (data, boolValue) => {
                           <div>
                             ${starRatingHtml}
                           </div>
-                          <p><a href="#">${hotel.ratingCount} reviews</a></p>
+                          <p class="text-center fw-bolder"><a href="#">${hotel.ratingCount} reviews</a></p>
                       </div>
-                      <button type="button" class="buttonStyle" style="width:80%; padding:5px" id="availabilityBtn" onclick="redirectToRooms(${hotel.hotelId})"><span>Check Room Availability</span></button>
+                     ${buttonHtml}
                   </div>
               </div>
         </div> 

@@ -429,75 +429,6 @@ input[type="password"]:focus + .hint{
   color: black;
 }
 
-.toast {
-  position: absolute;
-  top: 25px; /* Adjust this value as needed */
-  right: 30px;
-  border-radius: 5px;
-  background: #fff;
-  padding: 20px 35px 20px 25px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  border-right: 8px solid #FFA456;
-  overflow-x: hidden;
-  transform: translateX(calc(100% + 30px));
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
-  z-index: 3000;
-}
-
-.toast.activeToast {
-  transform: translateX(0%);
-}
-
-.toast .progress {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 4px;
-  width: 100%;
-  background: #ddd;
-}
-
-.progress.activeToast:before {
-  animation: progress 3s linear forwards;
-}
-
-
-.toast .toast-content{
-  display:flex;
-  align-items: center;
-}
-.toast-content .message{
-  display:flex;
-  flex-direction: column;
-  margin:0 20px;
-}
-.message .text{
-  font-size:20px;
-  color:black;
-}
-
-
-.toast .progress:before{
-  content:'';
-  position:absolute;
-  bottom:0;
-  left:0;
-  height:100%;
-  width:100%;
-  background: #FFA456;
-}
-
-button{
-  background-color: transparent;
-  border: none;
-}
-
-@keyframes progress{
-  100%{
-      left:100%;
-  }
-}
-
 
 .modal-box .modalCloseBtn {
   font-size: 14px;
@@ -540,4 +471,43 @@ button{
 
 .btn-close{
   color: white;
+}
+
+.roomCard{
+  width: 35%;
+}
+
+
+@media (max-width: 985px) {
+  .roomCard{
+    width: 40%;
+  }
+}
+
+@media (max-width: 864px) {
+  .roomCard{
+    width: 45%;
+  }
+}
+
+@media (max-width: 770px) {
+  .roomCard{
+    width: 50%;
+  }
+}
+
+@media (max-width: 684px) {
+  .roomCard{
+    width: 60%;
+  }
+}
+
+@media (max-width: 572px) {
+  .roomCard{
+    width: 70%;
+  }
+
+  img{
+    width: 80%;
+  }
 }

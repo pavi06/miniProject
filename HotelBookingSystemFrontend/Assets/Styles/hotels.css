@@ -18,6 +18,7 @@
 .hotelName{
     font-weight: bolder;
     font-size: 25px;
+    text-transform: uppercase;
 }
 
 .description{

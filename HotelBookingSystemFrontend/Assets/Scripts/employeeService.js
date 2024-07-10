@@ -194,7 +194,7 @@ var validateAndLoginEmployee = () => {
 
 }
 
-var logout = () =>{
+var logOut = () =>{
     localStorage.clear();
     document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.remove('hide'));
     document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
@@ -244,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
     else{
         document.getElementById('filter').classList.add('hide');
         document.getElementById('bookingsCount').classList.add('hide');
+        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
     }
 })
 
@@ -258,8 +259,8 @@ var addAlert = (message) =>{
     alert.innerHTML = `
          <div class="modal" id="alertModal" style="border-radius:50px">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-red-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
@@ -307,8 +308,8 @@ var addSuccessAlert = (message) =>{
     alert.innerHTML = `
          <div class="modal" id="successAlertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-green-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>

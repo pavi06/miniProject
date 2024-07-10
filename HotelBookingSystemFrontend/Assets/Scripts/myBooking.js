@@ -16,7 +16,7 @@ var displayMyBookings = (data) =>{
             <div class="h-75 m-5 ml-20 bg-white bookedCard" style="width: 60%;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;border-radius:20px">
                 <span class="ribbon font-bold uppercase">${bookedHotel.bookingStatus}</span>
                 <h3 class="fw-bolder text-center text-2xl pt-3" style="color:#FFA456;">BOOKING DETAILS</h3>
-                <div class="flex flex-row justify-between" style="margin-top: 2rem;padding: 2%;">
+                <div class="flex flex-row justify-between" style="margin-top: 3rem;padding: 2%;">
                     <div class="ml-5">
                         <p class="info"><a class="font-bold text-2xl">${bookedHotel.hotelName}</a></p>
                         <p class="info">${bookedHotel.hotelLocation}</p>
@@ -221,20 +221,18 @@ var refundPopup = (id) =>{
 }
 
 var addSuccessAlert = (message) =>{
-    console.log("--inside alert")
     if(document.getElementById('successAlertModal')){
         document.getElementById('successAlertModal').innerHTML = message;
         const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
         modal.show();
-        console.log("modal show")
         return;
     }
     const alert = document.createElement('div')
     alert.innerHTML = `
          <div class="modal" id="successAlertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-green-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
@@ -269,10 +267,10 @@ var addAlert = (message) =>{
     }
     const alert = document.createElement('div')
     alert.innerHTML = `
-         <div class="modal" id="alertModal" style="border-radius:50px">
+         <div class="modal" id="alertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-red-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>

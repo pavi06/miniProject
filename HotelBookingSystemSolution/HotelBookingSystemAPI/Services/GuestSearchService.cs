@@ -52,7 +52,7 @@ namespace HotelBookingSystemAPI.Services
                 foreach (var roomType in roomTypes)
                 {
                     var roomsAvailableCount = NoOfRoomsAvailableInThatType(_roomRepository.Get().Result.Where(r => r.HotelId == searchRoomDTO.HotelId && r.RoomType.Type == roomType.Type && r.IsAvailable == true).ToList(), searchRoomDTO.CheckInDate, searchRoomDTO.CheckoutDate).Result;
-                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.RoomTypeId,roomType.Type,roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.Discount, roomType.Amenities));
+                    roomTypesDTO.Add(new AvailableRoomTypesDTO(roomType.RoomTypeId,roomType.Type,roomsAvailableCount, roomType.Occupancy, roomType.Amount, roomType.Discount, roomType.Amenities, roomType.Images));
                 }
                 return roomTypesDTO;
             }

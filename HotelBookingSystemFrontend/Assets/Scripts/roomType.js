@@ -41,6 +41,7 @@ var openModalForRoomTypeEdit = (roomtypeId, hotelId) =>{
 
 var editRoomTypeFromModal = () =>{
     var data = document.getElementById('editRoomTypeForm').querySelectorAll('input');
+    console.log(data);
     const attributeValues = {}
     Array.from(data).forEach(ele => {
         if(ele.value){
@@ -79,14 +80,17 @@ var editRoomTypeFromModal = () =>{
 
 
 var displayRoomTypes = (data) =>{
+    console.log(data)
     var roomTypesHtml="";
     data.forEach(roomType => {
         var finalAmount = roomType.amount - (roomType.amount * roomType.discount/100);
+        var images = roomType.images.split(',')
+        console.log(images)
         roomTypesHtml +=`
-            <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign" style="width: 33%;">
+            <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign roomCard">
         <div class="flex flex-column">                      
             <div class="w-80 h-50 mt-10 mx-auto" style="object-fit: cover;">
-                <img src="../../Assets/Images/hotelImage5.jpg" alt="Image gallery"/>
+                <img src="${images[0]}" alt="Image gallery"/>
             </div>
             <div class="p-3 text-sm text-pretty">
               <p class="uppercase fw-bolder mb-3 text-center" style="color: #FFA456;">General Info</p>

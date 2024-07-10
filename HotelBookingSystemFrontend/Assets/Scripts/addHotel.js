@@ -80,7 +80,7 @@ var validateAndAddHotel = () =>{
             addSuccessAlert("Hotel Registered Successfully!")
         }).catch( error => {
             addAlert(error.message)
-            resetFormValues('AddHotelForm');
+            resetFormValues('AddHotelForm','input, textarea');
             }
         );
     }else{

@@ -144,9 +144,9 @@ var resetFormValues = (formName, formTypes) => {
 
 var checkUserLoggedInOrNot = () =>{
     if( localStorage.getItem('isLoggedIn')){
-        if(window.location.pathname === '/Templates/login.html'){
-            return;
-        }
+        // if(window.location.pathname === '/Templates/login.html'){
+        //     return;
+        // }
         document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));
         var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
         if(document.querySelector('.bookRooms')){
@@ -256,15 +256,15 @@ var addAlert = (message) =>{
     }
     const alert = document.createElement('div')
     alert.innerHTML = `
-         <div class="modal" id="alertModal" style="border-radius:50px">
+         <div class="modal" id="alertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-red-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
+                <img class="flex mx-auto" src="https://drive.google.com/thumbnail?id=11dLFDCOt7Fp8yQYViU9DwrfIPFt-gUbb&sz=w1000" style="width:40%; height:40%;"/>
                 <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
-                <div class="modal-body text-center">
+                <div class="modal-body text-center mt-0 pt-0">
                     <p class="text-xl text-black" id="alertMessage">${message}</p>
                 </div>
                 <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
@@ -295,7 +295,7 @@ if(document.querySelector(".modalCloseBtn")){
 
 var addSuccessAlert = (message) =>{
     if(document.getElementById('successAlertModal')){
-        document.getElementById('successAlertModal').innerHTML = message;
+        document.getElementById('successAlertMessage').innerHTML = message;
         const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
         modal.show();
         return;
@@ -304,11 +304,11 @@ var addSuccessAlert = (message) =>{
     alert.innerHTML = `
          <div class="modal" id="successAlertModal">
             <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-green-400">
+                <div class="modal-content" style="border-radius:25px">
+                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
+                <img class="flex mx-auto" src="https://drive.google.com/thumbnail?id=1j8uQ-dDwD8F74xzyGEiccZk5x6sR_d53&sz=w1000" style="width:40%; height:40%;"/>
                 <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
                 <div class="modal-body text-center">
                     <p class="text-xl text-black" id="successAlertMessage">${message}</p>

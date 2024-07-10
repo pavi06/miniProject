@@ -16,13 +16,13 @@
 <body class="mb-5">
     <section>
         <div style="z-index: 5;position: absolute; top: 0px;width: 100%;height: 100%;">
-            <nav class="flex justify-between p-4">
+            <nav class="md:flex md:items-center md:justify-between p-4">
                 <div><img src="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000" style="width: 30%;"/></div>
-                <ul class=" flex justify-end">
-                    <li class="px-3 uppercase logInNavs"><a onclick="fetchBookings('All')" id="bookingsLi"><span class="uppercase">Bookings</span></a></li>
-                    <li class="px-3 uppercase logInNavs"><a onclick="GetCheckIns()" id="checkInBtn"><span class="uppercase">Get CheckIn</span></a></li>
-                    <li class="px-3 uppercase logOutNavs"><a href="../EmployeeTemplate/login.html" id="logInBtn"><span class="uppercase">LogIn</span></a></li>
-                    <li class="px-3 uppercase logInNavs"><a onclick="logout()" id="logOutBtn"><span class="uppercase">LogOut</span></a></li>
+                <ul class="md:flex md:items-center">
+                    <li class="px-3 uppercase md:my-0 logInNavs"><a onclick="fetchBookings('All')" id="bookingsLi"><span class="uppercase">Bookings</span></a></li>
+                    <li class="px-3 uppercase md:my-0 logInNavs"><a onclick="GetCheckIns()" id="checkInBtn"><span class="uppercase">Get CheckIn</span></a></li>
+                    <li class="px-3 uppercase md:my-0 logOutNavs"><a href="../EmployeeTemplate/login.html" id="logInBtn"><span class="uppercase">LogIn</span></a></li>
+                    <li class="px-3 uppercase md:my-0 logInNavs"><a onclick="logOut()" id="logOutBtn"><span class="uppercase">LogOut</span></a></li>
                 </ul>
             </nav>
             <div id="loginInfo" class="px-5 py-3 bg-white uppercase fw-bolder mx-auto align-middle" style="width:fit-content;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);color: #FFA456;"><p class="text-center">Login&nbsp; to&nbsp; see&nbsp; details</p></div>

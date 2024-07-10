@@ -17,16 +17,16 @@
     <script src="../Assets/Scripts/hotelRooms.js"></script>
 </head>
 <body>
-    <nav class="flex flex-wrap justify-between p-4 navbar navbar-expand-lg w-100">
+    <nav class="md:flex md:items-center md:justify-between p-4">
         <div><img src="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000" style="width: 20%;"/></div>
-        <ul class=" flex justify-end navbarData">
-            <li class="px-3 uppercase"><a href="../Templates/index.html">Home</a></li>
-            <li class="px-3 uppercase"><a href="../Templates/hotels.html">Hotels</a></li>
-            <li class="px-3 uppercase"><a href="#" class="active">HotelDetails</a></li>
-            <li class="px-3 uppercase logInNavs bookRooms"><a href="./UserTemplate/booking.html">BookingDetails</a></li>
-            <li class="px-3 uppercase logInNavs"><a href="./UserTemplate/myBookings.html">MyBookings</a></li>
-            <li class="px-3 uppercase logOutNavs"><a href="./login.html">SignUp/LogIn</a></li>
-            <li class="px-3 uppercase logInNavs"><a href="#" onclick="logOut()">LogOut</a></li>
+        <ul class="md:flex md:items-center navbarData">
+            <li class="px-3 uppercase md:my-0"><a href="../Templates/index.html">Home</a></li>
+            <li class="px-3 uppercase md:my-0"><a href="../Templates/hotels.html">Hotels</a></li>
+            <li class="px-3 uppercase md:my-0"><a href="#" class="active">HotelDetails</a></li>
+            <li class="px-3 uppercase md:my-0 logInNavs bookRooms"><a href="./UserTemplate/booking.html">BookingDetails</a></li>
+            <li class="px-3 uppercase md:my-0 logInNavs"><a href="./UserTemplate/myBookings.html">MyBookings</a></li>
+            <li class="px-3 uppercase md:my-0 logOutNavs"><a href="./login.html">SignUp/LogIn</a></li>
+            <li class="px-3 uppercase md:my-0 logInNavs"><a href="#" onclick="logOut()">LogOut</a></li>
         </ul>
     </nav>
     <section class="mx-auto">
@@ -96,22 +96,11 @@
             </div>
             <p class="text-center mb-3 font-bold uppercase"><span class="text-orange-400" id="roomType">&nbsp;</span>Room<span class="text-orange-400">Details</span></p>
             <div class="modal-body text-center">
-                <div class="grid h-80 w-100 grid-cols-5 grid-rows-4 gap-2">
-                    <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage1.jpg" class="images"/></div>
-                    <div class="col-span-2 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage2.jpg" class="images"/></div>
-                    <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage3.jpg" class="images"/></div>
-                    <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage4.jpg" class="images"/></div>
-                    <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelImage5.jpg" class="images"/></div>
-                    <div class="col-span-1 row-span-2 rounded-xl bg-indigo-200"><img src="../Assets/Images/hotelBg.jpg" class="images"/></div>
+                <div class="grid h-80 w-100 grid-cols-5 grid-rows-4 gap-2" id="imagesGrid">
                 </div>
                 <div class="mt-4">
                     <p class="font-bold">Facilities</p>
                     <div class="flex flex-row flex-wrap" id="facilitiesModalDiv">
-                        <div class="flex-none w-35 px-3 m-3 ring-1 ring-orange-400"><i class="bi bi-dot"></i>Free Wifi</div>
-                        <div class="flex-none w-35 px-3 m-3 ring-1 ring-orange-400"><i class="bi bi-dot"></i>Parking Facility</div>
-                        <div class="flex-none w-35 px-3 m-3 ring-1 ring-orange-400"><i class="bi bi-dot"></i>Balcony</div><br>
-                        <div class="flex-none w-35 px-3 m-3 ring-1 ring-orange-400"><i class="bi bi-dot"></i>Ac / Non-Ac</div>
-                        <div class="flex-none w-35 px-3 m-3 ring-1 ring-orange-400"><i class="bi bi-dot"></i>Television</div>
                     </div>
                 </div>
             </div>

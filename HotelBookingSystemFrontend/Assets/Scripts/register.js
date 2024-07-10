@@ -18,7 +18,6 @@ var validateAndRegister = () => {
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
-            console.log(res)
              //reset form to previous state 
              resetFormValues('registrationForm','input, textarea');
             return await res.json();

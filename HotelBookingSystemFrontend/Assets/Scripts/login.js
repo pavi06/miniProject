@@ -21,7 +21,6 @@ var validateAndLogin = () => {
                 localStorage.setItem('loggedInUser',JSON.stringify(data));
                 localStorage.setItem('isLoggedIn',true)
                 startSession();
-                addSuccessAlert('Login successfull!')
                 //check and redirect to the page most recently viwed
                 checkAndRedirectUrlAfterRegistrationOrLogin();
         }).catch( error => {

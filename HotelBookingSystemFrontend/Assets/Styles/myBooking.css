@@ -48,3 +48,15 @@
 #discount.reveal{
     visibility: visible;
 }
+
+@media (max-width:770px) {
+    .ribbon{
+        margin-top: 6%;
+    }
+}
+
+@media (max-width:690px) {
+    .ribbon{
+        margin-top: 10%;
+    }
+}

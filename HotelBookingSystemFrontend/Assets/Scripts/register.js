@@ -37,7 +37,6 @@ var validateAndRegister = () => {
         }).catch( error => {
             addAlert(error.message)
             resetFormValues('registrationForm','input, textarea');
-            window.location.href="./login.html";
             }
         );
     }

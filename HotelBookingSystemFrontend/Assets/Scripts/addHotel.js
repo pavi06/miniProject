@@ -1,47 +1,47 @@
-var checkAdminLoggedInOrNot = () =>{
-    if( localStorage.getItem('isLoggedIn')){
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));        
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
-    }
-    else{
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
-    }
-}
+// var checkAdminLoggedInOrNot = () =>{
+//     if( localStorage.getItem('isLoggedIn')){
+//         document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));        
+//         document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
+//     }
+//     else{
+//         document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+//         document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
+//     }
+// }
 
-function dropDown () {
-    document.querySelectorAll('.sub-btn').forEach(function(subBtn) {
-      subBtn.addEventListener('click', function() {
-          // Toggle visibility of next .sub-menu element
-          var subMenu = this.nextElementSibling;
-          subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+// function dropDown () {
+//     document.querySelectorAll('.sub-btn').forEach(function(subBtn) {
+//       subBtn.addEventListener('click', function() {
+//           // Toggle visibility of next .sub-menu element
+//           var subMenu = this.nextElementSibling;
+//           subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
   
-          // Toggle 'rotate' class on .dropdown element within clicked .sub-btn
-          var dropdown = this.querySelector('.dropdown');
-          dropdown.classList.toggle('rotate');
-      });
-  });
+//           // Toggle 'rotate' class on .dropdown element within clicked .sub-btn
+//           var dropdown = this.querySelector('.dropdown');
+//           dropdown.classList.toggle('rotate');
+//       });
+//   });
   
-  // Add event listener for click on .menu-btn element
-  document.querySelector('.menu-btn').addEventListener('click', function() {
-      // Add 'active' class to .side-bar element
-      var sideBar = document.querySelector('.side-bar');
-      sideBar.classList.add('active');
+//   // Add event listener for click on .menu-btn element
+//   document.querySelector('.menu-btn').addEventListener('click', function() {
+//       // Add 'active' class to .side-bar element
+//       var sideBar = document.querySelector('.side-bar');
+//       sideBar.classList.add('active');
   
-      // Hide .menu-btn by setting its visibility to 'hidden'
-      this.style.visibility = 'hidden';
-  });
+//       // Hide .menu-btn by setting its visibility to 'hidden'
+//       this.style.visibility = 'hidden';
+//   });
   
-  // Add event listener for click on .close-btn element
-  document.querySelector('.close-btn').addEventListener('click', function() {
-      // Remove 'active' class from .side-bar element
-      var sideBar = document.querySelector('.side-bar');
-      sideBar.classList.remove('active');
+//   // Add event listener for click on .close-btn element
+//   document.querySelector('.close-btn').addEventListener('click', function() {
+//       // Remove 'active' class from .side-bar element
+//       var sideBar = document.querySelector('.side-bar');
+//       sideBar.classList.remove('active');
   
-      // Show .menu-btn by setting its visibility to 'visible'
-      document.querySelector('.menu-btn').style.visibility = 'visible';
-  });
-}
+//       // Show .menu-btn by setting its visibility to 'visible'
+//       document.querySelector('.menu-btn').style.visibility = 'visible';
+//   });
+// }
 
 var validateAndAddHotel = () =>{
     if(!localStorage.getItem('isLoggedIn')){

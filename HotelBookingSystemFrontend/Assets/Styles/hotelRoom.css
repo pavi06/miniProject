@@ -7,49 +7,6 @@ section{
     font-size: 40px;
 }
 
-.images{
-    width: 100%;
-    height: 100%;
-    object-position: center;
-    object-fit: cover;
-}
-
-.blurLoad ::before{
-    content: '';
-    position: absolute;
-    inset: 0;
-    animation: pulse 2.5s infinite;
-}
-.blurLoad.loaded ::before{
-    content: none;
-}
-
-@keyframes pulse {
-    0%{
-        background-color: rgba(255,255,255,0);
-    }
-    50%{
-        background-color: rgba(255,255,255,0.1);
-    }
-    100%{
-        background-color: rgba(255,255,255,0);
-    }
-}
-
-.blurLoad{
-    background-size: cover;
-    background-position: center;
-}
-
-.blurLoad > img{
-    opacity: 0;
-    transition: opacity 200ms ease-in-out;
-}
-
-.blurLoad.loaded > img{
-    opacity: 1;
-}
-
 .star{
     font-size: 25px;
 }

@@ -80,7 +80,6 @@ var redirectToRooms = (id) => {
 
 // displayHotelstemplate
 var displayHotelsRetrieved = (data, boolValue) => {
-    console.log(data)
     if(data.length === 0 && document.getElementById('hotelsDisplay').childNodes.length === 0){
         if( document.getElementById('loadBtn')){
             document.getElementById('loadBtn').classList.add('hide');
@@ -149,7 +148,6 @@ var fetchHotelsByRatings = () => {
 
 //-------------Recommandation------------------
 var displayRecommandation = (data) => {
-    console.log(data)
     const recommModal = new bootstrap.Modal(document.getElementById('recommandationModal'));
     var recommHtml = data.map((recomm) =>`
         <div class="flex flex-row justify-between m-4" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
@@ -187,7 +185,7 @@ var getRecommandation  = () =>{
                 }
                 displayRecommandation(data);
         }).catch(error => {
-            addAlert(error);
+            addAlert(error.message);
         });
     }else{
         addAlert("SignUp/Login to get recommandations for you!");
@@ -216,7 +214,6 @@ var getPaginatedDataWithoutBody = (url) =>{
 
 var getPaginatedDataWithBody = (url,bodyData) =>{
     const skip =  (page - 1) * itemsperpage;
-    console.log(bodyData)
     fetch(`${url}?limit=${itemsperpage}&skip=${skip}`, {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
@@ -228,10 +225,8 @@ var getPaginatedDataWithBody = (url,bodyData) =>{
             }
             return await res.json();
     }).then(data => {
-        console.log(data)
         displayHotelsRetrieved(data, true);
     }).catch(error => {
-        console.log(error);
         addAlert(error.message);
     });
 
@@ -243,7 +238,6 @@ var loadMoreDataForWithoutBody = () =>{
 }
 
 var loadMoreDataForWithBody = () =>{
-    console.log("--inside--")
     page++;
     getPaginatedDataWithBody(currentUrl,bodyData);
 }

@@ -1,4 +1,6 @@
-var validateAndLogin = () => {
+// import { validateEmail, validatePassword, resetFormValues, checkAndRedirectUrlAfterRegistrationOrLogin, addAlert } from "./common.js";
+
+function validateAndLogin(){
     var userData = {
         email: document.getElementById('email').value,
         password: document.getElementById('password').value

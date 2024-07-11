@@ -64,6 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
        });
 });
 
+
+// ------------display hotel details----------------
 var displayBasicHotelDetails = (data, imagesData) =>{
     var imagesList = imagesData[0].images.split(',')
     var starRatingHtml = ""; 
@@ -239,6 +241,8 @@ var addToBookingCart = (roomType) =>{
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
     console.log(localStorage.getItem('cartItems'))
 }
+// -----------------------------------------------------
+
 
 var validateAndGet = () =>{
     var checkIn = new Date(document.getElementById('checkInDate').value); 
@@ -271,14 +275,14 @@ var validateAndGet = () =>{
 
 
 var openRoomTypeModalForDetails = (images, facilities) =>{
- var imageList = images.split(',')
+ var imageList = images.split(',').slice(0, 4);
  var facilitiesList = facilities.split(',')
  const addRoomDetailsModal = new bootstrap.Modal(document.getElementById('roomTypeDetailsModal'));
  var imageDiv = document.getElementById('imagesGrid');
  var html="";
  imageList.forEach(image =>{
     html+=`
-        <div class="col-span-2 row-span-4 rounded-xl bg-indigo-200"><img src="${image}" class="images"/></div>
+        <div class="col-span-2 rounded-xl bg-indigo-200 w-120 h-30"><img src="${image}" class="images"/></div>
     `;
  })
  imageDiv.innerHTML=html;
@@ -292,7 +296,6 @@ var openRoomTypeModalForDetails = (images, facilities) =>{
  facilitiesDiv.innerHTML=facilitiesHtml;
  addRoomDetailsModal.show();
 }
-
 
 
 //-------------------image load--------

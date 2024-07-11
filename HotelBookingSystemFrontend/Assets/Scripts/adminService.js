@@ -1,127 +1,3 @@
-var functionAddValidEffects = (element) => {
-    var name = element.name;
-    element.classList.remove("is-invalid");
-    element.classList.add("is-valid");
-    document.getElementById(`${name}Valid`).innerHTML="valid input!";
-    document.getElementById(`${name}Invalid`).innerHTML="";
-    return true;
-}
-
-var functionAddInValidEffects = (element) => {
-    var name = element.name;
-    element.classList.remove("is-valid");
-    element.classList.add("is-invalid");
-    document.getElementById(`${name}Valid`).innerHTML="";
-    document.getElementById(`${name}Invalid`).innerHTML=`Please provide the valid ${name}!`;
-    return true;
-}
-
-// validation
-// [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}
-function validateEmail(){
-    var element = document.getElementById('email');
-    if(element.value){
-        return functionAddValidEffects(element, 'email');
-    }
-    else{
-        return functionAddInValidEffects(element, 'email');
-    }
-}
-var validatePassword = () => {
-    var regexExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$&*_])(?=.*[0-9]).{6,}$/;
-    var element = document.getElementById('password');
-    if(element.value && element.value.match(regexExpression)){
-        return functionAddValidEffects(element);
-    }
-    else{
-        return functionAddInValidEffects(element);
-    }
-}
-
-var validateAddress=(id)=>{
-    var element = document.getElementById(id);
-    var addressRegex = /^[a-zA-Z0-9\s,'-]*$/;
-    if(element.value && element.value.match(addressRegex)){
-        return functionAddValidEffects(element);
-    }
-    else{
-        return functionAddInValidEffects(element);
-    }
-}
-
-var validate = (id) =>{
-    var element = document.getElementById(id);
-    var regString = /[a-zA-Z]/g
-    if(element.value && element.value.match(regString)){
-        return functionAddValidEffects(element);
-    }
-    else{
-        return functionAddInValidEffects(element);
-    }
-}
-
-var validateDate = () =>{
-    var dateElement = document.getElementById('checkInDate');
-    console.log(dateElement)
-    var today = new Date();
-    let formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
-    console.log(formattedDate)
-    if(dateElement.value && Date.parse(dateElement.value) >= Date.parse(formattedDate)) {
-        functionAddValidEffects(dateElement);
-        return true;
-    } else {
-        functionAddInValidEffects(dateElement);
-        return false;
-    }
-}
-
-var validateNumber = (id) =>{
-    var data = document.getElementById(`${id}`);
-    var reg = /^\d+$/;
-    if(data.value.match(reg)){
-        return functionAddValidEffects(data);
-    }
-    else{
-        return functionAddInValidEffects(data);
-    }
-}
-
-var validateDecimalNumber = (id) =>{
-    var data = document.getElementById(`${id}`);
-    var pattern = /^[+]?\d+(\.\d*)?$/;
-    if(data.value.match(pattern)){
-        return functionAddValidEffects(data);
-    }
-    else{
-        return functionAddInValidEffects(data);
-    }
-}
-
-var validateLocation = () =>{
-    var locationElement = document.getElementById('location');
-    console.log(locationElement)
-    var reg=/^[a-zA-Z]+$/;
-    if(locationElement.value && locationElement.value.match(reg)){
-        functionAddValidEffects(locationElement);
-        return true;
-    }
-    else{
-        functionAddInValidEffects(locationElement);
-        return false;
-    }
-}
-
-function validatePhone(){
-    var element = document.registrationForm.phoneNumber;
-    var regPhone =  /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
-    if(element.value && element.value.match(regPhone)){
-        return functionAddValidEffects(element);
-    }
-    else{
-        return functionAddInValidEffects(element);
-    }
-}
-
 function loadHotels (){
     fetch('http://localhost:5058/api/AdminHotel/GetAllHotelsWithoutLimit', {
         method: 'GET',
@@ -202,11 +78,18 @@ function openModalForEdit(id){
 function updateHotel(){
     var data = document.getElementById('updateHotelForm').querySelectorAll('input , textarea');
     var attributeValuesPairs = {};
+    var count=0;
     Array.from(data).forEach(ele => {
         if(ele.value){
             attributeValuesPairs[ele.name] = ele.value;
+        }else{
+            count+=1;
         }
     });
+    if(count === data.length){
+        addAlert("Please provide data for update!");
+        return;
+    }
     var updatedHotel = {
         hotelId : localStorage.getItem('currentHotel'),
         attributeValuesPair : attributeValuesPairs
@@ -299,11 +182,15 @@ function openModalForAdd(id){
     const addRoomModal = new bootstrap.Modal(document.getElementById('addRoomModal'));
     addRoomModal.show();
     document.getElementById('addRoomModal').addEventListener('hidden.bs.modal', function (e) {
-        resetFormValues('AddRoomForm');
+        resetFormValues('AddRoomForm','input');
     });
 }
 
 function AddRoom(){
+    if(!(document.getElementById('roomTypesSelect').value && document.getElementById('roomImages').value)){
+        addAlert("Please provide data to add room!");
+        return;
+    }
     var roomData = {
         hotelId : localStorage.getItem('currentHotel'),
         typeId : document.getElementById('roomTypesSelect').value,
@@ -404,128 +291,6 @@ var addCityDatalist = (data) =>{
     dataList.innerHTML += uniqueCities.map(city => `<option value="${city}">`).join('');
 }
 
-var checkAdminLoggedInOrNot = () =>{
-    if( localStorage.getItem('isLoggedIn')){
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));        
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
-    }
-    else{
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
-    }
-}
-  
-  var addAlert = (message) =>{
-    if(document.getElementById('alertModal')){
-        document.getElementById('alertMessage').innerHTML = message;
-        const modal = new bootstrap.Modal(document.getElementById('alertModal'));
-        modal.show();
-        return;
-    }
-    const alert = document.createElement('div')
-    alert.innerHTML = `
-         <div class="modal" id="alertModal">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius:25px">
-                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
-                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
-                <div class="modal-body text-center">
-                    <p class="text-xl text-black" id="alertMessage">${message}</p>
-                </div>
-                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentElement('beforeend', alert);
-    const modal = new bootstrap.Modal(document.getElementById('alertModal'));
-    modal.show();
-    if(document.getElementById('loadBtn')){
-        document.getElementById('loadBtn').classList.add('hide');
-    }
-  }
-  
-var addSuccessAlert = (message) =>{
-    if(document.getElementById('successAlertModal')){
-        document.getElementById('successAlertModal').innerHTML = message;
-        const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
-        modal.show();
-        return;
-    }
-    const alert = document.createElement('div')
-    alert.innerHTML = `
-         <div class="modal" id="successAlertModal">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius:25px">
-                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
-                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
-                <div class="modal-body text-center">
-                    <p class="text-xl text-black" id="successAlertMessage">${message}</p>
-                </div>
-                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-green-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentElement('beforeend', alert);
-    const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
-    modal.show();
-    if(message.includes('No hotels are available!') || message === "No more hotels available!"){
-        if( document.getElementById('loadBtn')){
-            document.getElementById('loadBtn').classList.add('hide');
-        }
-        if(document.getElementById('loadBtnWithBody')){
-            document.getElementById('loadBtnWithBody').classList.add('hide');
-        }
-    }
-}
 
-function dropDown () {
-    document.querySelectorAll('.sub-btn').forEach(function(subBtn) {
-      subBtn.addEventListener('click', function() {
-          // Toggle visibility of next .sub-menu element
-          var subMenu = this.nextElementSibling;
-          subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
-  
-          // Toggle 'rotate' class on .dropdown element within clicked .sub-btn
-          var dropdown = this.querySelector('.dropdown');
-          dropdown.classList.toggle('rotate');
-      });
-  });
-  
-  document.querySelector('.menu-btn').addEventListener('click', function() {
-      var sideBar = document.querySelector('.side-bar');
-      sideBar.classList.add('active');
-      this.style.visibility = 'hidden';
-  });
-  
-  document.querySelector('.close-btn').addEventListener('click', function() {
-      var sideBar = document.querySelector('.side-bar');
-      sideBar.classList.remove('active');
-      document.querySelector('.menu-btn').style.visibility = 'visible';
-  });
-}
 
-var logOut = () =>{
-    localStorage.clear();
-    document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
-    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-    window.location.href="../login.html";
-}
 
-var resetFormValues = (formName, formTypes) => {
-    document.getElementById(formName).reset();
-    const formInputs = document.getElementById(formName).querySelectorAll(formTypes);
-    formInputs.forEach(input => {
-    //removing the classlist added and empty small element
-    input.classList.remove('is-valid', 'is-invalid');
-    document.getElementById(`${input.name}Valid`).innerHTML="";
-    document.getElementById(`${input.name}Invalid`).innerHTML="";
-    });
-}

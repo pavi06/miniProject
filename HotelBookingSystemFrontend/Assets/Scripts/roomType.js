@@ -28,7 +28,6 @@ var addRoomTypes = (itemName) =>{
     });
 }
 
-
 var openModalForRoomTypeEdit = (roomtypeId, hotelId) =>{
     localStorage.setItem('currentRoomType', roomtypeId);
     localStorage.setItem('currentHotel', hotelId);
@@ -41,13 +40,20 @@ var openModalForRoomTypeEdit = (roomtypeId, hotelId) =>{
 
 var editRoomTypeFromModal = () =>{
     var data = document.getElementById('editRoomTypeForm').querySelectorAll('input');
-    console.log(data);
     const attributeValues = {}
+    var count=0;
     Array.from(data).forEach(ele => {
         if(ele.value){
             attributeValues[ele.name] = ele.value;
         }
+        else{
+            count+=1
+        }
     });
+    if(count === data.length){
+        addAlert("Provide some value to update!")
+        return;
+    }
     const bodyValue = {
         hotelId : localStorage.getItem('currentHotel'),
         roomTypeId : localStorage.getItem('currentRoomType'),
@@ -80,18 +86,14 @@ var editRoomTypeFromModal = () =>{
 
 
 var displayRoomTypes = (data) =>{
-    console.log(data)
     var roomTypesHtml="";
     data.forEach(roomType => {
         var finalAmount = roomType.amount - (roomType.amount * roomType.discount/100);
         var images = roomType.images.split(',')
-        console.log(images)
         roomTypesHtml +=`
             <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign roomCard">
-        <div class="flex flex-column">                      
-            <div class="w-80 h-50 mt-10 mx-auto" style="object-fit: cover;">
-                <img src="${images[0]}" alt="Image gallery"/>
-            </div>
+        <div class="flex flex-column">   
+            <div class="w-60 h-30 mt-10 mx-auto" style="object-fit:cover;"><img src="${images[0]}" class="images" loading="lazy"/></div>                   
             <div class="p-3 text-sm text-pretty">
               <p class="uppercase fw-bolder mb-3 text-center" style="color: #FFA456;">General Info</p>
               <div class="grid grid-cols-2 py-1">

@@ -179,7 +179,6 @@ var addRoomTypes = (itemName) =>{
     })
     .then(data => {
         var roomTypesHtml ="";
-        console.log(data.roomTypes)
         for (let key in data.roomTypes) {
             if (data.roomTypes.hasOwnProperty(key)) {
               roomTypesHtml+=`
@@ -220,110 +219,110 @@ var refundPopup = (id) =>{
    });
 }
 
-var addSuccessAlert = (message) =>{
-    if(document.getElementById('successAlertModal')){
-        document.getElementById('successAlertModal').innerHTML = message;
-        const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
-        modal.show();
-        return;
-    }
-    const alert = document.createElement('div')
-    alert.innerHTML = `
-         <div class="modal" id="successAlertModal">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius:25px">
-                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
-                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
-                <div class="modal-body text-center">
-                    <p class="text-xl text-black" id="successAlertMessage">${message}</p>
-                </div>
-                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-green-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentElement('beforeend', alert);
-    const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
-    modal.show();
-    if(message.includes('No hotels are available!') || message === "No more hotels available!"){
-        if( document.getElementById('loadBtn')){
-            document.getElementById('loadBtn').classList.add('hide');
-        }
-        if(document.getElementById('loadBtnWithBody')){
-            document.getElementById('loadBtnWithBody').classList.add('hide');
-        }
-    }
-}
+// var addSuccessAlert = (message) =>{
+//     if(document.getElementById('successAlertModal')){
+//         document.getElementById('successAlertModal').innerHTML = message;
+//         const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
+//         modal.show();
+//         return;
+//     }
+//     const alert = document.createElement('div')
+//     alert.innerHTML = `
+//          <div class="modal" id="successAlertModal">
+//             <div class="modal-dialog">
+//                 <div class="modal-content" style="border-radius:25px">
+//                 <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
+//                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//                 </div>
+//                 <img class="flex mx-auto" src="../../Assets/Images/success.png" style="width:40%; height:40%;"/>
+//                 <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
+//                 <div class="modal-body text-center">
+//                     <p class="text-xl text-black" id="successAlertMessage">${message}</p>
+//                 </div>
+//                 <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-green-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+//     document.body.insertAdjacentElement('beforeend', alert);
+//     const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
+//     modal.show();
+//     if(message.includes('No hotels are available!') || message === "No more hotels available!"){
+//         if( document.getElementById('loadBtn')){
+//             document.getElementById('loadBtn').classList.add('hide');
+//         }
+//         if(document.getElementById('loadBtnWithBody')){
+//             document.getElementById('loadBtnWithBody').classList.add('hide');
+//         }
+//     }
+// }
 
-var addAlert = (message) =>{
-    if(document.getElementById('alertModal')){
-        document.getElementById('alertMessage').innerHTML = message;
-        const modal = new bootstrap.Modal(document.getElementById('alertModal'));
-        modal.show();
-        return;
-    }
-    const alert = document.createElement('div')
-    alert.innerHTML = `
-         <div class="modal" id="alertModal">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius:25px">
-                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
-                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
-                <div class="modal-body text-center">
-                    <p class="text-xl text-black" id="alertMessage">${message}</p>
-                </div>
-                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentElement('beforeend', alert);
-    const modal = new bootstrap.Modal(document.getElementById('alertModal'));
-    modal.show();
-    if(message === '404 Error! - No hotels are available!' || message === "No more hotels available!"){
-        if( document.getElementById('loadBtn')){
-            document.getElementById('loadBtn').classList.add('hide');
-        }
-        if(document.getElementById('loadBtnWithBody')){
-            document.getElementById('loadBtnWithBody').classList.add('hide');
-        }
-    }
-}
+// var addAlert = (message) =>{
+//     if(document.getElementById('alertModal')){
+//         document.getElementById('alertMessage').innerHTML = message;
+//         const modal = new bootstrap.Modal(document.getElementById('alertModal'));
+//         modal.show();
+//         return;
+//     }
+//     const alert = document.createElement('div')
+//     alert.innerHTML = `
+//          <div class="modal" id="alertModal">
+//             <div class="modal-dialog">
+//                 <div class="modal-content" style="border-radius:25px">
+//                 <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
+//                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//                 </div>
+//                 <img class="flex mx-auto" src="../../Assets/Images/error.png" style="width:40%; height:40%;"/>
+//                 <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
+//                 <div class="modal-body text-center">
+//                     <p class="text-xl text-black" id="alertMessage">${message}</p>
+//                 </div>
+//                 <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+//     document.body.insertAdjacentElement('beforeend', alert);
+//     const modal = new bootstrap.Modal(document.getElementById('alertModal'));
+//     modal.show();
+//     if(message === '404 Error! - No hotels are available!' || message === "No more hotels available!"){
+//         if( document.getElementById('loadBtn')){
+//             document.getElementById('loadBtn').classList.add('hide');
+//         }
+//         if(document.getElementById('loadBtnWithBody')){
+//             document.getElementById('loadBtnWithBody').classList.add('hide');
+//         }
+//     }
+// }
 
-var checkUserLoggedInOrNot = () =>{
-    if( localStorage.getItem('isLoggedIn')){
-        if(window.location.pathname === '/Templates/login.html'){
-            return;
-        }
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));
-        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        if(document.querySelector('.bookRooms')){
-            if(cartItems.length === 0){
-                document.querySelector('.bookRooms').classList.add('hide');
-            }else{
-                document.querySelector('.bookRooms').classList.add('show');
-            }
-        }
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
-    }
-    else{
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
-    }
-}
+// var checkUserLoggedInOrNot = () =>{
+//     if( localStorage.getItem('isLoggedIn')){
+//         if(window.location.pathname === '/Templates/login.html'){
+//             return;
+//         }
+//         document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('showNav'));
+//         var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+//         if(document.querySelector('.bookRooms')){
+//             if(cartItems.length === 0){
+//                 document.querySelector('.bookRooms').classList.add('hide');
+//             }else{
+//                 document.querySelector('.bookRooms').classList.add('show');
+//             }
+//         }
+//         document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
+//     }
+//     else{
+//         document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+//         document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('showNav')); 
+//     }
+// }
 
-var logOut = () => {
-    localStorage.clear();
-    if(window.location.pathname === '/Templates/UserTemplate/myBookings.html' || '/Templates/UserTemplate/booking.html'){
-        window.location.href = '/Templates/hotels.html';
-    }
-    document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
-    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
+// var logOut = () => {
+//     localStorage.clear();
+//     if(window.location.pathname === '/Templates/UserTemplate/myBookings.html' || '/Templates/UserTemplate/booking.html'){
+//         window.location.href = '/Templates/hotels.html';
+//     }
+//     document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
+//     document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
 
-};
+// };

@@ -1,10 +1,3 @@
-var logOut = () =>{
-    localStorage.clear();
-    document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show'));
-    document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-    window.location.href="../login.html";
-}
-
 var displayUser = (data) => {
     var usersHtml = "";
     data.forEach(user => {
@@ -90,117 +83,11 @@ var fetchUsersForActivation = () =>{
     .catch(error => {
         addAlert(error.message)
     });
-}
-
-function dropDown () {
-    document.querySelectorAll('.sub-btn').forEach(function(subBtn) {
-      subBtn.addEventListener('click', function() {
-          // Toggle visibility of next .sub-menu element
-          var subMenu = this.nextElementSibling;
-          subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
-  
-          // Toggle 'rotate' class on .dropdown element within clicked .sub-btn
-          var dropdown = this.querySelector('.dropdown');
-          dropdown.classList.toggle('rotate');
-      });
-  });
-  
-  // Add event listener for click on .menu-btn element
-  document.querySelector('.menu-btn').addEventListener('click', function() {
-      // Add 'active' class to .side-bar element
-      var sideBar = document.querySelector('.side-bar');
-      sideBar.classList.add('active');
-  
-      // Hide .menu-btn by setting its visibility to 'hidden'
-      this.style.visibility = 'hidden';
-  });
-  
-  // Add event listener for click on .close-btn element
-  document.querySelector('.close-btn').addEventListener('click', function() {
-      // Remove 'active' class from .side-bar element
-      var sideBar = document.querySelector('.side-bar');
-      sideBar.classList.remove('active');
-  
-      // Show .menu-btn by setting its visibility to 'visible'
-      document.querySelector('.menu-btn').style.visibility = 'visible';
-  });
-  }
-
-  var checkAdminLoggedInOrNot = () =>{
-    if( localStorage.getItem('isLoggedIn')){
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('show'));        
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('hide'));
-    }
-    else{
-        document.querySelectorAll('.logInNavs').forEach(nav => nav.classList.add('hide'));
-        document.querySelectorAll('.logOutNavs').forEach(nav => nav.classList.add('show')); 
-    }
-  }
-  
+}  
 
 document.addEventListener('DOMContentLoaded', function(){
     checkAdminLoggedInOrNot();
     dropDown();
     fetchUsersForActivation();
 })
-
-var addSuccessAlert = (message) =>{
-    if(document.getElementById('successAlertModal')){
-        document.getElementById('successAlertMessage').innerHTML = message;
-        const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
-        modal.show();
-        return;
-    }
-    const alert = document.createElement('div')
-    alert.innerHTML = `
-         <div class="modal" id="successAlertModal">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius:25px">
-                <div class="modal-header bg-green-400" style="border-bottom:none;height:15px;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <img class="flex mx-auto" src="https://drive.google.com/thumbnail?id=1j8uQ-dDwD8F74xzyGEiccZk5x6sR_d53&sz=w1000" style="width:40%; height:40%;"/>
-                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:green;">SUCCESS</h5>
-                <div class="modal-body text-center">
-                    <p class="text-xl text-black" id="successAlertMessage">${message}</p>
-                </div>
-                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-green-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentElement('beforeend', alert);
-    const modal = new bootstrap.Modal(document.getElementById('successAlertModal'));
-    modal.show();
-}
-
-var addAlert = (message) =>{
-    if(document.getElementById('alertModal')){
-        document.getElementById('alertMessage').innerHTML = message;
-        const modal = new bootstrap.Modal(document.getElementById('alertModal'));
-        modal.show();
-        return;
-    }
-    const alert = document.createElement('div')
-    alert.innerHTML = `
-         <div class="modal" id="alertModal" style="border-radius:50px">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius:25px">
-                <div class="modal-header bg-red-400" style="border-bottom:none;height:15px;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <img class="flex mx-auto" src="https://drive.google.com/thumbnail?id=11dLFDCOt7Fp8yQYViU9DwrfIPFt-gUbb&sz=w1000" style="width:40%; height:40%;"/>
-                <h5 class="text-2xl mt-0" style="font-weight:bolder;text-transform:uppercase;text-align:center;color:red;">Oops!</h5>
-                <div class="modal-body text-center">
-                    <p class="text-xl text-black" id="alertMessage">${message}</p>
-                </div>
-                <button type="button" class="btn uppercase w-25 text-center mx-auto my-3 bg-red-400  fw-bolder alertBtn" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentElement('beforeend', alert);
-    const modal = new bootstrap.Modal(document.getElementById('alertModal'));
-    modal.show();
-}
 

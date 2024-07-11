@@ -63,6 +63,7 @@ nav li a:hover{
 
 .image{
   transform: scaleX(-1);
+  width: 40vw;
 }
 
 p{
@@ -124,6 +125,11 @@ p{
 .buttonStyle span{
   position: relative;
   /* z-index: 1; */
+}
+.whyUs{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .nextBtn:hover{
@@ -474,7 +480,7 @@ input[type="password"]:focus + .hint{
 }
 
 .roomCard{
-  width: 35%;
+  width: 30%;
 }
 
 
@@ -510,4 +516,97 @@ input[type="password"]:focus + .hint{
   img{
     width: 80%;
   }
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  opacity: 0.7;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader::after {
+  content: "";
+  width: 75px;
+  height: 75px;
+  border: 15px solid #dddddd;
+  border-top-color: #f58626;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.images{
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+
+.blurLoad ::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  animation: pulse 2.5s infinite;
+}
+.blurLoad.loaded ::before{
+  content: none;
+}
+
+@keyframes pulse {
+  0%{
+      background-color: rgba(255,255,255,0);
+  }
+  50%{
+      background-color: rgba(255,255,255,0.1);
+  }
+  100%{
+      background-color: rgba(255,255,255,0);
+  }
+}
+
+.blurLoad{
+  background-size: cover;
+  background-position: center;
+}
+
+.blurLoad > img{
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.blurLoad.loaded > img{
+  opacity: 1;
+}
+
+@media (max-width:650px){
+  .whyUs{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .image{
+    width: 50vw;
+  }
+  
 }

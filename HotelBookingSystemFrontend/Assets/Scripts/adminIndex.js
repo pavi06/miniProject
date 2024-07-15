@@ -1,6 +1,13 @@
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', async function(){
     checkAdminLoggedInOrNot();
     dropDown();
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/AdminHotel/GetAppDetails', {
         method: 'GET',
         headers:{
@@ -36,5 +43,8 @@ document.addEventListener('DOMContentLoaded', function(){
     })
     .catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 })

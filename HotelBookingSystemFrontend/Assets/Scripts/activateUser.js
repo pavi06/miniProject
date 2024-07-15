@@ -1,4 +1,10 @@
 var displayUser = (data) => {
+    if(data.length === 0){
+        document.getElementById('displayUsers').innerHTML = `
+          <div class="px-3 py-5 mb-10 m-auto text-2xl uppercase text-center" style="width:50%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No Users for activation!</b></div>
+        `;
+        return ;
+    }
     var usersHtml = "";
     data.forEach(user => {
         usersHtml+=`
@@ -34,7 +40,14 @@ var displayUser = (data) => {
     document.getElementById('displayUsers').innerHTML = usersHtml;
 }
 
-var updateUserStatus = (guestId, status) => {
+var updateUserStatus = async (guestId, status) => {
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/AdminBasic/UpdateUserStatus',{
         method:'PUT',
         headers:{
@@ -62,10 +75,20 @@ var updateUserStatus = (guestId, status) => {
     })
     .catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 
-var fetchUsersForActivation = () =>{
+var fetchUsersForActivation = async () =>{
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/AdminBasic/GetAllUsersForActivaion',{
         method:'GET',
         headers:{
@@ -88,6 +111,9 @@ var fetchUsersForActivation = () =>{
     })
     .catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }  
 

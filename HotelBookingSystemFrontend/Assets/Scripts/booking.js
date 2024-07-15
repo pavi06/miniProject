@@ -1,44 +1,44 @@
 var hotelDetail = {};
 var totalAmount = 0;
-var advancePayment=0;
+var advancePayment = 0;
 
-document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener('DOMContentLoaded', function () {
     checkUserLoggedInOrNot();
     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    if(cartItems.length>0){
-        fetch('http://localhost:5058/api/AdminHotel/GetHotel',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
+    if (cartItems.length > 0) {
+        fetch('http://localhost:5058/api/AdminHotel/GetHotel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
-            body:JSON.stringify(localStorage.getItem('currentHotel'))
+            body: JSON.stringify(localStorage.getItem('currentHotel'))
         })
-        .then(async(res) => {
-            if (!res.ok) {
-                if (res.status === 401) {
-                    throw new Error('Unauthorized Access!');
+            .then(async (res) => {
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        throw new Error('Unauthorized Access!');
+                    }
+                    const errorResponse = await res.json();
+                    throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
                 }
-                const errorResponse = await res.json();
-                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
-            }
-            return await res.json();
-        }).then(data => {
-            displayHotelDetail(data);
-        }).catch(error => {
-            addAlert(error.message)
-       });
+                return await res.json();
+            }).then(data => {
+                displayHotelDetail(data);
+            }).catch(error => {
+                addAlert(error.message)
+            });
         displayCartItems();
-    }else{
+    } else {
         document.getElementById('bookRooms').innerHTML = "<div class=' flex justify-center align-middle text-center text-xl fw-bolder p-3 mx-auto' style='width:50%'>No Rooms where added yet!</div>";
         document.getElementById("clearBtn").disabled = true;
         document.getElementById("proceedBtn").disabled = true;
     }
-}); 
+});
 
 var displayHotelDetail = (data) => {
     hotelDetail["name"] = data.name;
     hotelDetail["address"] = data.address;
-    document.getElementById('hotelDetail').innerHTML=`
+    document.getElementById('hotelDetail').innerHTML = `
         <div class="px-3">
             <p class="font-bold text-orange-400 align-middle text-2xl"><a href="#">${data.name}</a></p>
             <p class="leading-6"> ${data.address} </p>
@@ -46,58 +46,68 @@ var displayHotelDetail = (data) => {
     `;
 }
 
-var displayDetailsForModal = () =>{
-    updateModalWithData();   
+async function displayDetailsForModal() {
+    await updateModalWithData();
 }
 
-function updateModalWithData (){
+async function updateModalWithData() {
     var rooms = JSON.parse(localStorage.getItem('cartItems')) || [];
     var roomsNeeded = [];
-    rooms.forEach(room => 
+    rooms.forEach(room =>
         roomsNeeded.push({
-            roomType : room.roomType,
-            roomsNeeded : room.quantity
+            roomType: room.roomType,
+            roomsNeeded: room.quantity
         })
     )
-    fetch('http://localhost:5058/api/GuestBooking/BookRooms',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json',
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
+    fetch('http://localhost:5058/api/GuestBooking/BookRooms', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`
         },
-        body:JSON.stringify(roomsNeeded)
+        body: JSON.stringify(roomsNeeded)
     })
-    .then(async(res) => {
-        if (!res.ok) {
-            if (res.status === 401) {
-                throw new Error('Unauthorized Access!');
+        .then(async (res) => {
+            if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
+                const errorResponse = await res.json();
+                console.log("Here")
+                throw new Error(`${errorResponse.message}`);
             }
-            const errorResponse = await res.json();
-            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
-        }
-        return await res.json();
-    }).then(data => {       
-       displayModalWithData(data);
-    }).catch(error => {
-        addAlert(error.message)
-   });
+            return await res.json();
+        }).then(data => {
+            displayModalWithData(data);
+        }).catch(error => {
+            addAlert(error.message)
+            if(error.message === "Unauthorized Access!"){
+                logOut();
+            }
+        });
 }
 
 function showModal() {
-    const modal = document.getElementById('bookingDetailsModal');
-    modal.style.display = 'block';
-    modal.classList.add('show');
+    const modal = new bootstrap.Modal(document.getElementById('bookingDetailsModal'));
+    modal.show();
 }
 
-var displayCartItems = () =>{
+var displayCartItems = () => {
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    if(cartItems.length === 0 ){
+    if (cartItems.length === 0) {
         document.getElementById('bookRooms').innerHTML = "<div class='text-center text-xl fw-bolder mx-auto uppercase  p-3 flex justify-center align-middle' style='width:50%;'>No Rooms where added yet!</div>";
         document.getElementById("proceedBtn").disabled = true;
         document.getElementById("clearBtn").disabled = true;
         return;
     }
-    var cartHtml="";
+    var cartHtml = "";
     cartItems.forEach(item => {
         cartHtml += `
             <div class="flex py-3 items-center text-center shadow-md mx-auto justify-center room">
@@ -116,20 +126,20 @@ var displayCartItems = () =>{
                 </div>
             </div>
         `;
-    }); 
+    });
     document.getElementById('cartItemsDiv').innerHTML = cartHtml;
 }
 
 var removeFromCart = (id) => {
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     cartItems = cartItems.filter(item => item.roomTypeId !== id);
-    if(cartItems.length>0){
+    if (cartItems.length > 0) {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         displayCartItems();
         return;
     }
     localStorage.removeItem('cartItems');
-    window.location.href='../hotels.html';
+    window.history.back(); //go to previous page
 }
 
 var changeQuantity = (id, increValue) => {
@@ -140,9 +150,9 @@ var changeQuantity = (id, increValue) => {
         if (itemToUpdate.quantity <= 0) {
             removeFromCart(id);
         } else {
-            if(itemToUpdate.quantity > itemToUpdate.noOfRoomsAvailable){
+            if (itemToUpdate.quantity > itemToUpdate.noOfRoomsAvailable) {
                 addAlert("Oops! No more rooms available!");
-            }else{
+            } else {
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
                 displayCartItems();
             }
@@ -150,62 +160,69 @@ var changeQuantity = (id, increValue) => {
     }
 }
 
-var clearBookingCart = () =>{
+var clearBookingCart = () => {
     localStorage.removeItem('cartItems');
     displayCartItems();
 }
 
-var payAndBookRoom = () => {
+async function payAndBookRoom(){
     var payment = document.paymentForm.payment.value;
-    if(payment === ''){
+    if (payment === '') {
         addAlert("Choose the payment amount");
         document.getElementById("proceedBtn").disabled = true;
-        return ;
+        return;
     }
     document.getElementById("proceedBtn").disabled = false;
-    var paymentAmount=0.0;
-    if(payment === 'halfPayment'){
-        paymentAmount = advancePayment; 
-    }else{
+    var paymentAmount = 0.0;
+    if (payment === 'halfPayment') {
+        paymentAmount = advancePayment;
+    } else {
         paymentAmount = totalAmount;
     }
-    fetch('http://localhost:5058/api/GuestBooking/MakePaymentAndConfirmBooking',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json',
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
+    fetch('http://localhost:5058/api/GuestBooking/MakePaymentAndConfirmBooking', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`
         },
-        body:JSON.stringify(paymentAmount)
+        body: JSON.stringify(paymentAmount)
     })
-    .then(async(res) => {
-        if (!res.ok) {
-            if (res.status === 401) {
-                throw new Error('Unauthorized Access!');
+        .then(async (res) => {
+            if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
+                const errorResponse = await res.json();
+                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
-            const errorResponse = await res.json();
-            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
-        }
-        return await res.json();
-    }).then(data => {
-        addSuccessAlert("Payment done successfully and booking confirmed!")
-        localStorage.removeItem('cartItems');
-        window.location.href="./myBookings.html";
-    }).catch(error => {
-        addAlert(error.message)
-   });
+            return await res.json();
+        }).then(data => {
+            setTimeout(addSuccessAlert("Payment done successfully and booking confirmed!"), 3000);
+            localStorage.removeItem('cartItems');
+            setTimeout(window.location.href = "./myBookings.html", 5000);
+        }).catch(error => {
+            addAlert(error.message)
+        });
 }
 
 
-var displayModalWithData = (data)=>{
+var displayModalWithData = (data) => {
     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    if(cartItems.length === 0){
+    if (cartItems.length === 0) {
         document.getElementById('modalData').innerHTML = "<div>No room is selected for booking!</div>";
         document.getElementById("proceedPaymentAndBookBtn").disabled = true;
     }
     var roomsHtml = "";
     cartItems.forEach(item => {
-        var amount = item.amount - item.amount*item.discount/100;
-        totalAmount+=item.quantity*item.amount;
+        var amount = item.amount - item.amount * item.discount / 100;
+        totalAmount += item.quantity * item.amount;
         roomsHtml += `
             <tr>
                 <td>${item.roomType}</td>
@@ -214,7 +231,7 @@ var displayModalWithData = (data)=>{
             </tr>
         `;
     });
-    roomsHtml+=`
+    roomsHtml += `
         <tr>
             <td colspan = "2">Total Amount : </td>
             <td>${data.totalAmount}</td>

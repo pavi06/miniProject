@@ -14,7 +14,7 @@ function functionAddInValidEffects(element) {
     element.classList.add("is-invalid");
     document.getElementById(`${name}Valid`).innerHTML = "";
     document.getElementById(`${name}Invalid`).innerHTML = `Please provide the valid ${name}!`;
-    return true;
+    return false;
 }
 
 // validation
@@ -259,10 +259,44 @@ window.addEventListener('click', function (event) {
     }
 });
 
+
+
+// ---------------Check and Refresh token--------------
+function checkTokenAboutToExpiry(accessToken){
+    if(!accessToken){
+       return "Invalid accessToken!";
+    }
+    const payload = parseJwt(accessToken);
+    if(!payload){
+        return "Invalid accessToken!";
+    }
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    const timeUntilExpiry = payload.exp - currentTimestamp; //diff in sec
+    if (timeUntilExpiry <= 120) {
+        console.log('Token is about to expire within 2 minutes.');
+        return "Refresh";
+    } else {
+        console.log('Token is valid for more than 2 minutes.');
+        return "Not about to expire!";
+    }
+}
+
+function parseJwt(token) {
+    try {
+        const base64Url = token.split('.')[1]; //getting payload
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        return null;
+    }
+}
+
+
 function refreshToken(){
     console.log("refresh token method------")
-    console.log(JSON.parse(localStorage.getItem('loggedInUser')).accessToken)
-    console.log(JSON.parse(localStorage.getItem('loggedInUser')).refreshToken)
     fetch('http://localhost:5058/api/Token/refreshToken', {
         method: 'POST',
         headers: {
@@ -276,16 +310,24 @@ function refreshToken(){
     .then(async(res) => {
         if (!res.ok) {
             console.log("rmeove user")
-            logOut();
             throw new Error('Unauthorized Access!');
         }
         return await res.json();
     })
     .then(data => {
-        console.log("data retrieved-",data)
-        localStorage.setItem('loggedInUser').accessToken = data.accessToken;
-        localStorage.setItem('loggedInUser').RefreshToken = data.refreshToken;
+        let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')) || {};
+        if(Object.keys(loggedInUser).length === 0){
+            throw new Error('Unauthorized Access!');
+        }
+        loggedInUser.accessToken = data.accessToken;
+        loggedInUser.refreshToken = data.refreshToken;
+        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
     }).catch(error => {
         addAlert(error.message);
+        setTimeout((error)=>{
+            if(error.message === "Unauthorized Access!"){
+                logOut();
+            }
+        },5000)
     });    
 }

@@ -37,14 +37,21 @@ var displayMyBookings = (data) => {
     document.getElementById('myBookings').innerHTML = bookingList;
 }
 
-var fetchBookings = () => {
-        fetch('http://localhost:5058/api/GuestBooking/GetMyBookings', {
+var fetchBookings = async () => {
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
+    fetch('http://localhost:5058/api/GuestBooking/GetMyBookings', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedInUser')).accessToken}`,
             'Content-Type': 'application/json'
         }
-        })
+    })
         .then(async (res) => {
             if (!res.ok) {
                 if (res.status === 401) {
@@ -110,7 +117,14 @@ var storeRoomToCancel = () => {
     displayDiv();
 }
 
-var modifyBookingFromModal = () => {
+var modifyBookingFromModal = async () => {
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/GuestBooking/ModifyBooking', {
         method: 'PUT',
         headers: {
@@ -144,6 +158,7 @@ var modifyBookingFromModal = () => {
             document.querySelector('[data-bs-dismiss="modal"]').click();
             if (error.message === 'Unauthorized Access!') {
                 addAlert("Unauthorized Access!");
+                logOut()
             } else {
                 addAlert(error.message);
             }
@@ -152,7 +167,14 @@ var modifyBookingFromModal = () => {
 //endRegion
 
 
-var cancelBooking = (id) => {
+var cancelBooking = async (id) => {
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/GuestBooking/CancelBooking', {
         method: 'PUT',
         headers: {
@@ -177,6 +199,7 @@ var cancelBooking = (id) => {
         }).catch(error => {
             if (error.message === 'Unauthorized Access!') {
                 addAlert("Unauthorized Access!");
+                logOut()
             } else {
                 addAlert(error.message);
             }
@@ -222,7 +245,14 @@ var addRoomTypes = (itemName) => {
         });
 }
 
-var refundPopup = (id) => {
+var refundPopup = async (id) => {
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/GuestBooking/CheckRefundDone', {
         method: 'POST',
         headers: {
@@ -243,7 +273,7 @@ var refundPopup = (id) => {
         }).then(data => {
             if (data === "No Refund") {
                 return;
-            }else{
+            } else {
                 setTimeout(function () {
                     addSuccessAlert(data)
                 }, 60000);
@@ -251,6 +281,7 @@ var refundPopup = (id) => {
         }).catch(error => {
             if (error.message === 'Unauthorized Access!') {
                 addAlert("Unauthorized Access!");
+                logOut()
             } else {
                 addAlert(error.message);
             }

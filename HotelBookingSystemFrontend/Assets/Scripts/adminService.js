@@ -19,6 +19,9 @@ function loadHotels (){
     })
     .catch(error => {
         addAlert(error.message);
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 
@@ -78,7 +81,7 @@ function openModalForEdit(id){
     });
 }
 
-function updateHotel(){
+async function updateHotel(){
     var data = document.getElementById('updateHotelForm').querySelectorAll('input , textarea');
     var attributeValuesPairs = {};
     var count=0;
@@ -96,6 +99,13 @@ function updateHotel(){
     var updatedHotel = {
         hotelId : localStorage.getItem('currentHotel'),
         attributeValuesPair : attributeValuesPairs
+    }
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
     }
     fetch('http://localhost:5058/api/AdminHotel/UpdateHotel',{
         method:'PUT',
@@ -120,12 +130,22 @@ function updateHotel(){
         loadHotels();
     }).catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 // ----------------------------
 
 //------------Update hotel status---------
-var updateHotelStatus = (hotelId) =>{
+var updateHotelStatus = async (hotelId) =>{
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/AdminHotel/UpdateHotelAvailabilityStatus', {
         method: 'PUT',
         headers:{
@@ -150,6 +170,9 @@ var updateHotelStatus = (hotelId) =>{
     })
     .catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 
@@ -185,6 +208,9 @@ var addRoomTypes = (itemName) =>{
     })
     .catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 
@@ -198,7 +224,7 @@ function openModalForAdd(id){
     });
 }
 
-function AddRoom(){
+async function AddRoom(){
     if(!(document.getElementById('roomTypesSelect').value && document.getElementById('roomImages').value)){
         addAlert("Please provide data to add room!");
         return;
@@ -208,6 +234,13 @@ function AddRoom(){
         typeId : document.getElementById('roomTypesSelect').value,
         images : document.getElementById('roomImages').value
     };
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/AdminRoom/RegisterRoomForHotel',{
         method:'POST',
         headers:{
@@ -231,6 +264,9 @@ function AddRoom(){
         addSuccessAlert('Room added successfully!');
     }).catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 //----------------------------
@@ -273,6 +309,9 @@ var filterHotels = () =>{
         displayHotelsForAdmin(data);
     }).catch(error => {
         addAlert(error.message)
+        if(error.message === "Unauthorized Access!"){
+            adminLogOut();
+        }
     });
 }
 

@@ -1,4 +1,4 @@
-var validateAndAddHotel = () =>{
+var validateAndAddHotel = async () =>{
     if(!localStorage.getItem('isLoggedIn')){
         addAlert("Login to continue!");
         window.location.href='../login.html';
@@ -6,6 +6,13 @@ var validateAndAddHotel = () =>{
     }
     if(validate('hotelName') && validateAddress('address') && validate('city') && validateNumber('roomsCount')
     && validate('amenities') && validate('restriction')){
+        var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+        if (res === "Refresh") {
+            await refreshToken();
+        } else if (res === "Invalid accessToken!") {
+            addAlert("Invalid AccessToken!");
+            return;
+        }
         fetch('http://localhost:5058/api/AdminHotel/RegisterHotel',
             {
                 method:'POST',
@@ -39,8 +46,10 @@ var validateAndAddHotel = () =>{
         }).catch( error => {
             addAlert(error.message)
             resetFormValues('AddHotelForm','input, textarea');
+            if(error.message === "Unauthorized Access!"){
+                adminLogOut();
             }
-        );
+        });
     }else{
         addAlert("Provide all values properly to register!");
     }

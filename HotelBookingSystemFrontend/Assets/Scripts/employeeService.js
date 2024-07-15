@@ -72,7 +72,7 @@ var displaycheckInDetail = (data) => {
         bookingList += `
                     <div class="px-3 pb-5 mb-10 mx-auto h-auto cardDesign" style="width:60%">
                     <h2 class="text-center fw-bolder pt-3 text-2xl" style="color:#FFA456">GUEST DETAILS</h2>
-                    <div class="flex flex-col justify-between mr-5" style="overflow-wrap:break-word">                      
+                    <div class="flex flex-col justify-between px-5 md:text-base" style="overflow-wrap:break-word">                      
                         <div class="p-3 mx-auto">
                         <div class="flex flex-row" style="overflow-wrap:break-word">
                             <p class="fw-bold">Guest Name </p>
@@ -93,7 +93,7 @@ var displaycheckInDetail = (data) => {
     document.getElementById('displayAllBookings').innerHTML = bookingList;
 }
 
-var fetchBookings = (fetchString) => {
+var fetchBookings = async (fetchString) => {
     document.getElementById('filterForm').reset();
     document.getElementById('filter').classList.remove('hideDiv');
     document.getElementById('bookingsLi').classList.add('active');
@@ -103,6 +103,13 @@ var fetchBookings = (fetchString) => {
         url = 'http://localhost:5058/api/HotelEmployee/GetAllBookingRequestRaisedToday';
     else if (fetchString === "All")
         url = 'http://localhost:5058/api/HotelEmployee/GetAllBookingRequest';
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch(url, {
         method: 'GET',
         headers: {
@@ -126,7 +133,7 @@ var fetchBookings = (fetchString) => {
         });
 }
 
-var filterBookings = () => {
+var filterBookings = async () => {
     var attributeName = document.getElementById('filterBy').value;
     var value = document.getElementById('filterValue').value;
     if (!(attributeName && value)) {
@@ -135,6 +142,13 @@ var filterBookings = () => {
     }
     if (!((attributeName === "Month" && value.match(/^0[1-9]|1[0-2]$/)) || (attributeName === "Date" && value.match(/^\d{2}-\d{2}-\d{4}$/)))) {
         addAlert("Provide data properly!");
+        return;
+    }
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
         return;
     }
     fetch('http://localhost:5058/api/HotelEmployee/GetAllBookingRequestByFiltering', {
@@ -161,6 +175,9 @@ var filterBookings = () => {
             displayBookings(data);
         }).catch(error => {
             addAlert(error.message)
+            if(error.message === "Unauthorized Access!"){
+                employeeLogOut()
+            }
         });
 }
 
@@ -192,6 +209,9 @@ var validateAndLoginEmployee = () => {
             }).catch(error => {
                 addAlert(error.message)
                 resetFormValues('employeeLoginForm', 'input');
+                if(error.message === "Unauthorized Access!"){
+                    employeeLogOut()
+                }
             }
             );
     }
@@ -207,7 +227,6 @@ var employeeLogOut = () => {
 }
 
 var GetCheckIns = () => {
-    console.log("inside")
     document.getElementById('filterForm').reset();
     document.getElementById('bookingsLi').classList.remove('active');
     document.getElementById('checkInBtn').classList.add('active');
@@ -225,17 +244,24 @@ var GetCheckIns = () => {
                     throw new Error('Unauthorized Access!');
                 }
                 const errorResponse = await res.json();
-                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+                throw new Error(`${errorResponse.message}`);
             }
             return await res.json();
         }).then(data => {
             displaycheckInDetail(data);
         }).catch(error => {
-            bookingList = `
-            <div class="px-3 py-5 mb-10 m-auto text-2xl uppercase text-center" style="width:80%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
-        `;
-            document.getElementById('displayAllBookings').innerHTML = bookingList;
-            addAlert(error.message)
+            if(error.message === "No Booking are available!"){
+                bookingList = `
+                <div class="px-3 py-5 mb-10 m-auto text-2xl uppercase text-center" style="width:80%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
+            `;
+                document.getElementById('displayAllBookings').innerHTML = bookingList;
+            }
+            else{
+                addAlert(error.message)
+                if(error.message === "Unauthorized Access!"){
+                    employeeLogOut()
+                }
+            }
         });
 }
 

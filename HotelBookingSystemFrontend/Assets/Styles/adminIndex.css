@@ -313,7 +313,7 @@ h2 {
   align-items: center;
   justify-content: center;
   background: #ffffff;
-  opacity: 0.7;
+  opacity: 0.9;
   transition: opacity 0.5s, visibility 0.5s;
 }
 

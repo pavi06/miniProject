@@ -45,7 +45,7 @@ var openModalForRoomTypeEdit = (roomtypeId, hotelId) =>{
     });
 }
 
-var editRoomTypeFromModal = () =>{
+var editRoomTypeFromModal = async () =>{
     var data = document.getElementById('editRoomTypeForm').querySelectorAll('input');
     const attributeValues = {}
     var count=0;
@@ -65,6 +65,13 @@ var editRoomTypeFromModal = () =>{
         hotelId : localStorage.getItem('currentHotel'),
         roomTypeId : localStorage.getItem('currentRoomType'),
         attributeValuesPair : attributeValues
+    }
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
     }
     fetch('http://localhost:5058/api/AdminRoom/UpdateRoomTypeForHotel',{
         method:'PUT',
@@ -151,8 +158,15 @@ var displayRoomTypes = (data) =>{
     document.getElementById('roomTypesDiv').innerHTML=roomTypesHtml;
 }
 
-var fetchData = () =>{
+var fetchData = async () =>{
     hotelId = localStorage.getItem('currentHotel');
+    var res = await checkTokenAboutToExpiry(JSON.parse(localStorage.getItem('loggedInUser')).accessToken);
+    if (res === "Refresh") {
+        await refreshToken();
+    } else if (res === "Invalid accessToken!") {
+        addAlert("Invalid AccessToken!");
+        return;
+    }
     fetch('http://localhost:5058/api/AdminRoom/GetAllRoomTypes',{
         method:'POST',
         headers:{

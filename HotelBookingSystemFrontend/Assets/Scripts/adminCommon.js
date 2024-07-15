@@ -50,3 +50,24 @@ window.addEventListener("load", () => {
       document.body.removeChild(loader);
     });
 });
+
+function addAlert(message){
+    document.getElementById("message").innerHTML = message;
+    document.getElementById('popup').style.display = 'block';
+}
+
+function addSuccessAlert(message){
+    document.getElementById("message-success").innerHTML = message;
+    document.getElementById('popup-success').style.display = 'block';
+}
+
+function closeAlert(){
+    document.getElementById('popup').style.display = 'none';
+}
+
+window.addEventListener('click', function (event) {
+    var popup = document.getElementById('popup');
+    if (event.target == popup) {
+        popup.style.display = 'none';
+    }
+});

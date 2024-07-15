@@ -9,6 +9,9 @@ var addRoomTypes = (itemName) =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
@@ -24,7 +27,11 @@ var addRoomTypes = (itemName) =>{
         document.getElementById('roomTypesSelectOptions').innerHTML=roomTypesHtml;
     })
     .catch(error => {
-        addAlert(error.message)
+        if (error.message === 'Unauthorized Access!') {
+            addAlert("Unauthorized Access!");
+        } else {
+            addAlert(error.message);
+        }
     });
 }
 
@@ -69,6 +76,9 @@ var editRoomTypeFromModal = () =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
@@ -80,7 +90,12 @@ var editRoomTypeFromModal = () =>{
         fetchData();
     })
     .catch(error => {
-        addAlert(error.message)
+        document.querySelector('[data-bs-dismiss="modal"]').click();
+        if (error.message === 'Unauthorized Access!') {
+            addAlert("Unauthorized Access!");
+        } else {
+            addAlert(error.message);
+        }
     });
 }
 
@@ -93,37 +108,37 @@ var displayRoomTypes = (data) =>{
         roomTypesHtml +=`
             <div class="px-3 pb-5 mb-10 h-auto mx-auto cardDesign roomCard">
         <div class="flex flex-column">   
-            <div class="w-60 h-30 mt-10 mx-auto" style="object-fit:cover;"><img src="${images[0]}" class="images" loading="lazy"/></div>                   
+            <div class="mt-10 mx-auto" style="width:100%;height:20vw"><img src="${images[0]}" class="images" style="width: 100%;height: 100%;object-fit:cover;" loading="lazy"/></div>                   
             <div class="p-3 text-sm text-pretty">
               <p class="uppercase fw-bolder mb-3 text-center" style="color: #FFA456;">General Info</p>
-              <div class="grid grid-cols-2 py-1">
+              <div class="grid grid-cols-2 gap-7 py-1">
                 <p class="fw-bolder">Roomtype </p>
-                <p class="lowercase fw-normal">${roomType.type}</p>
+                <p class="lowercase fw-normal" style="overflow-wrap: break-word;">${roomType.type}</p>
               </div>
-              <div class="grid grid-cols-2 py-1">
+              <div class="grid grid-cols-2 gap-7 py-1">
                 <p class="fw-bolder">occupancy </p>
-                <p class="lowercase fw-normal">${roomType.occupancy}</p>
+                <p class="lowercase fw-normal" style="overflow-wrap: break-word;">${roomType.occupancy}</p>
               </div>
-              <div class="grid grid-cols-2 py-1">
+              <div class="grid grid-cols-2 gap-7 py-1">
                 <p class="fw-bolder">cotsAvailable </p>
-                <p class="lowercase fw-normal">${roomType.cotsAvailable}</p>
+                <p class="lowercase fw-normal" style="overflow-wrap: break-word;">${roomType.cotsAvailable}</p>
               </div>
-              <div class="grid grid-cols-2 py-1">
+              <div class="grid grid-cols-2 gap-7 py-1">
                 <p class="fw-bolder">amenities </p>
-                <p class="lowercase fw-normal">${roomType.amenities}</p>
+                <p class="lowercase fw-normal" style="overflow-wrap: break-word;">${roomType.amenities}</p>
               </div>
               <p class="uppercase fw-bolder my-3 text-center" style="color: #FFA456;">Pricing</p>
-              <div class="grid grid-cols-2 py-1">
+              <div class="grid grid-cols-2 gap-7 py-1">
                     <p class="fw-bolder">amount </p>
-                    <p class="lowercase fw-normal">${roomType.amount}</p>
+                    <p class="lowercase fw-normal" style="overflow-wrap: break-word;">${roomType.amount}</p>
                   </div>
-                  <div class="grid grid-cols-2 py-1">
+                  <div class="grid grid-cols-2 gap-7 py-1">
                     <p class="fw-bolder">Discount </p>
-                    <p class="lowercase fw-normal">${roomType.discount}</p>
+                    <p class="lowercase fw-normal" style="overflow-wrap: break-word;">${roomType.discount}</p>
                   </div>
-                  <div class="grid grid-cols-2 py-1">
+                  <div class="grid grid-cols-2 gap-7 py-1">
                     <p class="fw-bolder">Final amount</p>
-                    <p class="lowercase fw-normal ">${finalAmount}</p>
+                    <p class="lowercase fw-normal " style="overflow-wrap: break-word;">${finalAmount}</p>
                   </div>
             </div>
         </div>
@@ -148,6 +163,9 @@ var fetchData = () =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
@@ -157,7 +175,11 @@ var fetchData = () =>{
         displayRoomTypes(data);
     })
     .catch(error => {
-        addAlert(error.message)
+        if (error.message === 'Unauthorized Access!') {
+            addAlert("Unauthorized Access!");
+        } else {
+            addAlert(error.message);
+        }
     });
 }
 

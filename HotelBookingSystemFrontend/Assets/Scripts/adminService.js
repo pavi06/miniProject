@@ -5,6 +5,9 @@ function loadHotels (){
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
@@ -104,12 +107,15 @@ function updateHotel(){
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
         return await res.json();
     }).then(data => {
-        addSuccessAlert('Hotel updated successfully!')
+        addSuccessAlert('Hotel updated successfully!');
         document.querySelector('[data-bs-dismiss="modal"]').click();
         loadHotels();
     }).catch(error => {
@@ -130,13 +136,16 @@ var updateHotelStatus = (hotelId) =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
         return await res.json();
     })
     .then(data => {
-        addSuccessAlert('Hotel status updated!')
+        addSuccessAlert('Hotel status updated!');
         loadHotels();
     })
     .catch(error => {
@@ -157,6 +166,9 @@ var addRoomTypes = (itemName) =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
@@ -206,14 +218,17 @@ function AddRoom(){
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
         resetFormValues('AddRoomForm','input')
         return await res.json();
     }).then(data => {
-        addSuccessAlert('Room added successfully!')
         document.querySelector('[data-bs-dismiss="modal"]').click();
+        addSuccessAlert('Room added successfully!');
     }).catch(error => {
         addAlert(error.message)
     });
@@ -247,6 +262,9 @@ var filterHotels = () =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }

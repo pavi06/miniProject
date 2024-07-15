@@ -54,6 +54,30 @@
       </div>
     </form>
   </section>
+  <div class="popup-design" id="popup">
+    <div class="popup-design-content">
+        <div class="icon" style="  border: 2px solid #f23434;">
+            <i class="fa-solid fa-xmark" style="  color: #f23434;"></i>
+        </div>
+        <div class="title" style="color: red;">Error</div>
+        <div class="description" id="message"></div>
+        <div class="dismiss-btn">
+            <button id="dismiss-popup-btn" onclick="closeAlert()">Dismiss</button>
+        </div>
+    </div>
+</div>
+<div class="popup-design-success" id="popup-success">
+    <div class="popup-design-content">
+        <div class="icon" style="  border: 2px solid green;">
+            <i class="fa-solid fa-check" style="  color: green"></i>
+        </div>
+        <div class="title" style="color: green;">Success</div>
+        <div class="description" id="message-success"></div>
+        <div class="dismiss-btn">
+            <button id="dismiss-popup-btn-success" style="  background:green;border: 1px solid green;" onclick="closeAlertSuccess()">Dismiss</button>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

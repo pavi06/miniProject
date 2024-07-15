@@ -48,6 +48,9 @@ var updateUserStatus = (guestId, status) => {
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }
@@ -72,6 +75,9 @@ var fetchUsersForActivation = () =>{
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }

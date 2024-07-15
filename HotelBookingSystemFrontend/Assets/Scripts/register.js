@@ -6,7 +6,6 @@ var validateAndRegister = () => {
         address: document.getElementById('address').value,
         password: document.getElementById('password').value
     }
-    console.log(userData)
     if(validate('name') && validatePhone() && validateEmail() && validateAddress('address') && validatePassword() && validateConfirmPassword()){
         fetch('http://localhost:5058/api/User/Register', {
             method: 'POST',
@@ -15,6 +14,9 @@ var validateAndRegister = () => {
             })
             .then(async (res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }

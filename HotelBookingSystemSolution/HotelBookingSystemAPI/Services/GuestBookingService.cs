@@ -254,7 +254,6 @@ namespace HotelBookingSystemAPI.Services
             try
             {
                 var bookings = _guestRepository.Get(loggedUser).Result.Bookings;
-                Console.WriteLine(bookings);
                 //mapping each booking to dto
                 List<MyBookingDTO> myBookings = bookings.Select(b =>
                 {
@@ -297,11 +296,6 @@ namespace HotelBookingSystemAPI.Services
                 {
                     return "Cannot modify booking";
                 }
-                //if booked rooms count == cancel rooms count -> cannot modify , instead cancel booking 
-                if (cancelRoom.Sum(r => r.NoOfRoomsToCancel) == bookedRooms.Count())
-                {
-                    return "Cannot Modify instead proceed with cancel booking!";
-                }
                 try
                 {
                     var totalAmount = 0.0;
@@ -309,6 +303,15 @@ namespace HotelBookingSystemAPI.Services
                     {
                         //retrieving rooms to cancel
                         var res = bookedRooms.Where(rb => _roomRepository.Get(rb.RoomId).Result.RoomType.Type.ToLower() == room.RoomType.ToLower()).Take(room.NoOfRoomsToCancel).ToList();
+                        if(res.Count == 0 || res.Count != room.NoOfRoomsToCancel)
+                        {
+                            throw new Exception("Invalid room or rooms count!");
+                        }
+                        //if booked rooms count == cancel rooms count -> cannot modify , instead cancel booking 
+                        if (cancelRoom.Sum(r => r.NoOfRoomsToCancel) == bookedRooms.Count())
+                        {
+                            return "Cannot Modify instead proceed with cancel booking!";
+                        }
                         totalAmount += _roomRepository.Get(res[0].RoomId).Result.RoomType.Amount * room.NoOfRoomsToCancel;
                         foreach (var r in res)
                         {
@@ -387,10 +390,10 @@ namespace HotelBookingSystemAPI.Services
         #region CheckRefund
         public async Task<string> CheckRefundDone(int id)
         {
-            var refund = _refundRepository.Get().Result.Where(r=>r.BookId == id).ToList();
-            if (refund.Count()>0)
+            var refund = _refundRepository.Get().Result.FirstOrDefault(b=>b.BookId == id);
+            if (refund != null)
             {
-                return $"An amount of Rs.{refund[0].RefundAmount} is refunded back to you!";
+                return $"An amount of Rs.{refund.RefundAmount} is refunded for cancellation!";
             }
             return "No refund";
         }

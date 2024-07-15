@@ -45,7 +45,7 @@ namespace HotelBookingSystemAPI.Services
                 new Claim("Role",guest.Role)
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
-            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(30), signingCredentials: credentials);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(50), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
             _logger.LogInformation("Token generated successfully");
             return token;
@@ -63,7 +63,7 @@ namespace HotelBookingSystemAPI.Services
                 new Claim("HotelId",emp.HotelId.ToString())
             };
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
-            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(20), signingCredentials: credentials);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(50), signingCredentials: credentials);
             token = new JwtSecurityTokenHandler().WriteToken(myToken);
             _logger.LogInformation("Token generated successfully");
             return token;

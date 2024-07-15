@@ -9,9 +9,9 @@
     href="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../Assets/Styles/common.css">
-  <script defer src="https://cdn.tailwindcss.com"></script>
-  <script defer src="../Assets/Scripts/trackingSessions.js"></script>
-  <script defer src="../Assets/Scripts/common.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../Assets/Scripts/trackingSessions.js"></script>
+  <script src="../Assets/Scripts/common.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function (e) {
       checkUserLoggedInOrNot();
@@ -25,27 +25,28 @@
     <div class="overlay"></div>
   </div>
   <div>
-    <nav class="md:flex md:items-center md:justify-between p-4 align-middle text-white"
+    <nav class="md:flex md:items-center md:justify-between p-4 align-middle bg-neutral-800 text-white"
       style="position: fixed;width: 100%;z-index: 1000;">
-      <div class="flex justify-between items-center ">
+      <div class="flex justify-between items-center">
         <img src="https://drive.google.com/thumbnail?id=1kTsmK-EsM0y6n7ug3nB36i6G8RIXVcjU&sz=w1000"
           style="width: 20%;" />
         <a class="cursor-pointer mx-2 md:hidden block text-orange-400" onclick="menu(this)"><i class="bi bi-list-task fs-4" name="menu"
             style="font-size: 2rem;"></i></a>
       </div>
       <ul
-        class="md:flex md:items-center z-[-1] md:z-auto md:static absolute  w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300" style="background-color: rgba(0, 0, 0, 0.8);">
+        class="md:flex md:items-center z-[-1] md:z-auto md:static absolute bg-neutral-800  w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 shadow-orange-400 opacity-0  top-[-400px] transition-all ease-in duration-300">
         <li class="uppercase mx-4 my-6 md:my-0"><a href="#" class="active">Home</a></li>
         <li class="uppercase mx-4 my-6 md:my-0"><a href="../Templates/hotels.html">Hotels</a></li>
         <li class="uppercase mx-4 my-6 md:my-0"><a href="#aboutUs">Aboutus</a></li>
         <li class="uppercase mx-4 my-6 md:my-0 logOutNavs"><a href="../Templates/login.html">SignUp/LogIn</a></li>
+        <li class="uppercase mx-4 my-6 md:my-0 logOutNavs"><a href="./EmployeeTemplate/login.html">Employee LogIn</a></li>
         <li class="uppercase mx-4 my-6 md:my-0 logInNavs"><a href="#" onclick="logOut()">LogOut</a></li>
       </ul>
     </nav>
     <section>
       <div class="pt-20 justify-around align-middle text-center" style="height: 90vh;">
-        <div class="flex-1 mt-20 pt-10 mr-10">
-          <p class="text-white font-bold"><span class="mainText">CelestialStays</span><br>Your Gateway to Adventure</p>
+        <div class="flex-1 mt-20 pt-10 mx-auto">
+          <p class="text-white font-bold text-center"><span class="mainText text-center">CelestialStays</span><br>Your Gateway to Adventure</p>
           </h1>
           <button type="button"
             class="text-dark shadow-lg font-extrabold rounded-lg text-base px-5 py-2.5 text-center mt-5 mb-2 buttonStyle"><a

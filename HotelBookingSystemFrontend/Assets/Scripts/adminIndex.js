@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function(){
     })
     .then(async(res) => {
         if (!res.ok) {
+            if (res.status === 401) {
+                throw new Error('Unauthorized Access!');
+            }
             const errorResponse = await res.json();
             throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
         }

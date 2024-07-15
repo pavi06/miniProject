@@ -3,7 +3,7 @@ var displayBookings = (data) => {
     if (data.length === 0) {
         document.getElementById('bookingsCount').classList.add('hideDiv');
         bookingList = `
-            <div class="px-3 py5 mb-10 m-auto text-2xl uppercase text-center" style="width:80%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
+            <div class="px-3 py-5 mb-10 m-auto text-2xl uppercase text-center" style="width:80%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
         `;
         document.getElementById('displayAllBookings').innerHTML = bookingList;
         return;
@@ -15,17 +15,17 @@ var displayBookings = (data) => {
                    <h2 class="text-center fw-bolder pt-3 text-2xl" style="color:#FFA456">GUEST DETAILS</h2>
                     <div class="flex flex-col justify-between" style="width: 100%;">                      
                         <div class="p-3 mx-auto">
-                            <div class="flex flex-row">
-                                <p class="fw-bold">Guest Name :</p>
+                            <div class="flex flex-row" style="overflow-wrap:break-word">
+                                <p class="fw-bold">Guest Name </p>
                                 <p class="ml-5 text-xl">${booking.guestName}</p>
                             </div>
-                            <div class="flex flex-row my-2">
-                                <p class="fw-bold">Phone Number :</p>
+                            <div class="flex flex-row my-2 style="overflow-wrap:break-word"">
+                                <p class="fw-bold">Phone Number </p>
                                 <p class="ml-5 text-xl">${booking.phoneNumber}</p>
                             </div>
                             ${generateRoomsBookedTemplate(booking)}
                             <div class="flex flex-row">
-                                <p class="fw-bold">BookingStatus :</p>
+                                <p class="fw-bold">BookingStatus </p>
                                 <p class="ml-5 text-xl" style="color:${textColor}">${booking.bookingStatus}</p>
                             </div>
                         </div>
@@ -50,7 +50,7 @@ var generateRoomsBookedTemplate = (booking) => {
     var rooms = roomsBookedString.join(', ');
     var roomsBookedDisplay = roomsBookedString.length > 0 ? `
             <div class="flex flex-row my-2" id="roomsBookedDisplay">
-                <p class="fw-bold">RoomsBooked :</p>
+                <p class="fw-bold">RoomsBooked </p>
                 <p class="ml-5 text-xl">${rooms}</p>
             </div>
         ` : '';
@@ -62,7 +62,7 @@ var displaycheckInDetail = (data) => {
     if (data.length === 0) {
         document.getElementById('bookingsCount').classList.add('hideDiv');
         bookingList = `
-            <div class="px-3 pb-5 mb-10 m-auto text-2xl uppercase text-center" style="width:80%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
+          <div class="px-3 py-5 mb-10 m-auto text-2xl uppercase text-center" style="width:50%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
         `;
         document.getElementById('displayAllBookings').innerHTML = bookingList;
         return;
@@ -72,14 +72,14 @@ var displaycheckInDetail = (data) => {
         bookingList += `
                     <div class="px-3 pb-5 mb-10 mx-auto h-auto cardDesign" style="width:60%">
                     <h2 class="text-center fw-bolder pt-3 text-2xl" style="color:#FFA456">GUEST DETAILS</h2>
-                    <div class="flex flex-col justify-between">                      
+                    <div class="flex flex-col justify-between mr-5" style="overflow-wrap:break-word">                      
                         <div class="p-3 mx-auto">
-                        <div class="flex flex-row">
-                            <p class="fw-bold">Guest Name :</p>
+                        <div class="flex flex-row" style="overflow-wrap:break-word">
+                            <p class="fw-bold">Guest Name </p>
                             <p class="ml-5 text-xl">${booking.guestName}</p>
                         </div>
-                        <div class="flex flex-row my-2">
-                            <p class="fw-bold">Phone Number :</p>
+                        <div class="flex flex-row my-2 style="overflow-wrap:break-word"">
+                            <p class="fw-bold">Phone Number </p>
                             <p class="ml-5 text-xl">${booking.guestPhoneNumber}</p>
                         </div>
                         ${generateRoomsBookedTemplate(booking)}
@@ -112,6 +112,9 @@ var fetchBookings = (fetchString) => {
     })
         .then(async (res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
@@ -147,6 +150,9 @@ var filterBookings = () => {
     })
         .then(async (res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
@@ -171,6 +177,9 @@ var validateAndLoginEmployee = () => {
         })
             .then(async (res) => {
                 if (!res.ok) {
+                    if (res.status === 401) {
+                        throw new Error('Unauthorized Access!');
+                    }
                     const errorResponse = await res.json();
                     throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
                 }
@@ -198,6 +207,7 @@ var employeeLogOut = () => {
 }
 
 var GetCheckIns = () => {
+    console.log("inside")
     document.getElementById('filterForm').reset();
     document.getElementById('bookingsLi').classList.remove('active');
     document.getElementById('checkInBtn').classList.add('active');
@@ -211,6 +221,9 @@ var GetCheckIns = () => {
     })
         .then(async (res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
@@ -218,6 +231,10 @@ var GetCheckIns = () => {
         }).then(data => {
             displaycheckInDetail(data);
         }).catch(error => {
+            bookingList = `
+            <div class="px-3 py-5 mb-10 m-auto text-2xl uppercase text-center" style="width:80%;border:1px solid #FFA456; color:#FFA456; align-items: center;"><b>No bookings!</b></div>
+        `;
+            document.getElementById('displayAllBookings').innerHTML = bookingList;
             addAlert(error.message)
         });
 }

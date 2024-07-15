@@ -11,14 +11,14 @@ var validateAndGet = () => {
         date:checkInDateInput
     }
     bodyData = hotelDetail;
-    if(validateLocation() && validateDate()){
+    if(validateLocation() && validateDate('checkInDate')){
         page=1;
         currentUrl = 'http://localhost:5058/api/GuestBooking/GetHotelsByLocationAndDate';
         document.getElementById("hotelsDisplay").innerHTML = "";
         getPaginatedDataWithBody(currentUrl,hotelDetail)
     }
     else{
-        addAlert("Provide values properly! Make sure that every field is provided.");
+        addAlert('Provide values properly!<br> Make sure that every field is provided.');
         document.getElementById('alertModal').classList.add("active")
     }
 }
@@ -174,6 +174,9 @@ var getRecommandation  = () =>{
             }
         }).then(async(res) => {
                 if (!res.ok) {
+                    if (res.status === 401) {
+                        throw new Error('Unauthorized Access!');
+                    }
                     const errorResponse = await res.json();
                     throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
                 }
@@ -201,6 +204,9 @@ var getPaginatedDataWithoutBody = (url) =>{
         headers: {'Content-Type':'application/json'},
     }).then(async(res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
@@ -208,7 +214,11 @@ var getPaginatedDataWithoutBody = (url) =>{
     }).then(data => {
         displayHotelsRetrieved(data,false);
     }).catch(error => {
-        addAlert(error.message);
+        if (error.message === 'Unauthorized Access!') {
+            addAlert("Unauthorized Access!");
+        } else {
+            addAlert(error.message);
+        }
     });
 }
 
@@ -220,6 +230,9 @@ var getPaginatedDataWithBody = (url,bodyData) =>{
         body:JSON.stringify(bodyData),
     }).then(async(res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }
@@ -227,7 +240,11 @@ var getPaginatedDataWithBody = (url,bodyData) =>{
     }).then(data => {
         displayHotelsRetrieved(data, true);
     }).catch(error => {
-        addAlert(error.message);
+        if (error.message === 'Unauthorized Access!') {
+            addAlert("Unauthorized Access!");
+        } else {
+            addAlert(error.message);
+        }
     });
 
 }

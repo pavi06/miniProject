@@ -1,5 +1,3 @@
-// import { validateEmail, validatePassword, resetFormValues, checkAndRedirectUrlAfterRegistrationOrLogin, addAlert } from "./common.js";
-
 function validateAndLogin(){
     var userData = {
         email: document.getElementById('email').value,
@@ -13,6 +11,9 @@ function validateAndLogin(){
         })
         .then(async(res) => {
             if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
             }

@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(async responses => {
             const dataPromises = responses.map(async res => {
               if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
                 const errorResponse = await res.json();
                 throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
               }
@@ -60,7 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
             displayRestrictionsInfo(data1.restrictions)
             displayTestimonials(data3);
           }).catch(error => {
-            addAlert(error.message)
+            if (error.message === 'Unauthorized Access!') {
+                addAlert("Unauthorized Access!");
+            } else {
+                addAlert(error.message);
+            }
        });
 });
 
@@ -215,7 +222,6 @@ var displayTestimonials = (data) =>{
 }
 
 var addToBookingCart = (roomType) =>{
-    console.log("Inside bookingCart")
     var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     if(cartItems.length === 0){
         document.querySelector('.bookRooms').classList.add('hide');
@@ -224,7 +230,6 @@ var addToBookingCart = (roomType) =>{
         document.querySelector('.bookRooms').classList.add('show');
     }
     const roomtypeExitsOrNot = cartItems.find(item => item.roomTypeId === roomType.roomTypeId);
-    console.log(roomtypeExitsOrNot)
     if (roomtypeExitsOrNot) {
         roomtypeExitsOrNot.quantity++;
         if(roomtypeExitsOrNot.noOfRoomsAvailable<roomtypeExitsOrNot.quantity){
@@ -233,44 +238,54 @@ var addToBookingCart = (roomType) =>{
         roomtypeExitsOrNot.quantity--;
     } else {
         cartItems.push({ ...roomType, quantity: 1 });
-        console.log("room added")
-        console.log(cartItems)
         addSuccessAlert('Room added successfully!')
         document.querySelector('.bookRooms').classList.add('show');
     }
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    console.log(localStorage.getItem('cartItems'))
 }
 // -----------------------------------------------------
 
 
-var validateAndGet = () =>{
-    var checkIn = new Date(document.getElementById('checkInDate').value); 
-    var checkOut = new Date(document.getElementById('checkOutDate').value);
-    const checkInDate = `${checkIn.getFullYear()}-${(checkIn.getMonth() + 1).toString().padStart(2, '0')}-${checkIn.getDate().toString().padStart(2, '0')}`;
-    const checkOutDate = `${checkOut.getFullYear()}-${(checkOut.getMonth() + 1).toString().padStart(2, '0')}-${checkOut.getDate().toString().padStart(2, '0')}`;
-    var bodyData = {
-        hotelId : currentHotel,
-        checkInDate: checkInDate,
-        checkoutDate: checkOutDate
-    }
-
-    fetch('http://localhost:5058/api/GuestBooking/GetRoomsByHotel', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body:JSON.stringify(bodyData)
-    })
-    .then(async(res) => {
-        if (!res.ok) {
-            const errorResponse = await res.json();
-            throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+var validateAndGetRooms = () =>{
+    var checkIn = new Date(document.dateForm.checkInDate.value); 
+    var checkOut = new Date(document.dateForm.checkOutDate.value);
+    if(validateDate('checkInDate') && validateDate('checkOutDate')){        
+        const checkInDate = `${checkIn.getFullYear()}-${(checkIn.getMonth() + 1).toString().padStart(2, '0')}-${checkIn.getDate().toString().padStart(2, '0')}`;
+        const checkOutDate = `${checkOut.getFullYear()}-${(checkOut.getMonth() + 1).toString().padStart(2, '0')}-${checkOut.getDate().toString().padStart(2, '0')}`;
+        var bodyData = {
+            hotelId : currentHotel,
+            checkInDate: checkInDate,
+            checkoutDate: checkOutDate
         }
-        return await res.json();
-    }).then(data => {
-        displayRoomDetails(data);
-    }).catch(error => {
-        addAlert(error.message)
-   });    
+        fetch('http://localhost:5058/api/GuestBooking/GetRoomsByHotel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body:JSON.stringify(bodyData)
+        })
+        .then(async(res) => {
+            if (!res.ok) {
+                if (res.status === 401) {
+                    throw new Error('Unauthorized Access!');
+                }
+                const errorResponse = await res.json();
+                throw new Error(`${errorResponse.errorCode} Error! - ${errorResponse.message}`);
+            }
+            return await res.json();
+        }).then(data => {
+            displayRoomDetails(data);
+        }).catch(error => {
+            if (error.message === 'Unauthorized Access!') {
+                addAlert("Unauthorized Access!");
+            } else {
+                addAlert(error.message);
+            }
+       }); 
+    }
+    else{
+        addAlert("Provide checkIn and checkOut date properly!");
+        return;
+    }
+   
 }
 
 

@@ -120,8 +120,9 @@ var displayHotelsRetrieved = (data, boolValue) => {
                   </div>
                   <div class="p-3">
                       <p class="hotelName">${hotel.name}</p>
-                      <a href="#"><i class="bi bi-geo-alt-fill"></i>&nbsp;&nbsp;${hotel.address}</a>
-                      <p class="description">Amenities:${hotel.amenities}  <br> Restriction : ${hotel.restrictions}</p>
+                      <a href="#" style="overflow-wrap: break-word;"><i class="bi bi-geo-alt-fill"></i>&nbsp;&nbsp;${hotel.address}</a>
+                      <p class="description" style="overflow-wrap: break-word;">Amenities:${hotel.amenities}</p>
+                      <p class="description" style="overflow-wrap: break-word;">Restriction : ${hotel.restrictions}</p>
                   </div>
                   <div class="flex flex-col justify-between mt-3" style="float:right">
                       <div class="reviewDiv">

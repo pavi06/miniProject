@@ -206,9 +206,12 @@ async function payAndBookRoom(){
         }).then(data => {
             setTimeout(addSuccessAlert("Payment done successfully and booking confirmed!"), 3000);
             localStorage.removeItem('cartItems');
-            setTimeout(window.location.href = "./myBookings.html", 5000);
+            setTimeout(window.location.href = "./myBookings.html", 10000);
         }).catch(error => {
             addAlert(error.message)
+            if(error.message === "Unauthorized Access!"){
+                logOut();
+            }
         });
 }
 

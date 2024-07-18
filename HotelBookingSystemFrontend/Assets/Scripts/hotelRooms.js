@@ -297,7 +297,7 @@ var openRoomTypeModalForDetails = (images, facilities) =>{
  var html="";
  imageList.forEach(image =>{
     html+=`
-        <div class="col-span-2 rounded-xl bg-indigo-200 w-120 h-30"><img src="${image}" class="images"/></div>
+        <div class="col-span-2 rounded-xl bg-indigo-200 w-120 h-30" style="object-fit: cover;"><img src="${image}" class="images"/></div>
     `;
  })
  imageDiv.innerHTML=html;
